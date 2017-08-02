@@ -4,5 +4,7 @@
     "type": "library",
     "license": "N/A",
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    }
 }
