@@ -44,3 +44,7 @@
 ### Symfony Patch ###
 /web/css/
 /web/js/
+
+### Composer ###
+composer.phar
+/vendor/
