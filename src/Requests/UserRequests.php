@@ -2,22 +2,10 @@
 
 namespace RIPS\APIConnector\Requests;
 
-use GuzzleHttp\Client;
-
-class UserRequests
+class UserRequests extends BaseRequest
 {
     // @var string
     protected $uri = '/users';
-
-    /**
-     * Initialize new UserRequests
-     *
-     * @param GuzzleHttp/Client $client
-     */
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
 
     /**
      * GET all users

@@ -2,22 +2,10 @@
 
 namespace RIPS\APIConnector\Requests;
 
-use GuzzleHttp\Client;
-
-class OrgRequests
+class OrgRequests extends BaseRequest
 {
     // @var string
     protected $uri = '/organisations';
-
-    /**
-     * Initialize new OrgRequests
-     *
-     * @param GuzzleHttp/Client $client
-     */
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-    }
 
     public function getById(int $orgId)
     {
