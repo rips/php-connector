@@ -12,8 +12,11 @@ class API
     // @var UserRequests
     public $users;
 
-    // @var GuzzleHttp/Client
-    protected $client;
+    // @var OrgRequests
+    public $orgs;
+
+    // @var QuotaRequests
+    public $quotas;
 
     // @var array - Config values for $client
     protected $clientConfig = [
@@ -39,9 +42,9 @@ class API
             ],
         ]);
 
-        $this->client = new Client($mergedConfig);
-        $this->users = new UserRequests($this->client);
-        $this->orgs = new OrgRequests($this->client);
-        $this->quotas = new QuotaRequests($this->client);
+        $client = new Client($mergedConfig);
+        $this->users = new UserRequests($client);
+        $this->orgs = new OrgRequests($client);
+        $this->quotas = new QuotaRequests($client);
     }
 }
