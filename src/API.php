@@ -9,6 +9,9 @@ use RIPS\APIConnector\Requests\QuotaRequests;
 
 class API
 {
+    // @var string - version number
+    public $version = '0.0.1';
+
     // @var UserRequests
     public $users;
 
@@ -38,7 +41,7 @@ class API
             'headers' => [
                 'X-API-Username' => $username,
                 'X-API-Password' => $password,
-                'User-Agent' => 'RIPS-API-Connector/0.0.1',
+                'User-Agent' => "RIPS-API-Connector/{$this->version}",
             ],
         ]);
 
