@@ -1,6 +1,7 @@
 {
     "name": "rips/api_connector",
     "description": "...",
+    "version": "0.0.1",
     "type": "library",
     "license": "N/A",
     "minimum-stability": "stable",
