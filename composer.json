@@ -9,10 +9,13 @@
     },
     "autoload": {
         "psr-4": {
-            "RIPS\\APIConnector": "src"
+            "RIPS\\APIConnector\\": "src"
         }
     },
     "autoload-dev": {
-        "RIPS\\APIConnector\\Test": "test"
+        "RIPS\\APIConnector\\Test\\": "test"
+    },
+    "require-dev": {
+        "psy/psysh": "@stable"
     }
 }
