@@ -23,9 +23,10 @@ class API
 
     // @var array - Config values for $client
     protected $clientConfig = [
-        'base_uri' => 'https://api-test2.internal.ripstech.com',
+        'base_uri' => 'http://localhost:8000',
         'timeout' => 10,
         'connect_timeout' => 10,
+        'http_errors' => false,
     ];
 
     /**
