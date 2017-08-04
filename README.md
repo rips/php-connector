@@ -1,13 +1,13 @@
 RIPS API Connector
 ---
 
-#Installation
+# Installation
 
 Use composer to inlcude the package:
 
     composer require rips/api_connector
 
-#Usage
+# Usage
 
 Initialize a new instance of the RIPS API Connector:
 
