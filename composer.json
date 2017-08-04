@@ -14,9 +14,13 @@
         }
     },
     "autoload-dev": {
-        "RIPS\\APIConnector\\Test\\": "test"
+        "classmap": ["test/TestCase.php"],
+        "psr-4": {
+            "RIPS\\Test\\": "test"
+        }
     },
     "require-dev": {
-        "psy/psysh": "@stable"
+        "psy/psysh": "@stable",
+        "phpunit/phpunit": "~6.0"
     }
 }
