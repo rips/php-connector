@@ -11,7 +11,7 @@ class OrgRequests extends BaseRequest
     {
         $response = $this->client->get("{$this->uri}/$orgId");
 
-        return json_decode($response->getBody(), true);
+        return $this->handleResponse($response);
     }
 
     public function update(int $orgId, array $input)
@@ -20,7 +20,7 @@ class OrgRequests extends BaseRequest
             'form_params' => ['organisation' => $input],
         ]);
 
-        return json_decode($response->getBody());
+        return $this->handleResponse($response);
     }
 
     public function create(array $input)
@@ -29,6 +29,6 @@ class OrgRequests extends BaseRequest
             'form_params' => ['organisation' => $input],
         ]);
 
-        return json_decode($response->getBody());
+        return $this->handleResponse($response);
     }
 }

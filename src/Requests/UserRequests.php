@@ -10,29 +10,40 @@ class UserRequests extends BaseRequest
     /**
      * GET all users
      *
-     * @return array $response
+     * @return stdClass $response
      */
     public function getAll()
     {
         $response = $this->client->get($this->uri);
 
-        return json_decode($response->getBody());
+        return $this->handleResponse($response);
     }
 
     /**
      * GET a user by user ID
      *
      * @param int $userId
-     * @return array $response
+     * @return stdClass $response
      */
     public function getById(int $userId)
     {
         $response = $this->client->get("{$this->uri}/{$userId}");
 
-        return json_decode($response->getBody());
+        return $this->handleResponse($response);
     }
 
-    public function postInvite()
+    /**
+     * Invite a new user
+     *
+     * @param array $input
+     * @return stdClass
+     */
+    public function invite(array $input)
     {
+        $response = $this->client->post("{$this->uri}/invite/ui", [
+            'form_params' => ['user' => $input],
+        ]);
+
+        return $this->handleResponse($response);
     }
 }

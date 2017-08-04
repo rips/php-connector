@@ -13,6 +13,6 @@ class QuotaRequests extends BaseRequest
             'form_params' => ['quota' => $input],
         ]);
 
-        return json_decode($response->getBody());
+        return $this->handleResponse();
     }
 }
