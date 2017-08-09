@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\APIConnector\Requests;
+namespace RIPS\Connector\Requests;
 
 class UserRequests extends BaseRequest
 {
@@ -8,9 +8,9 @@ class UserRequests extends BaseRequest
     protected $uri = '/users';
 
     /**
-     * GET all users
+     * Get all users
      *
-     * @return stdClass $response
+     * @return array
      */
     public function getAll()
     {
@@ -20,10 +20,10 @@ class UserRequests extends BaseRequest
     }
 
     /**
-     * GET a user by user ID
+     * Get a user by user ID
      *
      * @param int $userId
-     * @return stdClass $response
+     * @return array
      */
     public function getById(int $userId)
     {
@@ -36,7 +36,7 @@ class UserRequests extends BaseRequest
      * Invite a new user
      *
      * @param array $input
-     * @return stdClass
+     * @return array
      */
     public function invite(array $input)
     {

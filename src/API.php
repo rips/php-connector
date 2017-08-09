@@ -1,11 +1,11 @@
 <?php
 
-namespace RIPS\APIConnector;
+namespace RIPS\Connector;
 
 use GuzzleHttp\Client;
-use RIPS\APIConnector\Requests\UserRequests;
-use RIPS\APIConnector\Requests\OrgRequests;
-use RIPS\APIConnector\Requests\QuotaRequests;
+use RIPS\Connector\Requests\UserRequests;
+use RIPS\Connector\Requests\OrgRequests;
+use RIPS\Connector\Requests\QuotaRequests;
 
 class API
 {

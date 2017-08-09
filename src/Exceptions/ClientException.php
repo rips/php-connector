@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\APIConnector\Exceptions;
+namespace RIPS\Connector\Exceptions;
 
 class ClientException extends \RuntimeException
 {

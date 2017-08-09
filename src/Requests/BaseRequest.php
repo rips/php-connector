@@ -1,11 +1,11 @@
 <?php
 
-namespace RIPS\APIConnector\Requests;
+namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use RIPS\APIConnector\Exceptions\ClientException;
-use RIPS\APIConnector\Exceptions\ServerException;
+use RIPS\Connector\Exceptions\ClientException;
+use RIPS\Connector\Exceptions\ServerException;
 
 abstract class BaseRequest
 {
@@ -22,6 +22,12 @@ abstract class BaseRequest
         $this->client = $client;
     }
 
+    /**
+     * Handle response returned by Guzzle
+     *
+     * @param Response $response
+     * @return array
+     */
     protected function handleResponse(Response $response)
     {
         $statusCode = (int) floor($response->getStatusCode() / 100);

@@ -1,5 +1,5 @@
 {
-    "name": "rips/api_connector",
+    "name": "rips/connector",
     "description": "...",
     "version": "0.0.1",
     "type": "library",
@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "RIPS\\APIConnector\\": "src"
+            "RIPS\\Connector\\": "src"
         }
     },
     "autoload-dev": {

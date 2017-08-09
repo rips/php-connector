@@ -2,7 +2,7 @@
 
 namespace RIPS\Test;
 
-use RIPS\APIConnector\Requests\UserRequests;
+use RIPS\Connector\Requests\UserRequests;
 use RIPS\Test\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
