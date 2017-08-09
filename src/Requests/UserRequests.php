@@ -10,11 +10,14 @@ class UserRequests extends BaseRequest
     /**
      * Get all users
      *
+     * @param array $queryParams
      * @return array
      */
-    public function getAll()
+    public function getAll(array $queryParams)
     {
-        $response = $this->client->get($this->uri);
+        $response = $this->client->get($this->uri, [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
