@@ -1,29 +1,59 @@
-RIPS API Connector
+RIPS Connector
 ---
 
 # Installation
 
+Update composer.json to read from the public RIPS repository
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://source.internal.ripstech.com/scm/rac/php-connector.git"
+        }
+    ],
+
 Use composer to inlcude the package:
 
-    composer require rips/api_connector
+    composer require rips/connector:dev-dev
+
+OR add to composer.json and run `composer update`
+	
+	"rips/connector": "dev-dev"
+
 
 # Usage
 
-Initialize a new instance of the RIPS API Connector:
-
-    use RIPS\APIConnector\API;
+    use RIPS\Connector\API;
+	use RIPS\Connector\Exceptions\ClientException;
+	use RIPS\Connector\Exceptions\ServerException;
     
-    $api = new API('username', 'password');
+	$config = ['base_uri' => 'http://localhost:8000'];
+    $api = new API('username', 'password', $config);
 
-	// get all users
-    $users = $api->users->getAll();
+	try {
+		// get all users
+		$users = $api->users->getAll();
 
-    // create new organization
-    $org = $api->orgs->create([
-        'name' => 'My New Org',
-        'validUntil' => '2018-08-03T15:23:04.286Z',
-    ]);
+		// create new organization
+		$org = $api->orgs->create([
+			'name' => 'My New Org',
+			'validUntil' => '2018-08-03T15:23:04.286Z',
+		]);
+	} catch (ClientException $e) {
+		// 400 error
+	} catch (ServerExectpion $e) {
+		// 500 error
+	}
 
+All methods return stdClass objects
+
+# Config/Options
+
+The following config options are available:
+
+	'base_uri' (required default: http://localhost:8000): API URL
+	'timeout' (optional default: 10): Timeout of request in seconds
+	'connect_timeout' (optional default: 10): Number of seconds to wait while trying to connect to server
 
 # Testing
 
