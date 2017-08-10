@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "type": "library",
     "license": "N/A",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "guzzlehttp/guzzle": "~6.0"
     },
