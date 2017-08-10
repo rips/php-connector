@@ -1,9 +1,9 @@
 {
     "name": "rips/connector",
-    "description": "...",
+    "description": "RIPS API connector package",
     "version": "0.0.1",
     "type": "library",
-    "license": "N/A",
+    "license": "Proprietary",
     "minimum-stability": "dev",
     "require": {
         "guzzlehttp/guzzle": "~6.0"
