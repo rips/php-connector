@@ -26,7 +26,7 @@ abstract class BaseRequest
      * Handle response returned by Guzzle
      *
      * @param Response $response
-     * @return array
+     * @return Array<stdClass>|stdClass
      */
     protected function handleResponse(Response $response)
     {
