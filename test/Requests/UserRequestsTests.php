@@ -8,8 +8,6 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Exception\ClientException;
 
 class UserRequestsTests extends TestCase
 {
