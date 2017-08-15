@@ -1,14 +1,13 @@
 <?php
 
-namespace RIPS\Test;
+namespace RIPS\Test\Requests;
 
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Test\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Middleware;
 
 class UserRequestsTests extends TestCase
 {
@@ -19,11 +18,12 @@ class UserRequestsTests extends TestCase
     {
         parent::setUp();
 
-        $mock = new MockHandler([
-            new Response(200, ['headers' => 'something'], '{"key": "value"}'),
-        ]);
+        $history = Middleware::history($this->container);
 
-        $this->handler->setHandler($mock);
+        $this->stack->push($history);
+        $this->stack->setHandler(new MockHandler([
+            new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
+        ]));
 
         $this->userRequests = new UserRequests($this->client);
     }
@@ -31,20 +31,49 @@ class UserRequestsTests extends TestCase
     /**
      * @test
      */
-    public function getAllSuccessReturnsResponseBody()
+    public function getAll()
     {
-        $response = $this->userRequests->getAll();
+        $response = $this->userRequests->getAll([
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
 
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/users', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getById()
+    {
+        $response = $this->userRequests->getById(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/users/1', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
     }
 
     /**
      * @test
      */
-    public function getByIdSuccessReturnsResponseBody()
+    public function invite()
     {
-        $response = $this->userRequests->getbyid(1);
+        $response = $this->userRequests->invite(['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
 
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/invite/ui', $request->getUri()->getPath());
+        $this->assertEquals('user[test]=input', $body);
     }
 }

@@ -11,15 +11,18 @@ use GuzzleHttp\Psr7\Request;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected $handler;
+    // @var GuzzleHttp\HandlerStack
+    protected $stack;
+
+    // @var GuzzleHttp\Client
     protected $client;
+
+    // @var array
+    protected $container = [];
 
     protected function setUp()
     {
-        $mock = new MockHandler();
-        $this->handler = HandlerStack::create($mock);
-        $this->client = new Client([
-            'handler' => $this->handler,
-        ]);
+        $this->stack = HandlerStack::create();
+        $this->client = new Client(['handler' => $this->stack]);
     }
 }
