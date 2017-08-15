@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\Test;
+namespace RIPS\Test\Requests;
 
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Test\TestCase;
