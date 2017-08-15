@@ -2,6 +2,7 @@
 
 namespace RIPS\Test\Requests;
 
+use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Exceptions\ServerException;
