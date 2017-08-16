@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
+use RIPS\Connector\Requests\ApplicationRequests;
 
 class API
 {
@@ -20,6 +21,9 @@ class API
 
     // @var QuotaRequests
     public $quotas;
+
+    // @var ApplicationRequests
+    public $applications;
 
     // @var array - Config values for $client
     protected $clientConfig = [
@@ -50,5 +54,6 @@ class API
         $this->users = new UserRequests($client);
         $this->orgs = new OrgRequests($client);
         $this->quotas = new QuotaRequests($client);
+        $this->applications = new ApplicationRequests($client);
     }
 }
