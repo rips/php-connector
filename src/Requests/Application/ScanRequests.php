@@ -1,6 +1,8 @@
 <?php
 
-namespace RIPS\Connector\Requests;
+namespace RIPS\Connector\Requests\Application;
+
+use RIPS\Connector\Requests\BaseRequest;
 
 class ScanRequests extends BaseRequest
 {

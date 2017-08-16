@@ -7,7 +7,7 @@ use RIPS\Connector\Requests\UserRequests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
 use RIPS\Connector\Requests\ApplicationRequests;
-use RIPS\Connector\Requests\ScanRequests;
+use RIPS\Connector\Requests\Application\ScanRequests;
 
 class API
 {

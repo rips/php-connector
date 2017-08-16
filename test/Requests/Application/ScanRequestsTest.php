@@ -1,9 +1,9 @@
 <?php
 
-namespace RIPS\Test\Requests;
+namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\ScanRequests;
+use RIPS\Connector\Requests\Application\ScanRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
