@@ -13,7 +13,7 @@ class ScanRequests extends BaseRequest
      * Get all scans (independent of the application)
      *
      * @param array $queryParams
-     * @return array
+     * @return \stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -29,7 +29,7 @@ class ScanRequests extends BaseRequest
      *
      * @param int $applicationId
      * @param int $scanId
-     * @return array
+     * @return \stdClass
      */
     public function getById(int $applicationId, int $scanId)
     {
@@ -43,7 +43,7 @@ class ScanRequests extends BaseRequest
      *
      * @param int $applicationId
      * @param int $scanId
-     * @return array
+     * @return \stdClass
      */
     public function getStatsById(int $applicationId, int $scanId)
     {
@@ -59,7 +59,7 @@ class ScanRequests extends BaseRequest
      *
      * @param int $applicationId
      * @param array $input
-     * @return array
+     * @return \stdClass
      */
     public function scan(int $applicationId, array $input)
     {

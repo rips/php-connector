@@ -11,7 +11,7 @@ class QuotaRequests extends BaseRequest
      * Create a new quota
      *
      * @param array $input
-     * @return array
+     * @return \stdClass
      */
     public function create(array $input)
     {

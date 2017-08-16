@@ -15,7 +15,7 @@ class IssueRequests extends BaseRequest
      * @param int $applicationId
      * @param int $scanId
      * @param array $queryParams
-     * @return array
+     * @return \stdClass
      */
     public function getAll(int $applicationId, int $scanId, array $queryParams = [])
     {

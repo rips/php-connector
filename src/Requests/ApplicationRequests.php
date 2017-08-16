@@ -11,7 +11,7 @@ class ApplicationRequests extends BaseRequest
      * Get all applications
      *
      * @param array $queryParams
-     * @return array
+     * @return \stdClass
      */
     public function getAll(array $queryParams = [])
     {

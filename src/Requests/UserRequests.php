@@ -11,7 +11,7 @@ class UserRequests extends BaseRequest
      * Get all users
      *
      * @param array $queryParams
-     * @return array
+     * @return \stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -26,7 +26,7 @@ class UserRequests extends BaseRequest
      * Get a user by user ID
      *
      * @param int $userId
-     * @return array
+     * @return \stdClass
      */
     public function getById(int $userId)
     {
@@ -39,7 +39,7 @@ class UserRequests extends BaseRequest
      * Invite a new user
      *
      * @param array $input
-     * @return array
+     * @return \stdClass
      */
     public function invite(array $input)
     {
