@@ -15,7 +15,7 @@ class UploadRequests extends BaseRequest
      * @param int $applicationId
      * @param string $filename
      * @param $contents
-     * @return array
+     * @return \stdClass
      */
     public function upload(int $applicationId, string $filename, $contents)
     {
