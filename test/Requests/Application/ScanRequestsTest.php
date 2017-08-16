@@ -7,6 +7,7 @@ use RIPS\Connector\Requests\Application\ScanRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class ScanRequestsTest extends TestCase
 {
@@ -89,5 +90,26 @@ class ScanRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
         $this->assertEquals('scan[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function blockUntilDone()
+    {
+        $this->stack->setHandler(new MockHandler([
+            new Response(200, ['x-header' => 'header-content'], '{"phase": 1, "percent": 25}'),
+            new Response(200, ['x-header' => 'header-content'], '{"phase": 0, "percent": 100}'),
+        ]));
+
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('blockUntilDone');
+        $response = $this->scanRequests->blockUntilDone(1, 1, 0, 2);
+        $duration = floor($stopwatch->stop('blockUntilDone')->getDuration() / 1000);
+
+        $this->assertEquals(2, $duration);
+        $this->assertEquals(2, count($this->container));
+        $this->assertEquals('/applications/1/scans/1', $this->container[0]['request']->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/1', $this->container[1]['request']->getUri()->getPath());
     }
 }

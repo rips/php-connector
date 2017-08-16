@@ -69,4 +69,32 @@ class ScanRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
+    /**
+     * Block until scan is finished
+     *
+     * @param int $applicationId
+     * @param int $scanId
+     * @param int $waitTime - Optional time to wait, will wait indefinitely if 0 (default: 0)
+     * @param int $sleepTime - Time to wait between scan completion checks (default: 5)
+     * @return void
+     */
+    public function blockUntilDone(
+        int $applicationId,
+        int $scanId,
+        int $waitTime = 0,
+        int $sleepTime = 5
+    ) {
+        for ($iteration = 0;; $iteration++) {
+            $scan = $this->getById($applicationId, $scanId);
+
+            if ((int) $scan->phase === 0 && (int) $scan->percent === 100) {
+                break;
+            } else if ($waitTime > 0 && $iteration > ($waitTime / $sleepTime)) {
+                throw new \Exception('Scan did not finish before the defined wait time.');
+            }
+
+            sleep($sleepTime);
+        }
+    }
 }

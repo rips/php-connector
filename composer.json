@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "psy/psysh": "@stable",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "~6.0",
+        "symfony/stopwatch": "^3.3"
     }
 }

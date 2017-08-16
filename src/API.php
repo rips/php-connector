@@ -40,7 +40,7 @@ class API
     /** @var array $clientConfig Config values for $client */
     protected $clientConfig = [
         'base_uri' => 'http://localhost:8000',
-        'timeout' => 10,
+        'timeout' => 100,
         'connect_timeout' => 10,
         'http_errors' => false,
     ];

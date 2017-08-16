@@ -52,7 +52,7 @@ All methods return stdClass objects
 The following config options are available:
 
 	'base_uri' (required default: http://localhost:8000): API URL
-	'timeout' (optional default: 10): Timeout of request in seconds
+	'timeout' (optional default: 100): Timeout of request in seconds
 	'connect_timeout' (optional default: 10): Number of seconds to wait while trying to connect to server
 
 # Testing
