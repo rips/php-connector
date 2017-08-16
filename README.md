@@ -68,3 +68,40 @@ With global install:
 With composer install:
 
     'vendor/bin/phpunit'
+
+# Endpoints:
+
+Applications:
+
+    GET - /applications
+    POST - /applications/{applicationId}/uploads
+
+Scans:
+
+    GET - /applications/scans/all
+    GET - /applications/{applicationId}/scans/{scanId}
+    GET - /applications/{applicationId}/scans/stats
+    POST - /applications/{applicationId}/scans
+   
+Issues:
+
+    GET - /applications/{applicationId}/scans/{scanId}/issues
+
+Organisations:
+
+    GET|PATCH - /organisations/{organisationId}
+    POST - /organisations
+
+Qutoas:
+
+    GET - /quotas
+
+Teams:
+
+    N/A
+
+Users:
+
+    GET - /users
+    GET - /users/{teamId}
+    POST - /users/invite/ui
