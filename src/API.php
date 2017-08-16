@@ -8,6 +8,7 @@ use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
+use RIPS\Connector\Requests\Application\UploadRequests;
 
 class API
 {
@@ -28,6 +29,9 @@ class API
 
     // @var ScanRequests
     public $scans;
+
+    // @var UploadRequests
+    public $uploads;
 
     // @var array - Config values for $client
     protected $clientConfig = [
@@ -60,5 +64,6 @@ class API
         $this->quotas = new QuotaRequests($client);
         $this->applications = new ApplicationRequests($client);
         $this->scans = new ScanRequests($client);
+        $this->uploads = new UploadRequests($client);
     }
 }
