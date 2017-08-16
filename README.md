@@ -57,4 +57,14 @@ The following config options are available:
 
 # Testing
 
-coming soon...
+Testing is done with phpunit. You can [install phpunit globally](https://phpunit.de/manual/current/en/installation.html) or use the composer installed executabled in `vendor/bin/phpunit`.
+
+Run the tests by executing phpunit in the root directory of the project:
+
+With global install:
+
+    `phpunit`
+
+With composer install:
+
+    'vendor/bin/phpunit'
