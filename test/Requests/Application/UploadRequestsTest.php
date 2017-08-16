@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\Test\Requests\Application\Scan;
+namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\Application\UploadRequests;
