@@ -11,7 +11,7 @@ use GuzzleHttp\Middleware;
 
 class QuotaRequestsTest extends TestCase
 {
-    // @var QuotaRequests
+    /** @var QuotaRequests */
     protected $quotasRequests;
 
     protected function setUp()

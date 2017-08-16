@@ -6,7 +6,7 @@ use RIPS\Connector\Requests\BaseRequest;
 
 class IssueRequests extends BaseRequest
 {
-    // @var string
+    /** @var string */
     protected $uri = '/applications';
 
     /**

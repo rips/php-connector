@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class IssueRequestsTest extends TestCase
 {
-    // @var IssueRequests
+    /** @var IssueRequests */
     protected $issueRequests;
 
     protected function setUp()

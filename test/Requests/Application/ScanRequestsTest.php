@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class ScanRequestsTest extends TestCase
 {
-    // @var ScanRequests
+    /** @var ScanRequests */
     protected $scanRequests;
 
     protected function setUp()

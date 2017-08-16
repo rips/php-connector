@@ -13,31 +13,31 @@ use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 
 class API
 {
-    // @var string - version number
+    /** @var string $version version number */
     public $version = '0.0.1';
 
-    // @var UserRequests
+    /** @var UserRequests */
     public $users;
 
-    // @var OrgRequests
+    /** @var OrgRequests */
     public $orgs;
 
-    // @var QuotaRequests
+    /** @var QuotaRequests */
     public $quotas;
 
-    // @var ApplicationRequests
+    /** @var ApplicationRequests */
     public $applications;
 
-    // @var ScanRequests
+    /** @var ScanRequests */
     public $scans;
 
-    // @var UploadRequests
+    /** @var UploadRequests */
     public $uploads;
 
-    // @var IssueRequests
+    /** @var IssueRequests */
     public $issues;
 
-    // @var array - Config values for $client
+    /** @var array $clientConfig Config values for $client */
     protected $clientConfig = [
         'base_uri' => 'http://localhost:8000',
         'timeout' => 10,

@@ -11,7 +11,7 @@ use GuzzleHttp\Middleware;
 
 class UserRequestsTest extends TestCase
 {
-    // @var UserRequest
+    /** @var UserRequests */
     protected $userRequests;
 
     protected function setUp()

@@ -11,7 +11,7 @@ use GuzzleHttp\Middleware;
 
 class OrgRequestsTest extends TestCase
 {
-    // @var OrgRequests
+    /** @var OrgRequests */
     protected $orgRequests;
 
     protected function setUp()

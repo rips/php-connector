@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class UploadRequestsTest extends TestCase
 {
-    // @var UploadRequests
+    /** @var UploadRequests */
     protected $uploadRequests;
 
     protected function setUp()

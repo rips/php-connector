@@ -3,19 +3,19 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Exceptions\ServerException;
 
 abstract class BaseRequest
 {
-    // @var GuzzleHttp\Client
+    /** @var Client */
     protected $client;
 
     /**
      * Initialize new QuotaRequests
      *
-     * @param GuzzleHttp/Client $client
+     * @param Client $client
      */
     public function __construct(Client $client)
     {
@@ -25,10 +25,10 @@ abstract class BaseRequest
     /**
      * Handle response returned by Guzzle
      *
-     * @param Response $response
-     * @return Array<stdClass>|stdClass
+     * @param ResponseInterface $response
+     * @return \stdClass[]|\stdClass
      */
-    protected function handleResponse(Response $response)
+    protected function handleResponse(ResponseInterface $response)
     {
         $statusCode = (int) floor($response->getStatusCode() / 100);
 
