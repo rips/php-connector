@@ -48,3 +48,6 @@
 ### Composer ###
 composer.phar
 /vendor/
+
+### IDE ###
+/.idea
