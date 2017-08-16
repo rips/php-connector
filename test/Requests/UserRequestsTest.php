@@ -9,7 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
-class UserRequestsTests extends TestCase
+class UserRequestsTest extends TestCase
 {
     // @var UserRequest
     protected $userRequests;

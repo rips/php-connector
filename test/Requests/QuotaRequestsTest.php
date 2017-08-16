@@ -9,7 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
-class QuotaRequestsTests extends TestCase
+class QuotaRequestsTest extends TestCase
 {
     // @var QuotaRequests
     protected $quotasRequests;

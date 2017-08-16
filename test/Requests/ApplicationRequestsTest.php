@@ -8,7 +8,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class ApplicationRequestsTests extends TestCase
+class ApplicationRequestsTest extends TestCase
 {
     // @var ApplicationRequests
     protected $applicationRequests;

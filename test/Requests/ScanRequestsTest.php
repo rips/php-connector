@@ -8,7 +8,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class ScanRequestsTests extends TestCase
+class ScanRequestsTest extends TestCase
 {
     // @var ScanRequests
     protected $scanRequests;
@@ -58,7 +58,7 @@ class ScanRequestsTests extends TestCase
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/2', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
     }
 
@@ -67,11 +67,13 @@ class ScanRequestsTests extends TestCase
      */
     public function getStatsById()
     {
-        $response = $this->scanRequests->getById(1, 2);
+        $response = $this->scanRequests->getStatsById(1, 2);
         $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/stats?equal[id]=2', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/stats', $request->getUri()->getPath());
+        $this->assertEquals('equal[id]=2', $queryString);
         $this->assertEquals('value', $response->key);
     }
 
