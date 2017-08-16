@@ -9,9 +9,9 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
-class OrgRequestsTests extends TestCase
+class OrgRequestsTest extends TestCase
 {
-    // @var OrgRequests
+    /** @var OrgRequests */
     protected $orgRequests;
 
     protected function setUp()

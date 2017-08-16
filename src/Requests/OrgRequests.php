@@ -4,7 +4,7 @@ namespace RIPS\Connector\Requests;
 
 class OrgRequests extends BaseRequest
 {
-    // @var string
+    /** @var string */
     protected $uri = '/organisations';
 
     /**

@@ -9,7 +9,7 @@ use RIPS\Connector\Exceptions\ServerException;
 use RIPS\Test\Stubs\BaseRequestStub;
 use GuzzleHttp\Psr7\Response;
 
-class BaseRequestTests extends TestCase
+class BaseRequestTest extends TestCase
 {
     public function setUp()
     {

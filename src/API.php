@@ -6,22 +6,38 @@ use GuzzleHttp\Client;
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
+use RIPS\Connector\Requests\ApplicationRequests;
+use RIPS\Connector\Requests\Application\ScanRequests;
+use RIPS\Connector\Requests\Application\UploadRequests;
+use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 
 class API
 {
-    // @var string - version number
+    /** @var string $version version number */
     public $version = '0.0.1';
 
-    // @var UserRequests
+    /** @var UserRequests */
     public $users;
 
-    // @var OrgRequests
+    /** @var OrgRequests */
     public $orgs;
 
-    // @var QuotaRequests
+    /** @var QuotaRequests */
     public $quotas;
 
-    // @var array - Config values for $client
+    /** @var ApplicationRequests */
+    public $applications;
+
+    /** @var ScanRequests */
+    public $scans;
+
+    /** @var UploadRequests */
+    public $uploads;
+
+    /** @var IssueRequests */
+    public $issues;
+
+    /** @var array $clientConfig Config values for $client */
     protected $clientConfig = [
         'base_uri' => 'http://localhost:8000',
         'timeout' => 10,
@@ -50,5 +66,9 @@ class API
         $this->users = new UserRequests($client);
         $this->orgs = new OrgRequests($client);
         $this->quotas = new QuotaRequests($client);
+        $this->applications = new ApplicationRequests($client);
+        $this->scans = new ScanRequests($client);
+        $this->uploads = new UploadRequests($client);
+        $this->issues = new IssueRequests($client);
     }
 }

@@ -4,20 +4,17 @@ namespace RIPS\Test;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
 
 abstract class TestCase extends BaseTestCase
 {
-    // @var GuzzleHttp\HandlerStack
+    /** @var HandlerStack */
     protected $stack;
 
-    // @var GuzzleHttp\Client
+    /** @var Client */
     protected $client;
 
-    // @var array
+    /** @var array */
     protected $container = [];
 
     protected function setUp()

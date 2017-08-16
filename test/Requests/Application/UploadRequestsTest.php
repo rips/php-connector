@@ -1,18 +1,17 @@
 <?php
 
-namespace RIPS\Test\Requests;
+namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\QuotaRequests;
+use RIPS\Connector\Requests\Application\UploadRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
-class QuotaRequestsTests extends TestCase
+class UploadRequestsTest extends TestCase
 {
-    // @var QuotaRequests
-    protected $quotasRequests;
+    /** @var UploadRequests */
+    protected $uploadRequests;
 
     protected function setUp()
     {
@@ -25,20 +24,18 @@ class QuotaRequestsTests extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->quotaRequests = new QuotaRequests($this->client);
+        $this->uploadRequests = new UploadRequests($this->client);
     }
 
     /**
      * @test
      */
-    public function create()
+    public function upload()
     {
-        $response = $this->quotaRequests->create(['test' => 'input']);
+        $this->uploadRequests->upload(1, 'test.zip', '<?php return 123;');
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/quotas', $request->getUri()->getPath());
-        $this->assertEquals('quota[test]=input', $body);
+        $this->assertEquals('/applications/1/uploads', $request->getUri()->getPath());
     }
 }

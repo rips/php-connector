@@ -31,10 +31,6 @@
 /web/bundles/
 /web/uploads/
 
-# PHPUnit
-/app/phpunit.xml
-/phpunit.xml
-
 # Build data
 /build/
 
@@ -48,3 +44,6 @@
 ### Composer ###
 composer.phar
 /vendor/
+
+### IDE ###
+/.idea

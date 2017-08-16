@@ -4,7 +4,7 @@ namespace RIPS\Connector\Requests;
 
 class QuotaRequests extends BaseRequest
 {
-    // @var string
+    /** @var string */
     protected $uri = '/quotas';
 
     /**
