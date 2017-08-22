@@ -45,7 +45,7 @@ OR add to composer.json and run `composer update`
 		// 500 error
 	}
 
-All methods return stdClass objects
+All methods return stdClass objects or an array of stdClass objects
 
 # Config/Options
 
@@ -59,6 +59,8 @@ The following config options are available:
 
 Testing is done with phpunit. You can [install phpunit globally](https://phpunit.de/manual/current/en/installation.html) or use the composer installed executabled in `vendor/bin/phpunit`.
 
+Abstract classes use stubs found in test/Stubs.
+
 Run the tests by executing phpunit in the root directory of the project:
 
 With global install:
@@ -70,6 +72,8 @@ With composer install:
     'vendor/bin/phpunit'
 
 # Endpoints:
+
+Current endpoints implemented:
 
 Applications:
 
