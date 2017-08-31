@@ -10,16 +10,23 @@ class ScanRequests extends BaseRequest
     protected $uri = '/applications';
 
     /**
-     * Get all scans (independent of the application)
+     * Get all scans, optionally by application ID
      *
+     * @param int|null $applicationId
      * @param array $queryParams
      * @return \stdClass[]
      */
-    public function getAll(array $queryParams = [])
+    public function getAll(int $applicationId = null, array $queryParams = [])
     {
-        $response = $this->client->get("{$this->uri}/scans/all", [
-            'query' => $queryParams,
-        ]);
+        if ($applicationId === null) {
+            $response = $this->client->get("{$this->uri}/scans/all", [
+                'query' => $queryParams,
+            ]);
+        } else {
+            $response = $this->client->get("{$this->uri}/{$applicationId}/scans", [
+                'query' => $queryParams,
+            ]);
+        }
 
         return $this->handleResponse($response);
     }
