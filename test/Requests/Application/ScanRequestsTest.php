@@ -33,7 +33,7 @@ class ScanRequestsTest extends TestCase
      */
     public function getAll()
     {
-        $response = $this->scanRequests->getAll([
+        $response = $this->scanRequests->getAll(null, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -48,6 +48,19 @@ class ScanRequestsTest extends TestCase
         $this->assertEquals('/applications/scans/all', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getAllById()
+    {
+        $response = $this->scanRequests->getAll(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
     }
 
     /**
