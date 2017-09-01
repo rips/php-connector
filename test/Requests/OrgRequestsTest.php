@@ -31,6 +31,28 @@ class OrgRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getAll()
+    {
+        $response = $this->orgRequests->getAll([
+            'notEqual' => [
+                'name' => 'test',
+            ],
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/organisations', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
+    }
+
+    /**
+     * @test
+     */
     public function getById()
     {
         $response = $this->orgRequests->getById(1);

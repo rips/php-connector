@@ -8,6 +8,21 @@ class OrgRequests extends BaseRequest
     protected $uri = '/organisations';
 
     /**
+     * Get all organisations
+     *
+     * @param array $queryParams
+     * @return \stdClass[]
+     */
+    public function getAll(array $queryParams = [])
+    {
+        $response = $this->client->get($this->uri, [
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Get an organization by id
      *
      * @param int $orgId
