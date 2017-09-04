@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
+use RIPS\Connector\Requests\LogRequests;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
@@ -24,6 +25,9 @@ class API
 
     /** @var QuotaRequests */
     public $quotas;
+
+    /** @var LogRequests */
+    public $logs;
 
     /** @var ApplicationRequests */
     public $applications;
@@ -66,6 +70,7 @@ class API
         $this->users = new UserRequests($client);
         $this->orgs = new OrgRequests($client);
         $this->quotas = new QuotaRequests($client);
+        $this->logs = new LogRequests($client);
         $this->applications = new ApplicationRequests($client);
         $this->scans = new ScanRequests($client);
         $this->uploads = new UploadRequests($client);
