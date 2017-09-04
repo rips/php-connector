@@ -66,6 +66,39 @@ class OrgRequestsTest extends TestCase
     /**
      * @test
      */
+    public function deleteAll()
+    {
+        $this->orgRequests->deleteAll([
+            'notEqual' => [
+                'name' => 'test',
+            ],
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/organisations', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function deleteById()
+    {
+        $this->orgRequests->deleteById(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/organisations/1', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->orgRequests->update(1, ['test' => 'input']);

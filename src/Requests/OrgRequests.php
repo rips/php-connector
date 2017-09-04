@@ -36,6 +36,34 @@ class OrgRequests extends BaseRequest
     }
 
     /**
+     * Delete all organisations
+     *
+     * @param array $queryParams
+     * @return void
+     */
+    public function deleteAll(array $queryParams = [])
+    {
+        $response = $this->client->delete($this->uri, [
+            'query' => $queryParams,
+        ]);
+
+        $this->handleResponse($response);
+    }
+
+    /**
+     * Delete an organization by id
+     *
+     * @param int $orgId
+     * @return void
+     */
+    public function deleteById(int $orgId)
+    {
+        $response = $this->client->delete("{$this->uri}/$orgId");
+
+        $this->handleResponse($response);
+    }
+
+    /**
      * Update an existing organization
      *
      * @param int $orgId
