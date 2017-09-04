@@ -8,6 +8,34 @@ class QuotaRequests extends BaseRequest
     protected $uri = '/quotas';
 
     /**
+     * Get all quotas
+     *
+     * @param array $queryParams
+     * @return \stdClass[]
+     */
+    public function getAll(array $queryParams = [])
+    {
+        $response = $this->client->get($this->uri, [
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Get a quota by id
+     *
+     * @param int $quotaId
+     * @return \stdClass
+     */
+    public function getById(int $quotaId)
+    {
+        $response = $this->client->get("{$this->uri}/$quotaId");
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Create a new quota
      *
      * @param array $input

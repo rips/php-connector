@@ -31,6 +31,38 @@ class QuotaRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getAll()
+    {
+        $response = $this->quotaRequests->getAll([
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/quotas', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('greaterThan[id]=1', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getById()
+    {
+        $response = $this->quotaRequests->getById(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/quotas/1', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
     public function create()
     {
         $response = $this->quotaRequests->create(['test' => 'input']);
