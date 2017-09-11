@@ -36,6 +36,22 @@ class UserRequests extends BaseRequest
     }
 
     /**
+     * Update a user by ID
+     *
+     * @param int $userId
+     * @param array $input
+     * @return \stdClass
+     */
+    public function update($userId, $input)
+    {
+        $response = $this->client->patch("{$this->uri}/{$userId}", [
+            'form_params' => ['user' => $input],
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Invite a new user
      *
      * @param array $input

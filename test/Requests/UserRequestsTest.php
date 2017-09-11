@@ -63,6 +63,17 @@ class UserRequestsTest extends TestCase
         $this->assertEquals('value', $response->key);
     }
 
+    public function update()
+    {
+        $response = $this->userRequests->update(1, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('PATCH', $request->getMethod());
+        $this->assertEquals('/users/1', $request->getUri()->getPath());
+        $this->assertEquals('user[test]=input', $body);
+    }
+
     /**
      * @test
      */
