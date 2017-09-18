@@ -28,7 +28,7 @@ class UserRequests extends BaseRequest
      * @param int $userId
      * @return \stdClass
      */
-    public function getById(int $userId)
+    public function getById($userId)
     {
         $response = $this->client->get("{$this->uri}/{$userId}");
 

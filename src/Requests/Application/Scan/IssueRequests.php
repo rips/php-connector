@@ -17,7 +17,7 @@ class IssueRequests extends BaseRequest
      * @param array $queryParams
      * @return \stdClass
      */
-    public function getAll(int $applicationId, int $scanId, array $queryParams = [])
+    public function getAll($applicationId, $scanId, array $queryParams = [])
     {
         $response = $this->client->get("{$this->uri}/{$applicationId}/scans/{$scanId}/issues", [
             'query' => $queryParams,

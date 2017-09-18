@@ -28,7 +28,7 @@ class QuotaRequests extends BaseRequest
      * @param int $quotaId
      * @return \stdClass
      */
-    public function getById(int $quotaId)
+    public function getById($quotaId)
     {
         $response = $this->client->get("{$this->uri}/$quotaId");
 

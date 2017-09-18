@@ -28,7 +28,7 @@ class LogRequests extends BaseRequest
      * @param int $logId
      * @return \stdClass
      */
-    public function getById(int $logId)
+    public function getById($logId)
     {
         $response = $this->client->get("{$this->uri}/$logId");
 

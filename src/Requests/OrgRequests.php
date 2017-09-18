@@ -28,7 +28,7 @@ class OrgRequests extends BaseRequest
      * @param int $orgId
      * @return \stdClass
      */
-    public function getById(int $orgId)
+    public function getById($orgId)
     {
         $response = $this->client->get("{$this->uri}/$orgId");
 
@@ -56,7 +56,7 @@ class OrgRequests extends BaseRequest
      * @param int $orgId
      * @return void
      */
-    public function deleteById(int $orgId)
+    public function deleteById($orgId)
     {
         $response = $this->client->delete("{$this->uri}/$orgId");
 
@@ -70,7 +70,7 @@ class OrgRequests extends BaseRequest
      * @param array $input
      * @return \stdClass
      */
-    public function update(int $orgId, array $input)
+    public function update($orgId, array $input)
     {
         $response = $this->client->patch("{$this->uri}/$orgId", [
             'form_params' => ['organisation' => $input],
