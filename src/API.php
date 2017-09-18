@@ -15,7 +15,7 @@ use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 class API
 {
     /** @var string $version version number */
-    public $version = '0.0.1';
+    public $version = '1.1.0';
 
     /** @var UserRequests */
     public $users;
@@ -56,7 +56,7 @@ class API
      * @param string $password
      * @param array $clientConfig
      */
-    public function __construct(string $username, string $password, array $clientConfig = [])
+    public function __construct($username, $password, array $clientConfig = [])
     {
         $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
             'headers' => [

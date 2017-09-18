@@ -16,7 +16,7 @@ class ScanRequests extends BaseRequest
      * @param array $queryParams
      * @return \stdClass[]
      */
-    public function getAll(int $applicationId = null, array $queryParams = [])
+    public function getAll($applicationId = null, array $queryParams = [])
     {
         if ($applicationId === null) {
             $response = $this->client->get("{$this->uri}/scans/all", [
@@ -38,7 +38,7 @@ class ScanRequests extends BaseRequest
      * @param int $scanId
      * @return \stdClass
      */
-    public function getById(int $applicationId, int $scanId)
+    public function getById($applicationId, $scanId)
     {
         $response = $this->client->get("{$this->uri}/{$applicationId}/scans/{$scanId}");
 
@@ -52,7 +52,7 @@ class ScanRequests extends BaseRequest
      * @param int $scanId
      * @return \stdClass
      */
-    public function getStatsById(int $applicationId, int $scanId)
+    public function getStatsById($applicationId, $scanId)
     {
         $response = $this->client->get("{$this->uri}/{$applicationId}/scans/stats", [
             'query' => ['equal[id]' => $scanId],
@@ -68,7 +68,7 @@ class ScanRequests extends BaseRequest
      * @param array $input
      * @return \stdClass
      */
-    public function scan(int $applicationId, array $input)
+    public function scan($applicationId, array $input)
     {
         $response = $this->client->post("{$this->uri}/{$applicationId}/scans", [
             'form_params' => ['scan' => $input],
@@ -87,10 +87,10 @@ class ScanRequests extends BaseRequest
      * @return void
      */
     public function blockUntilDone(
-        int $applicationId,
-        int $scanId,
-        int $waitTime = 0,
-        int $sleepTime = 5
+        $applicationId,
+        $scanId,
+        $waitTime = 0,
+        $sleepTime = 5
     ) {
         for ($iteration = 0;; $iteration++) {
             $scan = $this->getById($applicationId, $scanId);

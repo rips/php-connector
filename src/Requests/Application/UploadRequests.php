@@ -17,7 +17,7 @@ class UploadRequests extends BaseRequest
      * @param $contents
      * @return \stdClass
      */
-    public function upload(int $applicationId, string $filename, $contents)
+    public function upload($applicationId, $filename, $contents)
     {
         $response = $this->client->post("{$this->uri}/{$applicationId}/uploads", [
             'multipart' => [
