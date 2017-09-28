@@ -41,7 +41,7 @@ OR add to composer.json and run `composer update`
 		]);
 	} catch (ClientException $e) {
 		// 400 error
-	} catch (ServerExectpion $e) {
+	} catch (ServerException $e) {
 		// 500 error
 	}
 
