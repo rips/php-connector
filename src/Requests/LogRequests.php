@@ -49,4 +49,17 @@ class LogRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
+    /**
+     * Delete logs older than a week
+     *
+     * @param array $queryParams
+     * @return void
+     */
+    public function delete(array $queryParams = [])
+    {
+        $this->client->delete("{$this->uri}", [
+            'query' => $queryParams,
+        ]);
+    }
 }
