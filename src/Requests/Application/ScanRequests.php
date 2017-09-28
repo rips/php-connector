@@ -85,6 +85,7 @@ class ScanRequests extends BaseRequest
      * @param int $waitTime - Optional time to wait, will wait indefinitely if 0 (default: 0)
      * @param int $sleepTime - Time to wait between scan completion checks (default: 5)
      * @return void
+     * @throws \Exception if scan does not finish in time
      */
     public function blockUntilDone(
         $applicationId,
