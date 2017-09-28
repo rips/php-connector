@@ -58,9 +58,7 @@ class OrgRequests extends BaseRequest
      */
     public function deleteById($orgId)
     {
-        $response = $this->client->delete("{$this->uri}/$orgId");
-
-        $this->handleResponse($response);
+        $this->client->delete("{$this->uri}/$orgId");
     }
 
     /**
