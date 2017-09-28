@@ -73,4 +73,52 @@ class QuotaRequestsTest extends TestCase
         $this->assertEquals('/quotas', $request->getUri()->getPath());
         $this->assertEquals('quota[test]=input', $body);
     }
+
+    /**
+     * @test
+     */
+    public function update()
+    {
+        $response = $this->quotaRequests->update(1, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('PATCH', $request->getMethod());
+        $this->assertEquals('/quotas/1', $request->getUri()->getPath());
+        $this->assertEquals('quota[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function deleteAll()
+    {
+        $this->quotaRequests->deleteAll([
+            'notEqual' => [
+                'name' => 'test',
+            ],
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/quotas', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function deleteById()
+    {
+        $this->quotaRequests->deleteById(1);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/quotas/1', $request->getUri()->getPath());
+    }
 }

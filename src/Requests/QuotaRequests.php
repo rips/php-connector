@@ -49,4 +49,44 @@ class QuotaRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
+    /**
+     * Update existing quota
+     *
+     * @param int $quotaId
+     * @param array $input
+     * @return \stdClass
+     */
+    public function update($quotaId, array $input = [])
+    {
+        $response = $this->client->patch("{$this->uri}/{$quotaId}", [
+            'form_params' => ['quota' => $input],
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Delete all quotas
+     *
+     * @param array $queryParams
+     * @return void
+     */
+    public function deleteAll(array $queryParams = [])
+    {
+        $this->client->delete("{$this->uri}", [
+            'query' => $queryParams,
+        ]);
+    }
+
+    /**
+     * Delete quota by id
+     *
+     * @param int $quotaId
+     * @return void
+     */
+    public function deleteById($quotaId)
+    {
+        $this->client->delete("{$this->uri}/{$quotaId}");
+    }
 }
