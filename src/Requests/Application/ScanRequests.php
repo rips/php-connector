@@ -62,6 +62,53 @@ class ScanRequests extends BaseRequest
     }
 
     /**
+     * Delete all scans
+     *
+     * @param int $applicationId
+     * @param array $queryParams
+     * @return void
+     */
+    public function deleteAll($applicationId, array $queryParams = [])
+    {
+        $response = $this->client->delete("{$this->uri}/{$applicationId}/scans", [
+            'query' => $queryParams,
+        ]);
+
+        $this->handleResponse($response);
+    }
+
+    /**
+     * Delete a scan by id
+     *
+     * @param int $applicationId
+     * @param int $scanId
+     * @return void
+     */
+    public function deleteById($applicationId, $scanId)
+    {
+        $response = $this->client->delete("{$this->uri}/{$applicationId}/scans/{$scanId}");
+
+        $this->handleResponse($response);
+    }
+
+    /**
+     * Update an existing scan
+     *
+     * @param int $applicationId
+     * @param int $scanId
+     * @param array $input
+     * @return \stdClass
+     */
+    public function update($applicationId, $scanId, array $input)
+    {
+        $response = $this->client->patch("{$this->uri}/{$applicationId}/scans/{$scanId}", [
+            'form_params' => ['scan' => $input],
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Start a new scan
      *
      * @param int $applicationId
