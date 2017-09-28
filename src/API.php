@@ -11,6 +11,7 @@ use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
+use RIPS\Connector\Requests\Application\Scan\Export\PdfRequests;
 
 class API
 {
@@ -40,6 +41,9 @@ class API
 
     /** @var IssueRequests */
     public $issues;
+
+    /** @var PdfRequests */
+    public $pdfs;
 
     /** @var array $clientConfig Config values for $client */
     protected $clientConfig = [
@@ -75,5 +79,6 @@ class API
         $this->scans = new ScanRequests($client);
         $this->uploads = new UploadRequests($client);
         $this->issues = new IssueRequests($client);
+        $this->pdfs = new PdfRequests($client);
     }
 }
