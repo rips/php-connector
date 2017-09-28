@@ -94,6 +94,44 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
+    public function deleteAll()
+    {
+        $this->scanRequests->deleteAll(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function deleteById()
+    {
+        $this->scanRequests->deleteById(1, 2);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function update()
+    {
+        $this->scanRequests->update(1, 2, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('PATCH', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
+        $this->assertEquals('scan[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
     public function scan()
     {
         $this->scanRequests->scan(1, ['test' => 'input']);

@@ -41,7 +41,7 @@ OR add to composer.json and run `composer update`
 		]);
 	} catch (ClientException $e) {
 		// 400 error
-	} catch (ServerExectpion $e) {
+	} catch (ServerException $e) {
 		// 500 error
 	}
 
@@ -83,9 +83,9 @@ Applications:
 Scans:
 
     GET - /applications/scans/all
-    GET - /applications/{applicationId}/scans/{scanId}
+    GET|DELETE|POST - /applications/{applicationId}/scans
+    GET|DELETE|PATCH - /applications/{applicationId}/scans/{scanId}
     GET - /applications/{applicationId}/scans/stats
-    POST - /applications/{applicationId}/scans
    
 Issues:
 
@@ -93,10 +93,10 @@ Issues:
 
 Organisations:
 
-    GET|PATCH - /organisations/{organisationId}
-    POST - /organisations
+    GET|DELETE|PATCH - /organisations/{organisationId}
+    DELETE|POST - /organisations
 
-Qutoas:
+Quotas:
 
     GET - /quotas
 
@@ -109,3 +109,7 @@ Users:
     GET - /users
     GET - /users/{teamId}
     POST - /users/invite/ui
+
+Exports:
+
+    GET - /applications/{applicationId}/scans/{scanId}/exports/pdfs
