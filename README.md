@@ -96,7 +96,7 @@ Organisations:
     GET|DELETE|PATCH - /organisations/{organisationId}
     DELETE|POST - /organisations
 
-Qutoas:
+Quotas:
 
     GET - /quotas
 
