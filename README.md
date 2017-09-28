@@ -109,3 +109,7 @@ Users:
     GET - /users
     GET - /users/{teamId}
     POST - /users/invite/ui
+
+Exports:
+
+    GET - /applications/{applicationId}/scans/{scanId}/exports/pdfs

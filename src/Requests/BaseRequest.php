@@ -13,7 +13,7 @@ abstract class BaseRequest
     protected $client;
 
     /**
-     * Initialize new QuotaRequests
+     * Initialize new BaseRequests
      *
      * @param Client $client
      */
@@ -26,9 +26,12 @@ abstract class BaseRequest
      * Handle response returned by Guzzle
      *
      * @param ResponseInterface $response
-     * @return \stdClass[]|\stdClass
+     * @param bool $raw
+     * @return \stdClass[]|\stdClass|string
+     * @throws ClientException if status code starts with 4
+     * @throws ServerException if status code starts with 5
      */
-    protected function handleResponse(ResponseInterface $response)
+    protected function handleResponse(ResponseInterface $response, $raw = false)
     {
         $statusCode = (int) floor($response->getStatusCode() / 100);
 
@@ -36,6 +39,10 @@ abstract class BaseRequest
             throw new ClientException($response->getBody(), $response->getStatusCode());
         } elseif ($statusCode === 5) {
             throw new ServerException($response->getBody(), $response->getStatusCode());
+        }
+
+        if ($raw) {
+            return $response->getBody();
         }
 
         return json_decode($response->getBody());
