@@ -72,7 +72,7 @@ class ScanRequests extends BaseRequest
      * @param array $queryParams
      * @return stdClass[]
      */
-    public function getClasses($appId, $scanId, array $queryParams = [])
+    public function getAllClasses($appId, $scanId, array $queryParams = [])
     {
         $response = $this->client->get("{$this->uri($appId)}/{$scanId}/classes", [
             'query' => $queryParams,
@@ -118,7 +118,7 @@ class ScanRequests extends BaseRequest
      * @param array $queryParams
      * @return stdClass[]
      */
-    public function getConcats($appId, $scanId, array $queryParams = [])
+    public function getAllConcats($appId, $scanId, array $queryParams = [])
     {
         $response = $this->client->get("{$this->uri($appId)}/{$scanId}/concats", [
             'query' => $queryParams,
@@ -150,7 +150,7 @@ class ScanRequests extends BaseRequest
      * @param array $queryParams
      * @return stdClass[]
      */
-    public function getFiles($appId, $scanId, array $queryParams = [])
+    public function getAllFiles($appId, $scanId, array $queryParams = [])
     {
         $response = $this->client->get("{$this->uri($appId)}/{$scanId}/files", [
             'query' => $queryParams,
@@ -182,7 +182,7 @@ class ScanRequests extends BaseRequest
      * @param array $queryParams
      * @return stdClass[]
      */
-    public function getFunctions($appId, $scanId, array $queryParams = [])
+    public function getAllFunctions($appId, $scanId, array $queryParams = [])
     {
         $response = $this->client->get("{$this->uri($appId)}/{$scanId}/functions", [
             'query' => $queryParams,

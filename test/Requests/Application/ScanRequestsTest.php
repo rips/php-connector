@@ -94,9 +94,9 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getClasses()
+    public function getAllClasses()
     {
-        $response = $this->scanRequests->getClasses(1, 2, [
+        $response = $this->scanRequests->getAllClasses(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -144,9 +144,9 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getConcats()
+    public function getAllConcats()
     {
-        $response = $this->scanRequests->getConcats(1, 2, [
+        $response = $this->scanRequests->getAllConcats(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -180,9 +180,9 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getFiles()
+    public function getAllFiles()
     {
-        $response = $this->scanRequests->getFiles(1, 2, [
+        $response = $this->scanRequests->getAllFiles(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -216,9 +216,9 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getFunctions()
+    public function getAllFunctions()
     {
-        $response = $this->scanRequests->getFunctions(1, 2, [
+        $response = $this->scanRequests->getAllFunctions(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
