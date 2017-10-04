@@ -9,9 +9,19 @@ class IssueRequests extends BaseRequest
     /** @var string */
     protected $uri = '/applications';
 
-    protected function uri($appId, $scanId)
+    /**
+     * Build a uri for the request
+     *
+     * @param int $appId
+     * @param int $scanId
+     * @param int $issueId
+     * @return string
+     */
+    protected function uri($appId, $scanId, $issueId = null)
     {
-        return "/applications/{$appId}/scans/{$scanId}/issues";
+        return is_null($issueId)
+            ? "/applications/{$appId}/scans/{$scanId}/issues"
+            : "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}";
     }
 
     /**
@@ -42,7 +52,7 @@ class IssueRequests extends BaseRequest
      */
     public function getById($appId, $scanId, $issueId, array $queryParams = [])
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}", [
+        $response = $this->client->get($this->uri($appId, $scanId, $issueId), [
             'query' => $queryParams,
         ]);
 
@@ -77,7 +87,7 @@ class IssueRequests extends BaseRequest
      */
     public function getComments($appId, $scanId, $issueId, array $queryParams = [])
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/comments", [
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/comments", [
             'query' => $queryParams,
         ]);
 
@@ -95,7 +105,7 @@ class IssueRequests extends BaseRequest
      */
     public function getCommentById($appId, $scanId, $issueId, $commentId)
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/comments/{$commentId}");
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/comments/{$commentId}");
 
         return $this->handleResponse($response);
     }
@@ -111,7 +121,7 @@ class IssueRequests extends BaseRequest
      */
     public function getMarkups($appId, $scanId, $issueId, array $queryParams = [])
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/markups", [
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/markups", [
             'query' => $queryParams,
         ]);
 
@@ -129,7 +139,7 @@ class IssueRequests extends BaseRequest
      */
     public function getMarkupById($appId, $scanId, $issueId, $markupId)
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/markups/{$markupId}");
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/markups/{$markupId}");
 
         return $this->handleResponse($response);
     }
@@ -145,7 +155,7 @@ class IssueRequests extends BaseRequest
      */
     public function getReviews($appId, $scanId, $issueId, array $queryParams = [])
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/reviews", [
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/reviews", [
             'query' => $queryParams,
         ]);
 
@@ -163,7 +173,7 @@ class IssueRequests extends BaseRequest
      */
     public function getReviewById($appId, $scanId, $issueId, $reviewId)
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/reviews/{$reviewId}");
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/reviews/{$reviewId}");
 
         return $this->handleResponse($response);
     }
@@ -179,7 +189,7 @@ class IssueRequests extends BaseRequest
      */
     public function getSummaries($appId, $scanId, $issueId, array $queryParams = [])
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/summaries", [
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/summaries", [
             'query' => $queryParams,
         ]);
 
@@ -197,7 +207,7 @@ class IssueRequests extends BaseRequest
      */
     public function getSummaryById($appId, $scanId, $issueId, $summaryId)
     {
-        $response = $this->client->get("{$this->uri($appId, $scanId)}/{$issueId}/summaries/{$summaryId}");
+        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/summaries/{$summaryId}");
 
         return $this->handleResponse($response);
     }
@@ -230,7 +240,7 @@ class IssueRequests extends BaseRequest
      */
     public function createComment($appId, $scanId, $issueId, array $input = [])
     {
-        $response = $this->client->post("{$this->uri($appId, $scanId)}/{$issueId}/comments", [
+        $response = $this->client->post("{$this->uri($appId, $scanId, $issueId)}/comments", [
             'form_params' => ['comment' => $input],
         ]);
 
@@ -248,7 +258,7 @@ class IssueRequests extends BaseRequest
      */
     public function createReview($appId, $scanId, $issueId, array $input = [])
     {
-        $response = $this->client->post("{$this->uri($appId, $scanId)}/{$issueId}/reviews", [
+        $response = $this->client->post("{$this->uri($appId, $scanId, $issueId)}/reviews", [
             'form_params' => ['review' => $input],
         ]);
 
@@ -265,7 +275,7 @@ class IssueRequests extends BaseRequest
      */
     public function deleteComments($appId, $scanId, $issueId)
     {
-        $this->client->delete("{$this->uri($appId, $scanId)}/{$issueId}/comments");
+        $this->client->delete("{$this->uri($appId, $scanId, $issueId)}/comments");
     }
 
     /**
@@ -279,6 +289,6 @@ class IssueRequests extends BaseRequest
      */
     public function deleteCommentById($appId, $scanId, $issueId, $commentId)
     {
-        $this->client->delete("{$this->uri($appId, $scanId)}/{$issueId}/comments/{$commentId}");
+        $this->client->delete("{$this->uri($appId, $scanId, $issueId)}/comments/{$commentId}");
     }
 }
