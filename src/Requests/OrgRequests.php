@@ -4,8 +4,16 @@ namespace RIPS\Connector\Requests;
 
 class OrgRequests extends BaseRequest
 {
-    /** @var string */
-    protected $uri = '/organisations';
+    /**
+     * Build a uri for the request
+     *
+     * @param int $orgId
+     * @return string
+     */
+    private function uri($orgId = null)
+    {
+        return is_null($orgId) ? '/organisations' : "/organisations/{$orgId}";
+    }
 
     /**
      * Get all organisations
@@ -15,7 +23,7 @@ class OrgRequests extends BaseRequest
      */
     public function getAll(array $queryParams = [])
     {
-        $response = $this->client->get($this->uri, [
+        $response = $this->client->get($this->uri(), [
             'query' => $queryParams,
         ]);
 
@@ -30,7 +38,7 @@ class OrgRequests extends BaseRequest
      */
     public function getById($orgId)
     {
-        $response = $this->client->get("{$this->uri}/$orgId");
+        $response = $this->client->get($this->uri($orgId));
 
         return $this->handleResponse($response);
     }
@@ -43,7 +51,7 @@ class OrgRequests extends BaseRequest
      */
     public function deleteAll(array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri, [
+        $response = $this->client->delete($this->uri(), [
             'query' => $queryParams,
         ]);
 
@@ -58,7 +66,7 @@ class OrgRequests extends BaseRequest
      */
     public function deleteById($orgId)
     {
-        $this->client->delete("{$this->uri}/$orgId");
+        $this->client->delete($this->uri($orgId));
     }
 
     /**
@@ -70,7 +78,7 @@ class OrgRequests extends BaseRequest
      */
     public function update($orgId, array $input)
     {
-        $response = $this->client->patch("{$this->uri}/$orgId", [
+        $response = $this->client->patch($this->uri($orgId), [
             'form_params' => ['organisation' => $input],
         ]);
 
@@ -85,7 +93,7 @@ class OrgRequests extends BaseRequest
      */
     public function create(array $input)
     {
-        $response = $this->client->post($this->uri, [
+        $response = $this->client->post($this->uri(), [
             'form_params' => ['organisation' => $input],
         ]);
 
