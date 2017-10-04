@@ -30,9 +30,9 @@ class ApplicationRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getAll()
+    public function getAllAcls()
     {
-        $response = $this->applicationRequests->getAll([
+        $response = $this->applicationRequests->getAllAcls(1, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -44,7 +44,29 @@ class ApplicationRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/acls', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getAllAclsNoAppId()
+    {
+        $response = $this->applicationRequests->getAllAcls(null, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/acls/own', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
@@ -65,6 +87,19 @@ class ApplicationRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getAclById()
+    {
+        $response = $this->applicationRequests->getAclById(1, 2);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
     public function create()
     {
         $response = $this->applicationRequests->create(['test' => 'input']);
@@ -79,6 +114,20 @@ class ApplicationRequestsTest extends TestCase
     /**
      * @test
      */
+    public function createAcl()
+    {
+        $response = $this->applicationRequests->createAcl(1, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/applications/1/acls', $request->getUri()->getPath());
+        $this->assertEquals('acl[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->applicationRequests->update(1, ['test' => 'input']);
@@ -88,6 +137,20 @@ class ApplicationRequestsTest extends TestCase
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1', $request->getUri()->getPath());
         $this->assertEquals('application[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function updateAcl()
+    {
+        $response = $this->applicationRequests->updateAcl(1, 2, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('PATCH', $request->getMethod());
+        $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());
+        $this->assertEquals('acl[test]=input', $body);
     }
 
     /**
@@ -114,6 +177,27 @@ class ApplicationRequestsTest extends TestCase
     /**
      * @test
      */
+    public function deleteAllAcls()
+    {
+        $this->applicationRequests->deleteAllAcls(1, [
+            'notEqual' => [
+                'name' => 'test',
+            ],
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/acls', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
+    }
+
+    /**
+     * @test
+     */
     public function deleteById()
     {
         $this->applicationRequests->deleteById(1);
@@ -122,5 +206,18 @@ class ApplicationRequestsTest extends TestCase
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/applications/1', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function deleteAclById()
+    {
+        $this->applicationRequests->deleteAclById(1, 2);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());
     }
 }
