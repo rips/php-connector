@@ -30,6 +30,29 @@ class ApplicationRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getAll()
+    {
+        $response = $this->applicationRequests->getAll([
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+
+    /**
+     * @test
+     */
     public function getAllAcls()
     {
         $response = $this->applicationRequests->getAllAcls(1, [

@@ -49,6 +49,19 @@ class ApplicationRequests extends BaseRequest
     }
 
     /**
+     * Get application by id
+     *
+     * @param int $appId
+     * @return \stdClass
+     */
+    public function getById($appId)
+    {
+        $response = $this->client->get($this->uri($appId));
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Get ACL for application by id
      *
      * @param int $appId
@@ -62,18 +75,6 @@ class ApplicationRequests extends BaseRequest
         return $this->handleResponse($response);
     }
 
-    /**
-     * Get application by id
-     *
-     * @param int $appId
-     * @return \stdClass
-     */
-    public function getById($appId)
-    {
-        $response = $this->client->get($this->uri($appId));
-
-        return $this->handleResponse($response);
-    }
 
     /**
      * Create a new application
