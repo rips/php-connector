@@ -54,13 +54,30 @@ class API
     ];
 
     /**
-     * Initialize new API
+     * Construct and optionally initialize new API
+     * Initialization is only done if both username and password are specified.
      *
      * @param string $username
      * @param string $password
      * @param array $clientConfig
      */
-    public function __construct($username, $password, array $clientConfig = [])
+    public function __construct($username = null, $password = null, array $clientConfig = [])
+    {
+        if ($username && $password) {
+            $this->initialize($username, $password, $clientConfig);
+        }
+    }
+
+    /**
+     * Initialize new API
+     * Separation from the constructor is required because in some cases the information are not yet known when
+     * the object is constructed.
+     *
+     * @param string $username
+     * @param string $password
+     * @param array $clientConfig
+     */
+    public function initialize($username, $password, array $clientConfig = [])
     {
         $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
             'headers' => [
