@@ -4,8 +4,16 @@ namespace RIPS\Connector\Requests;
 
 class LogRequests extends BaseRequest
 {
-    /** @var string */
-    protected $uri = '/logs';
+    /**
+     * Build a uri for the request
+     *
+     * @param int|null $logId
+     * @return string
+     */
+    private function uri($logId = null)
+    {
+        return is_null($logId) ? '/logs' : "/logs/{$logId}";
+    }
 
     /**
      * Get all logs
@@ -15,7 +23,7 @@ class LogRequests extends BaseRequest
      */
     public function getAll(array $queryParams = [])
     {
-        $response = $this->client->get($this->uri, [
+        $response = $this->client->get($this->uri(), [
             'query' => $queryParams,
         ]);
 
@@ -30,7 +38,7 @@ class LogRequests extends BaseRequest
      */
     public function getById($logId)
     {
-        $response = $this->client->get("{$this->uri}/$logId");
+        $response = $this->client->get($this->uri($logId));
 
         return $this->handleResponse($response);
     }
@@ -43,10 +51,23 @@ class LogRequests extends BaseRequest
      */
     public function create(array $input)
     {
-        $response = $this->client->post($this->uri, [
+        $response = $this->client->post($this->uri(), [
             'form_params' => ['log' => $input],
         ]);
 
         return $this->handleResponse($response);
+    }
+
+    /**
+     * Delete logs older than a week
+     *
+     * @param array $queryParams
+     * @return void
+     */
+    public function delete(array $queryParams = [])
+    {
+        $this->client->delete($this->uri(), [
+            'query' => $queryParams,
+        ]);
     }
 }

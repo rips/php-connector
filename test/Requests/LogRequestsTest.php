@@ -74,4 +74,25 @@ class LogRequestsTest extends TestCase
         $this->assertEquals('value', $response->key);
         $this->assertEquals('log[test]=input', $body);
     }
+
+    /**
+     * @test
+     */
+    public function delete()
+    {
+        $this->logRequests->delete([
+            'notEqual' => [
+                'name' => 'test',
+            ],
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/logs', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
+    }
 }

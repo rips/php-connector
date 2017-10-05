@@ -79,15 +79,173 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getStatsById()
+    public function getStats()
     {
-        $response = $this->scanRequests->getStatsById(1, 2);
+        $response = $this->scanRequests->getStats(1, 2);
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/stats', $request->getUri()->getPath());
         $this->assertEquals('equal[id]=2', $queryString);
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function getAllClasses()
+    {
+        $response = $this->scanRequests->getAllClasses(1, 2, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/classes', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function getClassById()
+    {
+        $response = $this->scanRequests->getClassById(1, 2, 3);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/classes/3', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function getComparison()
+    {
+        $response = $this->scanRequests->getComparison(1, 2);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/comparison', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function getAllConcats()
+    {
+        $response = $this->scanRequests->getAllConcats(1, 2, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/concats', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getConcatById()
+    {
+        $response = $this->scanRequests->getConcatById(1, 2, 3);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/concats/3', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function getAllFiles()
+    {
+        $response = $this->scanRequests->getAllFiles(1, 2, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/files', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getFileById()
+    {
+        $response = $this->scanRequests->getFileById(1, 2, 3);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/files/3', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function getAllFunctions()
+    {
+        $response = $this->scanRequests->getAllFunctions(1, 2, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/functions', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getFunctionById()
+    {
+        $response = $this->scanRequests->getFunctionById(1, 2, 3);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/functions/3', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
     }
 
@@ -101,6 +259,18 @@ class ScanRequestsTest extends TestCase
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function deleteFiles()
+    {
+        $this->scanRequests->deleteFiles(1, 2);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/files', $request->getUri()->getPath());
     }
 
     /**
@@ -132,15 +302,43 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function scan()
+    public function create()
     {
-        $this->scanRequests->scan(1, ['test' => 'input']);
+        $this->scanRequests->create(1, ['test' => 'input']);
         $request = $this->container[0]['request'];
         $body =  urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
         $this->assertEquals('scan[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function createClass()
+    {
+        $this->scanRequests->createClass(1, 2, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/classes/batches', $request->getUri()->getPath());
+        $this->assertEquals('class[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function createFunction()
+    {
+        $this->scanRequests->createFunction(1, 2, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/functions/batches', $request->getUri()->getPath());
+        $this->assertEquals('function[test]=input', $body);
     }
 
     /**

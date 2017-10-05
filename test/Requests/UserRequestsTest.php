@@ -63,6 +63,9 @@ class UserRequestsTest extends TestCase
         $this->assertEquals('value', $response->key);
     }
 
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->userRequests->update(1, ['test' => 'input']);
