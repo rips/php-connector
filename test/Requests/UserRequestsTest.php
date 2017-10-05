@@ -66,6 +66,20 @@ class UserRequestsTest extends TestCase
     /**
      * @test
      */
+    public function create()
+    {
+        $response = $this->userRequests->create(['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users', $request->getUri()->getPath());
+        $this->assertEquals('user[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->userRequests->update(1, ['test' => 'input']);
@@ -80,6 +94,39 @@ class UserRequestsTest extends TestCase
     /**
      * @test
      */
+    public function deleteAll()
+    {
+        $this->userRequests->deleteAll([
+            'notEqual' => [
+                'name' => 'test',
+            ],
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/users', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function deleteById()
+    {
+        $this->userRequests->deleteById(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/users/1', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function invite()
     {
         $response = $this->userRequests->invite(['test' => 'input']);
@@ -88,6 +135,20 @@ class UserRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/invite/ui', $request->getUri()->getPath());
+        $this->assertEquals('user[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function reset()
+    {
+        $response = $this->userRequests->reset(['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/reset/ui', $request->getUri()->getPath());
         $this->assertEquals('user[test]=input', $body);
     }
 }
