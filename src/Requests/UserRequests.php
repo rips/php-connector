@@ -4,8 +4,6 @@ namespace RIPS\Connector\Requests;
 
 class UserRequests extends BaseRequest
 {
-    /** @var string */
-    protected $uri = '/users';
     /**
      * Build a uri for the request
      *

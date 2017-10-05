@@ -53,7 +53,7 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getAllById()
+    public function getAllWithAppId()
     {
         $response = $this->scanRequests->getAll(1);
         $request = $this->container[0]['request'];
