@@ -19,7 +19,7 @@ class OrgRequests extends BaseRequest
      * Get all organisations
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -34,11 +34,42 @@ class OrgRequests extends BaseRequest
      * Get an organization by id
      *
      * @param int $orgId
-     * @return \stdClass
+     * @return stdClass
      */
     public function getById($orgId)
     {
         $response = $this->client->get($this->uri($orgId));
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Create a new organization
+     *
+     * @param array $input
+     * @return stdClass
+     */
+    public function create(array $input)
+    {
+        $response = $this->client->post($this->uri(), [
+            'form_params' => ['organisation' => $input],
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Update an existing organization
+     *
+     * @param int $orgId
+     * @param array $input
+     * @return stdClass
+     */
+    public function update($orgId, array $input)
+    {
+        $response = $this->client->patch($this->uri($orgId), [
+            'form_params' => ['organisation' => $input],
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -67,36 +98,5 @@ class OrgRequests extends BaseRequest
     public function deleteById($orgId)
     {
         $this->client->delete($this->uri($orgId));
-    }
-
-    /**
-     * Update an existing organization
-     *
-     * @param int $orgId
-     * @param array $input
-     * @return \stdClass
-     */
-    public function update($orgId, array $input)
-    {
-        $response = $this->client->patch($this->uri($orgId), [
-            'form_params' => ['organisation' => $input],
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Create a new organization
-     *
-     * @param array $input
-     * @return \stdClass
-     */
-    public function create(array $input)
-    {
-        $response = $this->client->post($this->uri(), [
-            'form_params' => ['organisation' => $input],
-        ]);
-
-        return $this->handleResponse($response);
     }
 }

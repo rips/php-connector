@@ -66,6 +66,34 @@ class OrgRequestsTest extends TestCase
     /**
      * @test
      */
+    public function create()
+    {
+        $response = $this->orgRequests->create(['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/organisations', $request->getUri()->getPath());
+        $this->assertEquals('organisation[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function update()
+    {
+        $response = $this->orgRequests->update(1, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('PATCH', $request->getMethod());
+        $this->assertEquals('/organisations/1', $request->getUri()->getPath());
+        $this->assertEquals('organisation[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
     public function deleteAll()
     {
         $this->orgRequests->deleteAll([
@@ -94,33 +122,5 @@ class OrgRequestsTest extends TestCase
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/organisations/1', $request->getUri()->getPath());
-    }
-
-    /**
-     * @test
-     */
-    public function update()
-    {
-        $response = $this->orgRequests->update(1, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body = urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/organisations/1', $request->getUri()->getPath());
-        $this->assertEquals('organisation[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function create()
-    {
-        $response = $this->orgRequests->create(['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/organisations', $request->getUri()->getPath());
-        $this->assertEquals('organisation[test]=input', $body);
     }
 }

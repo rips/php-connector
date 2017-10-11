@@ -19,7 +19,7 @@ class QuotaRequests extends BaseRequest
      * Get all quotas
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -50,7 +50,7 @@ class QuotaRequests extends BaseRequest
      * Get a quota by id
      *
      * @param int $quotaId
-     * @return \stdClass
+     * @return stdClass
      */
     public function getById($quotaId)
     {
@@ -77,7 +77,7 @@ class QuotaRequests extends BaseRequest
      * Create a new quota
      *
      * @param array $input
-     * @return \stdClass
+     * @return stdClass
      */
     public function create(array $input)
     {
@@ -109,7 +109,7 @@ class QuotaRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $input
-     * @return \stdClass
+     * @return stdClass
      */
     public function update($quotaId, array $input = [])
     {
