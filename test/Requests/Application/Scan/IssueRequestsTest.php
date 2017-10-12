@@ -144,9 +144,9 @@ class IssueRequestsTest extends TestCase
     /**
      * @test
      */
-    public function summarys()
+    public function summaries()
     {
-        $summaryRequests = $this->issueRequests->summarys();
+        $summaryRequests = $this->issueRequests->summaries();
 
         $this->assertInstanceOf(SummaryRequests::class, $summaryRequests);
     }

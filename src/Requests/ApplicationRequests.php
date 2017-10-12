@@ -19,7 +19,7 @@ class ApplicationRequests extends BaseRequest
      * Get all applications
      *
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -34,8 +34,8 @@ class ApplicationRequests extends BaseRequest
      * Get all ACLs for an application
      *
      * @param int $appId
-     * @param array queryParams
-     * @return stdClass[]
+     * @param array $queryParams
+     * @return \stdClass[]
      */
     public function getAllAcls($appId, array $queryParams = [])
     {
@@ -52,7 +52,7 @@ class ApplicationRequests extends BaseRequest
      * Get application by id
      *
      * @param int $appId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId)
     {
@@ -66,7 +66,7 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $aclId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getAclById($appId, $aclId)
     {
@@ -80,7 +80,7 @@ class ApplicationRequests extends BaseRequest
      * Create a new application
      *
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create(array $input = [])
     {
@@ -96,7 +96,7 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function createAcl($appId, array $input = [])
     {
@@ -112,7 +112,7 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function update($appId, array $input = [])
     {
@@ -129,7 +129,7 @@ class ApplicationRequests extends BaseRequest
      * @param int $appId
      * @param int $aclId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function updateAcl($appId, $aclId, array $input = [])
     {
@@ -158,7 +158,7 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return stdClass
+     * @return \stdClass
      */
     public function deleteAllAcls($appId = null, array $queryParams = [])
     {

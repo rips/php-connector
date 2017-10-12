@@ -29,7 +29,7 @@ class CommentRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return stdClass
+     * @return \stdClass
      */
     public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -47,7 +47,7 @@ class CommentRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $commentId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $scanId, $issueId, $commentId)
     {
@@ -63,7 +63,7 @@ class CommentRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create($appId, $scanId, $issueId, array $input = [])
     {
@@ -79,7 +79,7 @@ class CommentRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $issueid
+     * @param int $issueId
      * @return void
      */
     public function deleteAll($appId, $scanId, $issueId)

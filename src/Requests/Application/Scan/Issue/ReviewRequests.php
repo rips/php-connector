@@ -29,7 +29,7 @@ class ReviewRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -47,7 +47,7 @@ class ReviewRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $reviewId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $scanId, $issueId, $reviewId)
     {
@@ -63,7 +63,7 @@ class ReviewRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $input
-     * @return\stdClass
+     * @return \stdClass
      */
     public function create($appId, $scanId, $issueId, array $input = [])
     {

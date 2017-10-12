@@ -47,7 +47,7 @@ class UserRequests extends BaseRequest
      * Create a new user
      *
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create(array $input)
     {
@@ -117,7 +117,7 @@ class UserRequests extends BaseRequest
      * Request a reset e-mail
      *
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function reset(array $input)
     {

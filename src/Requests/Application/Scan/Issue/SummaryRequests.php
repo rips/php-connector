@@ -29,7 +29,7 @@ class SummaryRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -47,7 +47,7 @@ class SummaryRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $summaryId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $scanId, $issueId, $summaryId)
     {

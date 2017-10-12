@@ -19,7 +19,7 @@ class SettingsRequests extends BaseRequest
      * Get all settings
      *
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -34,7 +34,7 @@ class SettingsRequests extends BaseRequest
      * Get a setting by key
      *
      * @param string $key
-     * @return stdClass
+     * @return \stdClass
      */
     public function getByKey($key)
     {
@@ -48,7 +48,7 @@ class SettingsRequests extends BaseRequest
      *
      * @param string $key
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function createOrUpdate($key, array $input)
     {

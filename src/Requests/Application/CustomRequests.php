@@ -55,7 +55,7 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll($appId, array $queryParams = [])
     {
@@ -71,7 +71,7 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $customId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $customId)
     {
@@ -85,7 +85,7 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create($appId, $input)
     {
@@ -102,7 +102,7 @@ class CustomRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function update($appId, $customId, array $input = [])
     {

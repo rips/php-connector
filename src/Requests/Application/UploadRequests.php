@@ -6,9 +6,6 @@ use RIPS\Connector\Requests\BaseRequest;
 
 class UploadRequests extends BaseRequest
 {
-    /** @var string */
-    protected $uri = '/applications';
-
     /**
      * Build a uri for the request
      *
@@ -28,7 +25,7 @@ class UploadRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll($appId, array $queryParams = [])
     {
@@ -44,7 +41,7 @@ class UploadRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $uploadId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $uploadId)
     {

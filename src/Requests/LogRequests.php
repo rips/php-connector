@@ -19,7 +19,7 @@ class LogRequests extends BaseRequest
      * Get all logs
      *
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -34,7 +34,7 @@ class LogRequests extends BaseRequest
      * Get a log by id
      *
      * @param int $logId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($logId)
     {
@@ -47,7 +47,7 @@ class LogRequests extends BaseRequest
      * Create a new log
      *
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create(array $input)
     {

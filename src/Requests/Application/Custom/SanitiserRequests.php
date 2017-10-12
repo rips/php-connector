@@ -27,7 +27,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll($appId, $customId, array $queryParams = [])
     {
@@ -44,7 +44,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param int $sanitiserId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $customId, $sanitiserId)
     {
@@ -59,7 +59,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create($appId, $customId, array $input = [])
     {
@@ -77,7 +77,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $customId
      * @param int $sanitiserId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function update($appId, $customId, $sanitiserId, array $input = [])
     {

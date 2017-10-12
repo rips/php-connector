@@ -19,7 +19,7 @@ class OrgRequests extends BaseRequest
      * Get all organisations
      *
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -34,7 +34,7 @@ class OrgRequests extends BaseRequest
      * Get an organization by id
      *
      * @param int $orgId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($orgId)
     {
@@ -47,7 +47,7 @@ class OrgRequests extends BaseRequest
      * Create a new organization
      *
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create(array $input)
     {
@@ -63,7 +63,7 @@ class OrgRequests extends BaseRequest
      *
      * @param int $orgId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function update($orgId, array $input)
     {

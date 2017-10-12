@@ -27,7 +27,7 @@ class SourceRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll($appId, $customId, array $queryParams = [])
     {
@@ -44,7 +44,7 @@ class SourceRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param int $sourceId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $customId, $sourceId)
     {
@@ -59,7 +59,7 @@ class SourceRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create($appId, $customId, array $input = [])
     {
@@ -77,7 +77,7 @@ class SourceRequests extends BaseRequest
      * @param int $customId
      * @param int $sourceId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function update($appId, $customId, $sourceId, array $input = [])
     {

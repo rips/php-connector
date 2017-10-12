@@ -70,7 +70,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAllClasses($appId, $scanId, array $queryParams = [])
     {
@@ -87,7 +87,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $classId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getClassById($appId, $scanId, $classId)
     {
@@ -101,7 +101,7 @@ class ScanRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getComparison($appId, $scanId)
     {
@@ -116,7 +116,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAllConcats($appId, $scanId, array $queryParams = [])
     {
@@ -133,7 +133,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $concatId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getConcatById($appId, $scanId, $concatId)
     {
@@ -148,7 +148,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAllFiles($appId, $scanId, array $queryParams = [])
     {
@@ -165,7 +165,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $fileId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getFileById($appId, $scanId, $fileId)
     {
@@ -180,7 +180,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAllFunctions($appId, $scanId, array $queryParams = [])
     {
@@ -197,7 +197,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $functionId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getFunctionById($appId, $scanId, $functionId)
     {
@@ -212,7 +212,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function createFunction($appId, $scanId, array $input = [])
     {
@@ -229,7 +229,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function createClass($appId, $scanId, array $input = [])
     {
@@ -261,7 +261,7 @@ class ScanRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @return stdClass
+     * @return void
      */
     public function deleteFiles($appId, $scanId)
     {

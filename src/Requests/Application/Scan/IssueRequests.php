@@ -51,7 +51,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return stdClass
+     * @return \stdClass
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -69,7 +69,7 @@ class IssueRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -86,7 +86,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return stdClass
+     * @return \stdClass
      */
     public function getStats($appId, $scanId, array $queryParams = [])
     {
@@ -103,7 +103,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create($appId, $scanId, array $input = [])
     {
@@ -161,7 +161,7 @@ class IssueRequests extends BaseRequest
      *
      * @return SummaryRequests
      */
-    public function summarys()
+    public function summaries()
     {
         if (!isset($this->summaryRequests)) {
             $this->summaryRequests = new SummaryRequests($this->client);

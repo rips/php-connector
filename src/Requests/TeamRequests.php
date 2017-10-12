@@ -19,7 +19,7 @@ class TeamRequests extends BaseRequest
      * Get all teams
      *
      * @param array $queryParams
-     * @return stdClass[]
+     * @return \stdClass[]
      */
     public function getAll(array $queryParams = [])
     {
@@ -34,7 +34,7 @@ class TeamRequests extends BaseRequest
      * Get a team by id
      *
      * @param int $teamId
-     * @return stdClass
+     * @return \stdClass
      */
     public function getById($teamId)
     {
@@ -47,7 +47,7 @@ class TeamRequests extends BaseRequest
      * Create a new team
      *
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function create(array $input)
     {
@@ -63,7 +63,7 @@ class TeamRequests extends BaseRequest
      *
      * @param int $teamId
      * @param array $input
-     * @return stdClass
+     * @return \stdClass
      */
     public function update($teamId, array $input)
     {
