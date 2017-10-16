@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class ExportRequestsTest extends TestCase
 {
-    /** $var ExportRequests */
+    /** @var ExportRequests */
     protected $exportRequests;
 
     protected function setUp()

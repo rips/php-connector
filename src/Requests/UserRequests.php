@@ -151,6 +151,7 @@ class UserRequests extends BaseRequest
      *
      * @param int $userId
      * @param string $token
+     * @return \stdClass
      */
     public function confirm($userId, $token)
     {

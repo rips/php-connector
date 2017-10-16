@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class FunctionRequestsTest extends TestCase
 {
-    /** $var FunctionRequests */
+    /** @var FunctionRequests */
     protected $functionRequests;
 
     protected function setUp()

@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class OriginRequestsTest extends TestCase
 {
-    /** $var OriginRequests */
+    /** @var OriginRequests */
     protected $originRequests;
 
     protected function setUp()

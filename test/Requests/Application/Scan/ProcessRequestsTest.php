@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class ProcessRequestsTest extends TestCase
 {
-    /** $var ProcessRequests */
+    /** @var ProcessRequests */
     protected $processRequests;
 
     protected function setUp()

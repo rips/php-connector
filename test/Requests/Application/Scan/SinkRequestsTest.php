@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class SinkRequestsTest extends TestCase
 {
-    /** $var SinkRequests */
+    /** @var SinkRequests */
     protected $sinkRequests;
 
     protected function setUp()

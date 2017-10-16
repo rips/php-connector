@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class ConcatRequestsTest extends TestCase
 {
-    /** $var ConcatRequests */
+    /** @var ConcatRequests */
     protected $concatRequests;
 
     protected function setUp()

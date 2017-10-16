@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class TypeRequestsTest extends TestCase
 {
-    /** $var TypeRequests */
+    /** @var TypeRequests */
     protected $typeRequests;
 
     protected function setUp()

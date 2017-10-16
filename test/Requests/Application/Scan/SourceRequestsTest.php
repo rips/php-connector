@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class SourceRequestsTest extends TestCase
 {
-    /** $var SourceRequests */
+    /** @var SourceRequests */
     protected $sourceRequests;
 
     protected function setUp()

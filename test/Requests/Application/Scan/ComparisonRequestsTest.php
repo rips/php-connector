@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class ComparisonRequestsTest extends TestCase
 {
-    /** $var ComparisonRequests */
+    /** @var ComparisonRequests */
     protected $comparisonRequests;
 
     protected function setUp()
