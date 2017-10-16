@@ -126,7 +126,7 @@ class CustomRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-       $this->handleResponse($response, true);
+        $this->handleResponse($response, true);
     }
 
     /**
