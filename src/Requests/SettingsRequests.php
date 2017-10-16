@@ -67,9 +67,11 @@ class SettingsRequests extends BaseRequest
      */
     public function deleteAll(array $queryParams = [])
     {
-        $this->client->delete($this->uri(), [
+        $response = $this->client->delete($this->uri(), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -80,6 +82,8 @@ class SettingsRequests extends BaseRequest
      */
     public function deleteByKey($key)
     {
-        $this->client->delete($this->uri($key));
+        $response = $this->client->delete($this->uri($key));
+
+        $this->handleResponse($response, true);
     }
 }

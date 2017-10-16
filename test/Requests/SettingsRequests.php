@@ -6,7 +6,6 @@ use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\SettingsRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
 class SettingsRequestsTest extends TestCase

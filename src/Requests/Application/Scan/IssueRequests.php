@@ -3,6 +3,8 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use RIPS\Connector\Requests\BaseRequest;
+use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\MarkupRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\ReviewRequests;
@@ -21,6 +23,11 @@ class IssueRequests extends BaseRequest
     protected $markupRequests;
 
     /**
+     * @var OriginRequests
+     */
+    protected $originRequests;
+
+    /**
      * @var ReviewRequests
      */
     protected $reviewRequests;
@@ -29,6 +36,11 @@ class IssueRequests extends BaseRequest
      * @var SummaryRequests
      */
     protected $summaryRequests;
+
+    /**
+     * @var TypeRequests
+     */
+    protected $typeRequests;
 
     /**
      * Build a uri for the request
@@ -121,7 +133,7 @@ class IssueRequests extends BaseRequest
      */
     public function comments()
     {
-        if (!isset($this->commentRequests)) {
+        if (is_null($this->commentRequests)) {
             $this->commentRequests = new CommentRequests($this->client);
         }
 
@@ -135,11 +147,25 @@ class IssueRequests extends BaseRequest
      */
     public function markups()
     {
-        if (!isset($this->markupRequests)) {
+        if (is_null($this->markupRequests)) {
             $this->markupRequests = new MarkupRequests($this->client);
         }
 
         return $this->markupRequests;
+    }
+
+    /**
+     * Origin requests accessor
+     *
+     * @return OriginRequests
+     */
+    public function origins()
+    {
+        if (is_null($this->originRequests)) {
+            $this->originRequests = new OriginRequests($this->client);
+        }
+
+        return $this->originRequests;
     }
 
     /**
@@ -149,7 +175,7 @@ class IssueRequests extends BaseRequest
      */
     public function reviews()
     {
-        if (!isset($this->reviewRequests)) {
+        if (is_null($this->reviewRequests)) {
             $this->reviewRequests = new ReviewRequests($this->client);
         }
 
@@ -163,10 +189,24 @@ class IssueRequests extends BaseRequest
      */
     public function summaries()
     {
-        if (!isset($this->summaryRequests)) {
+        if (is_null($this->summaryRequests)) {
             $this->summaryRequests = new SummaryRequests($this->client);
         }
 
         return $this->summaryRequests;
+    }
+
+    /**
+     * Type requests accessor
+     *
+     * @return TypeRequests
+     */
+    public function types()
+    {
+        if (is_null($this->typeRequests)) {
+            $this->typeRequests = new TypeRequests($this->client);
+        }
+
+        return $this->typeRequests;
     }
 }

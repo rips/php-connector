@@ -98,9 +98,11 @@ class SinkRequests extends BaseRequest
      */
     public function deleteAll($appId, $customId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $customId), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -113,6 +115,8 @@ class SinkRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $sinkId)
     {
-        $this->client->delete($this->uri($appId, $customId, $sinkId));
+        $response = $this->client->delete($this->uri($appId, $customId, $sinkId));
+
+        $this->handleResponse($response, true);
     }
 }

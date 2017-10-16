@@ -2,10 +2,70 @@
 
 namespace RIPS\Connector\Requests\Application;
 
+use RIPS\Connector\Requests\Application\Scan\ClassRequests;
+use RIPS\Connector\Requests\Application\Scan\ComparisonRequests;
+use RIPS\Connector\Requests\Application\Scan\ConcatRequests;
+use RIPS\Connector\Requests\Application\Scan\ExportRequests;
+use RIPS\Connector\Requests\Application\Scan\FileRequests;
+use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
+use RIPS\Connector\Requests\Application\Scan\IssueRequests;
+use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
+use RIPS\Connector\Requests\Application\Scan\SinkRequests;
+use RIPS\Connector\Requests\Application\Scan\SourceRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ScanRequests extends BaseRequest
 {
+    /**
+     * @var ClassRequests
+     */
+    protected $classRequests;
+
+    /**
+     * @var ComparisonRequests
+     */
+    protected $comparisonRequests;
+
+    /**
+     * @var ConcatRequests
+     */
+    protected $concatRequests;
+
+    /**
+     * @var ExportRequests
+     */
+    protected $exportRequests;
+
+    /**
+     * @var FileRequests
+     */
+    protected $fileRequests;
+
+    /**
+     * @var FunctionRequests
+     */
+    protected $functionRequests;
+
+    /**
+     * @var IssueRequests
+     */
+    protected $issueRequests;
+
+    /**
+     * @var ProcessRequests
+     */
+    protected $processRequests;
+
+    /**
+     * @var SinkRequests
+     */
+    protected $sinkRequests;
+
+    /**
+     * @var SourceRequests
+     */
+    protected $sourceRequests;
+
     /**
      * Build the uri for the request
      *
@@ -65,221 +125,19 @@ class ScanRequests extends BaseRequest
     }
 
     /**
-     * Get classes for a scan
+     * Start a new scan
      *
      * @param int $appId
-     * @param int $scanId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getAllClasses($appId, $scanId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/classes", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get a class for a scan by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $classId
-     * @return \stdClass
-     */
-    public function getClassById($appId, $scanId, $classId)
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/classes/{$classId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get comparison for scan
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @return \stdClass
-     */
-    public function getComparison($appId, $scanId)
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/comparison");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get all concats for a scan
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getAllConcats($appId, $scanId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/concats", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get a concat for a scan by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $concatId
-     * @return \stdClass
-     */
-    public function getConcatById($appId, $scanId, $concatId)
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/concats/{$concatId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get all files for a scan
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getAllFiles($appId, $scanId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/files", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get a file for a scan by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $fileId
-     * @return \stdClass
-     */
-    public function getFileById($appId, $scanId, $fileId)
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/files/{$fileId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get functions for a scan
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getAllFunctions($appId, $scanId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/functions", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get function for scan by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $functionId
-     * @return \stdClass
-     */
-    public function getFunctionById($appId, $scanId, $functionId)
-    {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}/functions/{$functionId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Create a function for a scan
-     *
-     * @param int $appId
-     * @param int $scanId
      * @param array $input
      * @return \stdClass
      */
-    public function createFunction($appId, $scanId, array $input = [])
+    public function create($appId, array $input)
     {
-        $response = $this->client->post("{$this->uri($appId)}/{$scanId}/functions/batches", [
-            'form_params' => ['function' => $input],
+        $response = $this->client->post("{$this->uri($appId)}", [
+            'form_params' => ['scan' => $input],
         ]);
 
         return $this->handleResponse($response);
-    }
-
-    /**
-     * Create class for scan
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param array $input
-     * @return \stdClass
-     */
-    public function createClass($appId, $scanId, array $input = [])
-    {
-        $response = $this->client->post("{$this->uri($appId)}/{$scanId}/classes/batches", [
-            'form_params' => ['class' => $input],
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Delete all scans
-     *
-     * @param int $appId
-     * @param array $queryParams
-     * @return void
-     */
-    public function deleteAll($appId, array $queryParams = [])
-    {
-        $response = $this->client->delete($this->uri($appId), [
-            'query' => $queryParams,
-        ]);
-
-        $this->handleResponse($response);
-    }
-
-    /**
-     * Delete the source code of scan
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @return void
-     */
-    public function deleteFiles($appId, $scanId)
-    {
-        $this->client->delete("{$this->uri($appId)}/{$scanId}/files");
-    }
-
-    /**
-     * Delete a scan by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @return void
-     */
-    public function deleteById($appId, $scanId)
-    {
-        $response = $this->client->delete("{$this->uri($appId)}/{$scanId}");
-
-        $this->handleResponse($response);
     }
 
     /**
@@ -300,19 +158,33 @@ class ScanRequests extends BaseRequest
     }
 
     /**
-     * Start a new scan
+     * Delete all scans
      *
      * @param int $appId
-     * @param array $input
-     * @return \stdClass
+     * @param array $queryParams
+     * @return void
      */
-    public function create($appId, array $input)
+    public function deleteAll($appId, array $queryParams = [])
     {
-        $response = $this->client->post("{$this->uri($appId)}", [
-            'form_params' => ['scan' => $input],
+        $response = $this->client->delete($this->uri($appId), [
+            'query' => $queryParams,
         ]);
 
-        return $this->handleResponse($response);
+        $this->handleResponse($response, true);
+    }
+
+    /**
+     * Delete a scan by id
+     *
+     * @param int $appId
+     * @param int $scanId
+     * @return void
+     */
+    public function deleteById($appId, $scanId)
+    {
+        $response = $this->client->delete("{$this->uri($appId)}/{$scanId}");
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -342,5 +214,145 @@ class ScanRequests extends BaseRequest
 
             sleep($sleepTime);
         }
+    }
+
+    /**
+     * Class requests accessor
+     *
+     * @return ClassRequests
+     */
+    public function classes()
+    {
+        if (is_null($this->classRequests)) {
+            $this->classRequests = new ClassRequests($this->client);
+        }
+
+        return $this->classRequests;
+    }
+
+    /**
+     * Comparison requests accessor
+     *
+     * @return ComparisonRequests
+     */
+    public function comparisons()
+    {
+        if (is_null($this->comparisonRequests)) {
+            $this->comparisonRequests = new ComparisonRequests($this->client);
+        }
+
+        return $this->comparisonRequests;
+    }
+
+    /**
+     * Concat requests accessor
+     *
+     * @return ConcatRequests
+     */
+    public function concats()
+    {
+        if (is_null($this->concatRequests)) {
+            $this->concatRequests = new ConcatRequests($this->client);
+        }
+
+        return $this->concatRequests;
+    }
+
+    /**
+     * Export requests accessor
+     *
+     * @return ExportRequests
+     */
+    public function exports()
+    {
+        if (is_null($this->exportRequests)) {
+            $this->exportRequests = new ExportRequests($this->client);
+        }
+
+        return $this->exportRequests;
+    }
+
+    /**
+     * File requests accessor
+     *
+     * @return FileRequests
+     */
+    public function files()
+    {
+        if (is_null($this->fileRequests)) {
+            $this->fileRequests = new FileRequests($this->client);
+        }
+
+        return $this->fileRequests;
+    }
+
+    /**
+     * Function requests accessor
+     *
+     * @return FunctionRequests
+     */
+    public function functions()
+    {
+        if (is_null($this->functionRequests)) {
+            $this->functionRequests = new FunctionRequests($this->client);
+        }
+
+        return $this->functionRequests;
+    }
+
+    /**
+     * Issue requests accessor
+     *
+     * @return IssueRequests
+     */
+    public function issues()
+    {
+        if (is_null($this->issueRequests)) {
+            $this->issueRequests = new IssueRequests($this->client);
+        }
+
+        return $this->issueRequests;
+    }
+
+    /**
+     * Process requests accessor
+     *
+     * @return ProcessRequests
+     */
+    public function processes()
+    {
+        if (is_null($this->processRequests)) {
+            $this->processRequests = new ProcessRequests($this->client);
+        }
+
+        return $this->processRequests;
+    }
+
+    /**
+     * Sink requests accessor
+     *
+     * @return SinkRequests
+     */
+    public function sinks()
+    {
+        if (is_null($this->sinkRequests)) {
+            $this->sinkRequests = new SinkRequests($this->client);
+        }
+
+        return $this->sinkRequests;
+    }
+
+    /**
+     * Source requests accessor
+     *
+     * @return SourceRequests
+     */
+    public function sources()
+    {
+        if (is_null($this->sourceRequests)) {
+            $this->sourceRequests = new SourceRequests($this->client);
+        }
+
+        return $this->sourceRequests;
     }
 }

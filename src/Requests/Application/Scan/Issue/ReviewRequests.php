@@ -2,10 +2,16 @@
 
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
+use RIPS\Connector\Requests\Application\Scan\Issue\Review\TypeRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ReviewRequests extends BaseRequest
 {
+    /**
+     * @var TypeRequests
+     */
+    protected $typeRequests;
+
     /**
      * Build a uri for the request
      *
@@ -72,5 +78,19 @@ class ReviewRequests extends BaseRequest
         ]);
 
         return $this->handleResponse($response);
+    }
+
+    /**
+     * Type requests accessor
+     *
+     * @return TypeRequests
+     */
+    public function types()
+    {
+        if (is_null($this->typeRequests)) {
+            $this->typeRequests = new TypeRequests($this->client);
+        }
+
+        return $this->typeRequests;
     }
 }

@@ -4,13 +4,14 @@ namespace RIPS\Connector\Requests;
 
 class OrgRequests extends BaseRequest
 {
+
     /**
-     * Build a uri for the request
+     * Build a URI for the request
      *
      * @param int $orgId
      * @return string
      */
-    private function uri($orgId = null)
+    protected function uri($orgId = null)
     {
         return is_null($orgId) ? '/organisations' : "/organisations/{$orgId}";
     }
@@ -31,7 +32,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Get an organization by id
+     * Get an organisation by id
      *
      * @param int $orgId
      * @return \stdClass
@@ -44,7 +45,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Create a new organization
+     * Create a new organisation
      *
      * @param array $input
      * @return \stdClass
@@ -59,7 +60,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Update an existing organization
+     * Update an existing organisation
      *
      * @param int $orgId
      * @param array $input
@@ -86,17 +87,19 @@ class OrgRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response);
+        $this->handleResponse($response, true);
     }
 
     /**
-     * Delete an organization by id
+     * Delete an organisation by id
      *
      * @param int $orgId
      * @return void
      */
     public function deleteById($orgId)
     {
-        $this->client->delete($this->uri($orgId));
+        $response = $this->client->delete($this->uri($orgId));
+
+        $this->handleResponse($response, true);
     }
 }

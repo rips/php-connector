@@ -98,9 +98,11 @@ class SanitiserRequests extends BaseRequest
      */
     public function deleteAll($appId, $customId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $customId), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -113,6 +115,8 @@ class SanitiserRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $sanitiserId)
     {
-        $this->client->delete($this->uri($appId, $customId, $sanitiserId));
+        $response = $this->client->delete($this->uri($appId, $customId, $sanitiserId));
+
+        $this->handleResponse($response, true);
     }
 }

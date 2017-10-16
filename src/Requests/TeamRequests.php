@@ -82,9 +82,11 @@ class TeamRequests extends BaseRequest
      */
     public function deleteAll(array $queryParams = [])
     {
-        $this->client->delete($this->uri(), [
+        $response = $this->client->delete($this->uri(), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -95,6 +97,8 @@ class TeamRequests extends BaseRequest
      */
     public function deleteById($teamId)
     {
-        $this->client->delete($this->uri($teamId));
+        $response = $this->client->delete($this->uri($teamId));
+
+        $this->handleResponse($response, true);
     }
 }

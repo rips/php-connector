@@ -82,9 +82,11 @@ class UserRequests extends BaseRequest
      */
     public function deleteAll(array $queryParams = [])
     {
-        $this->client->delete($this->uri(), [
+        $response = $this->client->delete($this->uri(), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -95,14 +97,16 @@ class UserRequests extends BaseRequest
      */
     public function deleteById($userId)
     {
-        $this->client->delete($this->uri($userId));
+        $response = $this->client->delete($this->uri($userId));
+
+        $this->handleResponse($response, true);
     }
 
     /**
      * Invite a new user
      *
      * @param array $input
-     * @return \stdClass
+     * @return void
      */
     public function invite(array $input)
     {
@@ -110,20 +114,61 @@ class UserRequests extends BaseRequest
             'form_params' => ['user' => $input],
         ]);
 
-        return $this->handleResponse($response);
+        $this->handleResponse($response, true);
     }
 
     /**
      * Request a reset e-mail
      *
      * @param array $input
-     * @return \stdClass
+     * @return void
      */
     public function reset(array $input)
     {
         $response = $this->client->post("{$this->uri()}/reset/ui", [
             'form_params' => ['user' => $input],
         ]);
+
+        $this->handleResponse($response, true);
+    }
+
+    /**
+     * Active user account
+     *
+     * @param int $userId
+     * @param string $token
+     * @return \stdClass
+     */
+    public function activate($userId, $token)
+    {
+        $response = $this->client->post("{$this->uri($userId)}/activate/{$token}");
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Confirm email update for user account
+     *
+     * @param int $userId
+     * @param string $token
+     */
+    public function confirm($userId, $token)
+    {
+        $response = $this->client->post("{$this->uri($userId)}/confirm/{$token}");
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Reset user account
+     *
+     * @param int $userId
+     * @param string $token
+     * @return \stdClass
+     */
+    public function confirmReset($userId, $token)
+    {
+        $response = $this->client->post("{$this->uri($userId)}/reset/{$token}");
 
         return $this->handleResponse($response);
     }

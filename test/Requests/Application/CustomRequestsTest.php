@@ -15,7 +15,7 @@ use GuzzleHttp\Middleware;
 
 class CustomRequestsTest extends TestCase
 {
-    /** @var ScanRequests */
+    /** @var CustomRequests */
     protected $customRequests;
 
     protected function setUp()
@@ -133,7 +133,7 @@ class CustomRequestsTest extends TestCase
     /**
      * @test
      */
-    public function ingores()
+    public function ignores()
     {
         $ignoreRequests = $this->customRequests->ignores();
 

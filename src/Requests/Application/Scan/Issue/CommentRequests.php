@@ -31,9 +31,12 @@ class CommentRequests extends BaseRequest
      * @param array $queryParams
      * @return \stdClass
      */
-    public function getAll($appId, $scanId, $issueId, array $queryParams = [])
+    public function getAll($appId = null, $scanId = null, $issueId = null, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $issueId), [
+        $uri = is_null($appId)
+            ? "/applications/scans/issues/comments/all"
+            : $this->uri($appId, $scanId, $issueId);
+        $response = $this->client->get($uri, [
             'query' => $queryParams,
         ]);
 
@@ -84,7 +87,9 @@ class CommentRequests extends BaseRequest
      */
     public function deleteAll($appId, $scanId, $issueId)
     {
-        $this->client->delete($this->uri($appId, $scanId, $issueId));
+        $response = $this->client->delete($this->uri($appId, $scanId, $issueId));
+
+        $this->handleResponse($response, null);
     }
 
     /**
@@ -98,6 +103,8 @@ class CommentRequests extends BaseRequest
      */
     public function deleteById($appId, $scanId, $issueId, $commentId)
     {
-        $this->client->delete($this->uri($appId, $scanId, $issueId, $commentId));
+        $response = $this->client->delete($this->uri($appId, $scanId, $issueId, $commentId));
+
+        $this->handleResponse($response, null);
     }
 }

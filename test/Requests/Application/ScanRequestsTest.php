@@ -2,8 +2,18 @@
 
 namespace RIPS\Test\Requests\Application;
 
-use RIPS\Test\TestCase;
+use RIPS\Connector\Requests\Application\Scan\ClassRequests;
+use RIPS\Connector\Requests\Application\Scan\ComparisonRequests;
+use RIPS\Connector\Requests\Application\Scan\ConcatRequests;
+use RIPS\Connector\Requests\Application\Scan\ExportRequests;
+use RIPS\Connector\Requests\Application\Scan\FileRequests;
+use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
+use RIPS\Connector\Requests\Application\Scan\IssueRequests;
+use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
+use RIPS\Connector\Requests\Application\Scan\SinkRequests;
+use RIPS\Connector\Requests\Application\Scan\SourceRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
+use RIPS\Test\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
@@ -94,195 +104,15 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getAllClasses()
+    public function create()
     {
-        $response = $this->scanRequests->getAllClasses(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
+        $this->scanRequests->create(1, ['test' => 'input']);
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
+        $body =  urldecode($request->getBody()->getContents());
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/classes', $request->getUri()->getPath());
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getClassById()
-    {
-        $response = $this->scanRequests->getClassById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/classes/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getComparison()
-    {
-        $response = $this->scanRequests->getComparison(1, 2);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/comparison', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getAllConcats()
-    {
-        $response = $this->scanRequests->getAllConcats(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/concats', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function getConcatById()
-    {
-        $response = $this->scanRequests->getConcatById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/concats/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getAllFiles()
-    {
-        $response = $this->scanRequests->getAllFiles(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/files', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function getFileById()
-    {
-        $response = $this->scanRequests->getFileById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/files/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getAllFunctions()
-    {
-        $response = $this->scanRequests->getAllFunctions(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/functions', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function getFunctionById()
-    {
-        $response = $this->scanRequests->getFunctionById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/functions/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function deleteAll()
-    {
-        $this->scanRequests->deleteAll(1);
-        $request = $this->container[0]['request'];
-
-        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
-    }
-
-    /**
-     * @test
-     */
-    public function deleteFiles()
-    {
-        $this->scanRequests->deleteFiles(1, 2);
-        $request = $this->container[0]['request'];
-
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/files', $request->getUri()->getPath());
-    }
-
-    /**
-     * @test
-     */
-    public function deleteById()
-    {
-        $this->scanRequests->deleteById(1, 2);
-        $request = $this->container[0]['request'];
-
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
+        $this->assertEquals('scan[test]=input', $body);
     }
 
     /**
@@ -302,43 +132,25 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function create()
+    public function deleteAll()
     {
-        $this->scanRequests->create(1, ['test' => 'input']);
+        $this->scanRequests->deleteAll(1);
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
 
-        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
-        $this->assertEquals('scan[test]=input', $body);
     }
 
     /**
      * @test
      */
-    public function createClass()
+    public function deleteById()
     {
-        $this->scanRequests->createClass(1, 2, ['test' => 'input']);
+        $this->scanRequests->deleteById(1, 2);
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
 
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/classes/batches', $request->getUri()->getPath());
-        $this->assertEquals('class[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function createFunction()
-    {
-        $this->scanRequests->createFunction(1, 2, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/functions/batches', $request->getUri()->getPath());
-        $this->assertEquals('function[test]=input', $body);
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
     }
 
     /**
@@ -353,12 +165,112 @@ class ScanRequestsTest extends TestCase
 
         $stopwatch = new Stopwatch();
         $stopwatch->start('blockUntilDone');
-        $response = $this->scanRequests->blockUntilDone(1, 1, 0, 2);
+        $this->scanRequests->blockUntilDone(1, 1, 0, 2);
         $duration = floor($stopwatch->stop('blockUntilDone')->getDuration() / 1000);
 
         $this->assertEquals(2, $duration);
         $this->assertEquals(2, count($this->container));
         $this->assertEquals('/applications/1/scans/1', $this->container[0]['request']->getUri()->getPath());
         $this->assertEquals('/applications/1/scans/1', $this->container[1]['request']->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function classes()
+    {
+        $classRequests = $this->scanRequests->classes();
+
+        $this->assertInstanceOf(ClassRequests::class, $classRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function comparisons()
+    {
+        $comparisonRequests = $this->scanRequests->comparisons();
+
+        $this->assertInstanceOf(ComparisonRequests::class, $comparisonRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function concats()
+    {
+        $concatRequests = $this->scanRequests->concats();
+
+        $this->assertInstanceOf(ConcatRequests::class, $concatRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function exports()
+    {
+        $exportRequests = $this->scanRequests->exports();
+
+        $this->assertInstanceOf(ExportRequests::class, $exportRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function files()
+    {
+        $fileRequests = $this->scanRequests->files();
+
+        $this->assertInstanceOf(FileRequests::class, $fileRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function functions()
+    {
+        $functionRequests = $this->scanRequests->functions();
+
+        $this->assertInstanceOf(FunctionRequests::class, $functionRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function issues()
+    {
+        $issueRequests = $this->scanRequests->issues();
+
+        $this->assertInstanceOf(IssueRequests::class, $issueRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function processes()
+    {
+        $processRequests = $this->scanRequests->processes();
+
+        $this->assertInstanceOf(ProcessRequests::class, $processRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function sinks()
+    {
+        $sinkRequests = $this->scanRequests->sinks();
+
+        $this->assertInstanceOf(SinkRequests::class, $sinkRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function sources()
+    {
+        $sourceRequests = $this->scanRequests->sources();
+
+        $this->assertInstanceOf(SourceRequests::class, $sourceRequests);
     }
 }

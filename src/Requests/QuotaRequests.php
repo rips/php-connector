@@ -2,8 +2,15 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Requests\Quota\AclRequests;
+
 class QuotaRequests extends BaseRequest
 {
+    /**
+     * @var Quota\AclRequests
+     */
+    protected $aclRequests;
+
     /**
      * Build a uri for the request
      *
@@ -31,22 +38,6 @@ class QuotaRequests extends BaseRequest
     }
 
     /**
-     * Get all acls for a quota
-     *
-     * @param int $quotaId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getAllAcls($quotaId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($quotaId)}/acls", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
      * Get a quota by id
      *
      * @param int $quotaId
@@ -55,20 +46,6 @@ class QuotaRequests extends BaseRequest
     public function getById($quotaId)
     {
         $response = $this->client->get($this->uri($quotaId));
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get acl for quota by id
-     *
-     * @param int $quotaId
-     * @param int $aclId
-     * @return \stdClass
-     */
-    public function getAclById($quotaId, $aclId)
-    {
-        $response = $this->client->get("{$this->uri($quotaId)}/acls/{$aclId}");
 
         return $this->handleResponse($response);
     }
@@ -83,22 +60,6 @@ class QuotaRequests extends BaseRequest
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['quota' => $input],
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Create a new acl for a quota
-     *
-     * @param int $quotaId
-     * @param array $input
-     * @return \stdClass
-     */
-    public function createAcl($quotaId, array $input = [])
-    {
-        $response = $this->client->post("{$this->uri($quotaId)}/acls", [
-            'form_params' => ['acl' => $input],
         ]);
 
         return $this->handleResponse($response);
@@ -121,23 +82,6 @@ class QuotaRequests extends BaseRequest
     }
 
     /**
-     * Update existing acl for a quota
-     *
-     * @param int $quotaId
-     * @param int $aclId
-     * @param array $input
-     * @return \stdClass
-     */
-    public function updateAcl($quotaId, $aclId, array $input = [])
-    {
-        $response = $this->client->patch("{$this->uri($quotaId)}/acls/{$aclId}", [
-            'form_params' => ['acl' => $input],
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
      * Delete all quotas
      *
      * @param array $queryParams
@@ -145,23 +89,11 @@ class QuotaRequests extends BaseRequest
      */
     public function deleteAll(array $queryParams = [])
     {
-        $this->client->delete($this->uri(), [
+        $response = $this->client->delete($this->uri(), [
             'query' => $queryParams,
         ]);
-    }
 
-    /**
-     * Delete all Acls for a quota
-     *
-     * @param int $quotaId
-     * @param array $queryParams
-     * @return void
-     */
-    public function deleteAllAcls($quotaId, array $queryParams = [])
-    {
-        $this->client->delete("{$this->uri($quotaId)}/acls", [
-            'query' => $queryParams,
-        ]);
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -172,18 +104,22 @@ class QuotaRequests extends BaseRequest
      */
     public function deleteById($quotaId)
     {
-        $this->client->delete($this->uri($quotaId));
+        $response = $this->client->delete($this->uri($quotaId));
+
+        $this->handleResponse($response, true);
     }
 
     /**
-     * Delete an Acl for a quota by id
+     * ACL requests accessor
      *
-     * @param int $quotaId
-     * @param int $aclId
-     * @return void
+     * @return Quota\AclRequests
      */
-    public function deleteAclById($quotaId, $aclId)
+    public function acls()
     {
-        $this->client->delete("{$this->uri($quotaId)}/acls/{$aclId}");
+        if (is_null($this->aclRequests)) {
+            $this->aclRequests = new AclRequests($this->client);
+        }
+
+        return $this->aclRequests;
     }
 }

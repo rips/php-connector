@@ -6,7 +6,6 @@ use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\LogRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
 class LogRequestsTest extends TestCase

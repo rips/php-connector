@@ -1,17 +1,17 @@
 <?php
 
-namespace RIPS\Test\Requests\Application\Export;
+namespace RIPS\Test\Requests;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\Scan\Export\PdfRequests;
+use RIPS\Connector\Requests\SourceRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class PdfRequestsTest extends TestCase
+class SourceRequestsTest extends TestCase
 {
-    /** @var PdfRequests */
-    protected $pdfRequests;
+    /** @var SourceRequests */
+    protected $sourceRequests;
 
     protected function setUp()
     {
@@ -21,18 +21,18 @@ class PdfRequestsTest extends TestCase
 
         $this->stack->push($history);
         $this->stack->setHandler(new MockHandler([
-            new Response(200, ['x-header' => 'header-content'], 'raw value'),
+            new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->pdfRequests = new PdfRequests($this->client);
+        $this->sourceRequests = new SourceRequests($this->client);
     }
 
     /**
      * @test
      */
-    public function getById()
+    public function getAll()
     {
-        $response = $this->pdfRequests->getById(1, 2, [
+        $response = $this->sourceRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -44,8 +44,8 @@ class PdfRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('raw value', $response);
-        $this->assertEquals('/applications/1/scans/2/exports/pdfs', $request->getUri()->getPath());
+        $this->assertEquals('/sources', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 }

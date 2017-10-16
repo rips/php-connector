@@ -98,9 +98,11 @@ class SourceRequests extends BaseRequest
      */
     public function deleteAll($appId, $customId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $customId), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -113,6 +115,8 @@ class SourceRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $sourceId)
     {
-        $this->client->delete($this->uri($appId, $customId, $sourceId));
+        $response = $this->client->delete($this->uri($appId, $customId, $sourceId));
+
+        $this->handleResponse($response, true);
     }
 }

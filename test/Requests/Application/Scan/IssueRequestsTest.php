@@ -2,6 +2,8 @@
 
 namespace RIPS\Test\Requests\Application\Scan;
 
+use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
 use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
@@ -134,6 +136,16 @@ class IssueRequestsTest extends TestCase
     /**
      * @test
      */
+    public function origins()
+    {
+        $originRequests = $this->issueRequests->origins();
+
+        $this->assertInstanceOf(OriginRequests::class, $originRequests);
+    }
+
+    /**
+     * @test
+     */
     public function reviews()
     {
         $reviewRequests = $this->issueRequests->reviews();
@@ -149,5 +161,15 @@ class IssueRequestsTest extends TestCase
         $summaryRequests = $this->issueRequests->summaries();
 
         $this->assertInstanceOf(SummaryRequests::class, $summaryRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function types()
+    {
+        $typeRequests = $this->issueRequests->types();
+
+        $this->assertInstanceOf(TypeRequests::class, $typeRequests);
     }
 }

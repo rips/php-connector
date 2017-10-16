@@ -82,9 +82,11 @@ class UploadRequests extends BaseRequest
      */
     public function deleteAll($appId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($appId), [
+        $response = $this->client->delete($this->uri($appId), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -96,6 +98,8 @@ class UploadRequests extends BaseRequest
      */
     public function deleteById($appId, $uploadId)
     {
-        $this->client->delete($this->uri($appId, $uploadId));
+        $response = $this->client->delete($this->uri($appId, $uploadId));
+
+        $this->handleResponse($response, true);
     }
 }

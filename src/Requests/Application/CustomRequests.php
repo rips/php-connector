@@ -45,7 +45,7 @@ class CustomRequests extends BaseRequest
      */
     protected function uri($appId, $customId = null)
     {
-        return !isset($customId)
+        return is_null($customId)
             ? "/applications/{$appId}/customs"
             : "/applications/{$appId}/customs/{$customId}";
     }
@@ -122,9 +122,11 @@ class CustomRequests extends BaseRequest
      */
     public function deleteAll($appId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($appId), [
+        $response = $this->client->delete($this->uri($appId), [
             'query' => $queryParams,
         ]);
+
+       $this->handleResponse($response, true);
     }
 
     /**
@@ -136,7 +138,9 @@ class CustomRequests extends BaseRequest
      */
     public function deleteById($appId, $customId)
     {
-        $this->client->delete($this->uri($appId, $customId));
+        $response = $this->client->delete($this->uri($appId, $customId));
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -146,7 +150,7 @@ class CustomRequests extends BaseRequest
      */
     public function ignores()
     {
-        if (!isset($this->ignoreRequests)) {
+        if (is_null($this->ignoreRequests)) {
             $this->ignoreRequests = new IgnoreRequests($this->client);
         }
 
@@ -160,7 +164,7 @@ class CustomRequests extends BaseRequest
      */
     public function sanitisers()
     {
-        if (!isset($this->sanitiserRequests)) {
+        if (is_null($this->sanitiserRequests)) {
             $this->sanitiserRequests = new SanitiserRequests($this->client);
         }
 
@@ -174,7 +178,7 @@ class CustomRequests extends BaseRequest
      */
     public function sinks()
     {
-        if (!isset($this->sinkRequests)) {
+        if (is_null($this->sinkRequests)) {
             $this->sinkRequests = new SinkRequests($this->client);
         }
 
@@ -188,7 +192,7 @@ class CustomRequests extends BaseRequest
      */
     public function sources()
     {
-        if (!isset($this->sourceRequests)) {
+        if (is_null($this->sourceRequests)) {
             $this->sourceRequests = new SourceRequests($this->client);
         }
 
@@ -202,7 +206,7 @@ class CustomRequests extends BaseRequest
      */
     public function validators()
     {
-        if (!isset($this->validatorRequests)) {
+        if (is_null($this->validatorRequests)) {
             $this->validatorRequests = new ValidatorRequests($this->client);
         }
 

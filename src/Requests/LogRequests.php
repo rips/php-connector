@@ -66,8 +66,10 @@ class LogRequests extends BaseRequest
      */
     public function delete(array $queryParams = [])
     {
-        $this->client->delete($this->uri(), [
+        $response = $this->client->delete($this->uri(), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 }

@@ -2,8 +2,33 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Requests\Application\AclRequests;
+use RIPS\Connector\Requests\Application\CustomRequests;
+use RIPS\Connector\Requests\Application\ScanRequests;
+use RIPS\Connector\Requests\Application\UploadRequests;
+
 class ApplicationRequests extends BaseRequest
 {
+    /**
+     * @var Application\AclRequests
+     */
+    protected $aclRequests;
+
+    /**
+     * @var CustomRequests
+     */
+    protected $customRequests;
+
+    /**
+     * @var ScanRequests
+     */
+    protected $scanRequests;
+
+    /**
+     * @var UploadRequests
+     */
+    protected $uploadRequests;
+
     /**
      * Build a uri for the request
      *
@@ -31,24 +56,6 @@ class ApplicationRequests extends BaseRequest
     }
 
     /**
-     * Get all ACLs for an application
-     *
-     * @param int $appId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getAllAcls($appId, array $queryParams = [])
-    {
-        $uri = is_null($appId) ? "{$this->uri()}/acls/own" : "{$this->uri($appId)}/acls";
-
-        $response = $this->client->get($uri, [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
      * Get application by id
      *
      * @param int $appId
@@ -62,21 +69,6 @@ class ApplicationRequests extends BaseRequest
     }
 
     /**
-     * Get ACL for application by id
-     *
-     * @param int $appId
-     * @param int $aclId
-     * @return \stdClass
-     */
-    public function getAclById($appId, $aclId)
-    {
-        $response = $this->client->get("{$this->uri($appId)}/acls/{$aclId}");
-
-        return $this->handleResponse($response);
-    }
-
-
-    /**
      * Create a new application
      *
      * @param array $input
@@ -86,22 +78,6 @@ class ApplicationRequests extends BaseRequest
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['application' => $input],
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Create a new ACL for an application
-     *
-     * @param int $appId
-     * @param array $input
-     * @return \stdClass
-     */
-    public function createAcl($appId, array $input = [])
-    {
-        $response = $this->client->post("{$this->uri($appId)}/acls", [
-            'form_params' => ['acl' => $input],
         ]);
 
         return $this->handleResponse($response);
@@ -124,23 +100,6 @@ class ApplicationRequests extends BaseRequest
     }
 
     /**
-     * Update ACL for app by id
-     *
-     * @param int $appId
-     * @param int $aclId
-     * @param array $input
-     * @return \stdClass
-     */
-    public function updateAcl($appId, $aclId, array $input = [])
-    {
-        $response = $this->client->patch("{$this->uri($appId)}/acls/{$aclId}", [
-            'form_params' => ['acl' => $input],
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
      * Delete all applications for current user
      *
      * @param array $queryParams
@@ -148,23 +107,11 @@ class ApplicationRequests extends BaseRequest
      */
     public function deleteAll(array $queryParams = [])
     {
-        $this->client->delete($this->uri(), [
+        $response = $this->client->delete($this->uri(), [
             'query' => $queryParams,
         ]);
-    }
 
-    /**
-     * Delete all Acls for current user of application
-     *
-     * @param int $appId
-     * @param array $queryParams
-     * @return \stdClass
-     */
-    public function deleteAllAcls($appId = null, array $queryParams = [])
-    {
-        $this->client->delete("{$this->uri($appId)}/acls", [
-            'query' => $queryParams,
-        ]);
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -175,18 +122,64 @@ class ApplicationRequests extends BaseRequest
      */
     public function deleteById($appId)
     {
-        $this->client->delete($this->uri($appId));
+        $response = $this->client->delete($this->uri($appId));
+
+        $this->handleResponse($response, true);
     }
 
     /**
-     * Delete ACL for application by id
+     * ACL requests accessor
      *
-     * @param int $appId
-     * @param int $aclId
-     * @return void
+     * @return Application\AclRequests
      */
-    public function deleteAclById($appId, $aclId)
+    public function acls()
     {
-        $this->client->delete("{$this->uri($appId)}/acls/{$aclId}");
+        if (is_null($this->aclRequests)) {
+            $this->aclRequests = new AclRequests($this->client);
+        }
+
+        return $this->aclRequests;
+    }
+
+    /**
+     * Custom requests accessor
+     *
+     * @return CustomRequests
+     */
+    public function customs()
+    {
+        if (is_null($this->customRequests)) {
+            $this->customRequests = new CustomRequests($this->client);
+        }
+
+        return $this->customRequests;
+    }
+
+    /**
+     * Scan requests accessor
+     *
+     * @return ScanRequests
+     */
+    public function scans()
+    {
+        if (is_null($this->scanRequests)) {
+            $this->scanRequests = new ScanRequests($this->client);
+        }
+
+        return $this->scanRequests;
+    }
+
+    /**
+     * Upload requests accessor
+     *
+     * @return UploadRequests
+     */
+    public function uploads()
+    {
+        if (is_null($this->uploadRequests)) {
+            $this->uploadRequests = new UploadRequests($this->client);
+        }
+
+        return $this->uploadRequests;
     }
 }

@@ -98,9 +98,11 @@ class ValidatorRequests extends BaseRequest
      */
     public function deleteAll($appId, $customId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $customId), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, true);
     }
 
     /**
@@ -113,6 +115,8 @@ class ValidatorRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $validatorId)
     {
-        $this->client->delete($this->uri($appId, $customId, $validatorId));
+        $response = $this->client->delete($this->uri($appId, $customId, $validatorId));
+
+        $this->handleResponse($response, true);
     }
 }

@@ -6,7 +6,6 @@ use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\UserRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
 class UserRequestsTest extends TestCase
@@ -150,5 +149,43 @@ class UserRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/reset/ui', $request->getUri()->getPath());
         $this->assertEquals('user[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function activate()
+    {
+        $response = $this->userRequests->activate(1, 'token');
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/1/activate/token', $request->getUri()->getPath());
+    }
+    /**
+     * @test
+     */
+    public function confirm()
+    {
+        $response = $this->userRequests->confirm(1, 'token');
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/1/confirm/token', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function confirmReset()
+    {
+        $response = $this->userRequests->confirmReset(1, 'token');
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/1/reset/token', $request->getUri()->getPath());
     }
 }

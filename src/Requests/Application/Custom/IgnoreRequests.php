@@ -98,9 +98,11 @@ class IgnoreRequests extends BaseRequest
      */
     public function deleteAll($appId, $customId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $customId), [
             'query' => $queryParams,
         ]);
+
+        $this->handleResponse($response, null);
     }
 
     /**
@@ -113,6 +115,8 @@ class IgnoreRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $ignoreId)
     {
-        $this->client->delete($this->uri($appId, $customId, $ignoreId));
+        $response = $this->client->delete($this->uri($appId, $customId, $ignoreId));
+
+        $this->handleResponse($response, null);
     }
 }
