@@ -83,11 +83,14 @@ class CommentRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $issueId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteAll($appId, $scanId, $issueId)
+    public function deleteAll($appId, $scanId, $issueId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $scanId, $issueId));
+        $response = $this->client->delete($this->uri($appId, $scanId, $issueId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, null);
     }
