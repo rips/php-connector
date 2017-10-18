@@ -55,16 +55,16 @@ class UploadRequests extends BaseRequest
      *
      * @param int $appId
      * @param string $filename
-     * @param $contents
+     * @param string $filepath
      * @return \stdClass
      */
-    public function create($appId, $filename, $contents)
+    public function create($appId, $filename, $filepath)
     {
         $response = $this->client->post($this->uri($appId), [
             'multipart' => [
                 [
                     'name' => 'upload[file]',
-                    'contents' => $contents,
+                    'contents' => fopen($filepath, 'r'),
                     'filename' => $filename,
                 ],
             ],
