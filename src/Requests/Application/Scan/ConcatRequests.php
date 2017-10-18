@@ -17,8 +17,8 @@ class ConcatRequests extends BaseRequest
     protected function uri($appId, $scanId, $concatId = null)
     {
         return is_null($concatId)
-            ? "/applications/{$appId}/scans/{$scanId}/concat"
-            : "/applications/{$appId}/scans/{$scanId}/concat/{$concatId}";
+            ? "/applications/{$appId}/scans/{$scanId}/concats"
+            : "/applications/{$appId}/scans/{$scanId}/concats/{$concatId}";
     }
 
     /**

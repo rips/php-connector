@@ -24,6 +24,45 @@ class ExportRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->issueRequests = new ExportRequests($this->client);
+        $this->exportRequests = new ExportRequests($this->client);
+    }
+
+    /**
+     * @test
+     */
+    public function exportCsv()
+    {
+        $response = $this->exportRequests->exportCsv(1, 2, 'file');
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/exports/csvs', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function exportJiraCsv()
+    {
+        $response = $this->exportRequests->exportJiraCsv(1, 2, 'file');
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/exports/jiracsvs', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function exportPdf()
+    {
+        $response = $this->exportRequests->exportPdf(1, 2, 'file');
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/exports/pdfs', $request->getUri()->getPath());
     }
 }

@@ -44,7 +44,7 @@ class ExportRequests extends BaseRequest
      * @param string $outFile - File path that CSV contents will be stored to
      * @return void
      */
-    public function exportJiraCvs($appId, $scanId, $outFile)
+    public function exportJiraCsv($appId, $scanId, $outFile)
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'jiracsvs'), [
             'sink' => "{$outFile}.jira.csv",

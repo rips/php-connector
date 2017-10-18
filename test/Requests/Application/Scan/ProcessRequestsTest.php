@@ -26,4 +26,67 @@ class ProcessRequestsTest extends TestCase
 
         $this->processRequests = new ProcessRequests($this->client);
     }
+
+    /**
+     * @test
+     */
+    public function getAll()
+    {
+        $response = $this->processRequests->getAll(1, 2, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/processes', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getById()
+    {
+        $response = $this->processRequests->getById(1, 2, 3);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/processes/3', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function create()
+    {
+        $response = $this->processRequests->create(1, 2, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/processes', $request->getUri()->getPath());
+        $this->assertEquals('process[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function update()
+    {
+        $response = $this->processRequests->update(1, 2, 3, ['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('PATCH', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/processes/3', $request->getUri()->getPath());
+        $this->assertEquals('process[test]=input', $body);
+    }
 }
