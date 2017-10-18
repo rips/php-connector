@@ -67,11 +67,16 @@ class UploadRequestsTest extends TestCase
      */
     public function create()
     {
-        $this->uploadRequests->create(1, 'test.zip', '<?php return 123;');
+        $file = __DIR__ . '/file.txt';
+        touch($file);
+        
+        $this->uploadRequests->create(1, 'filename', $file);
         $request = $this->container[0]['request'];
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/uploads', $request->getUri()->getPath());
+
+        unlink($file);
     }
 
     /**
