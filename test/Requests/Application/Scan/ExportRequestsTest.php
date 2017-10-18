@@ -32,12 +32,16 @@ class ExportRequestsTest extends TestCase
      */
     public function exportCsv()
     {
-        $response = $this->exportRequests->exportCsv(1, 2, 'file');
+        $file = __DIR__ . '\file';
+        $response = $this->exportRequests->exportCsv(1, 2, $file);
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/csvs', $request->getUri()->getPath());
+        $this->assertTrue(file_exists($file . '.csv'));
+
+        unlink($file . '.csv');
     }
 
     /**
@@ -45,12 +49,16 @@ class ExportRequestsTest extends TestCase
      */
     public function exportJiraCsv()
     {
-        $response = $this->exportRequests->exportJiraCsv(1, 2, 'file');
+        $file = __DIR__ . '\file';
+        $response = $this->exportRequests->exportJiraCsv(1, 2, $file);
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/jiracsvs', $request->getUri()->getPath());
+        $this->assertTrue(file_exists($file . '.jira.csv'));
+
+        unlink($file . '.jira.csv');
     }
 
     /**
@@ -58,11 +66,15 @@ class ExportRequestsTest extends TestCase
      */
     public function exportPdf()
     {
-        $response = $this->exportRequests->exportPdf(1, 2, 'file');
+        $file = __DIR__ . '\file';
+        $response = $this->exportRequests->exportPdf(1, 2, $file);
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/pdfs', $request->getUri()->getPath());
+        $this->assertTrue(file_exists($file . '.pdf'));
+
+        unlink($file . '.pdf');
     }
 }
