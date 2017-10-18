@@ -18,7 +18,7 @@ class SourceRequests extends BaseRequest
      * Get all directories from the root source directory
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return string
      */
     public function getAll(array $queryParams = [])
     {
@@ -26,6 +26,6 @@ class SourceRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        return $this->handleResponse($response);
+        return $this->handleResponse($response, true);
     }
 }
