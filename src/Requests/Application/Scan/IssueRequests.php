@@ -3,11 +3,44 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use RIPS\Connector\Requests\BaseRequest;
+use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\MarkupRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\ReviewRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\SummaryRequests;
 
 class IssueRequests extends BaseRequest
 {
-    /** @var string */
-    protected $uri = '/applications';
+    /**
+     * @var CommentRequests
+     */
+    protected $commentRequests;
+
+    /**
+     * @var MarkupRequests
+     */
+    protected $markupRequests;
+
+    /**
+     * @var OriginRequests
+     */
+    protected $originRequests;
+
+    /**
+     * @var ReviewRequests
+     */
+    protected $reviewRequests;
+
+    /**
+     * @var SummaryRequests
+     */
+    protected $summaryRequests;
+
+    /**
+     * @var TypeRequests
+     */
+    protected $typeRequests;
 
     /**
      * Build a uri for the request
@@ -30,7 +63,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass
+     * @return \stdClass[]
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -77,142 +110,6 @@ class IssueRequests extends BaseRequest
     }
 
     /**
-     * Get comments for an issue
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param array $queryParams
-     * @return \stdClass
-     */
-    public function getComments($appId, $scanId, $issueId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/comments", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get comment for issue by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param int $commentId
-     * @return \stdClass
-     */
-    public function getCommentById($appId, $scanId, $issueId, $commentId)
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/comments/{$commentId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get all markups for an issue
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getMarkups($appId, $scanId, $issueId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/markups", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get markup for issue by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param int $markupId
-     * @return \stdClass
-     */
-    public function getMarkupById($appId, $scanId, $issueId, $markupId)
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/markups/{$markupId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get all reviews for an issue
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param array $queryParams
-     * @return \stdClass[]
-     */
-    public function getReviews($appId, $scanId, $issueId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/reviews", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get a review for an issue by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param int $reviewId
-     * @return \stdClass
-     */
-    public function getReviewById($appId, $scanId, $issueId, $reviewId)
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/reviews/{$reviewId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get all summaries for an issue
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param array $queryParams
-     * @return stdClass[]
-     */
-    public function getSummaries($appId, $scanId, $issueId, array $queryParams = [])
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/summaries", [
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Get summary for issue by id
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param int $reviewId
-     * @return stdClass
-     */
-    public function getSummaryById($appId, $scanId, $issueId, $summaryId)
-    {
-        $response = $this->client->get("{$this->uri($appId, $scanId, $issueId)}/summaries/{$summaryId}");
-
-        return $this->handleResponse($response);
-    }
-
-    /**
      * Create a new issue for a scan
      *
      * @param int $appId
@@ -230,65 +127,86 @@ class IssueRequests extends BaseRequest
     }
 
     /**
-     * Create a new comment for an issue
+     * Accessor for comment requests
      *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param array $input
-     * @return \stdClass
+     * @return CommentRequests
      */
-    public function createComment($appId, $scanId, $issueId, array $input = [])
+    public function comments()
     {
-        $response = $this->client->post("{$this->uri($appId, $scanId, $issueId)}/comments", [
-            'form_params' => ['comment' => $input],
-        ]);
+        if (is_null($this->commentRequests)) {
+            $this->commentRequests = new CommentRequests($this->client);
+        }
 
-        return $this->handleResponse($response);
+        return $this->commentRequests;
     }
 
     /**
-     * Create a new review for an issue
+     * Accessor for markup requests
      *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param array $input
-     * @return \stdClass
+     * @return MarkupRequests
      */
-    public function createReview($appId, $scanId, $issueId, array $input = [])
+    public function markups()
     {
-        $response = $this->client->post("{$this->uri($appId, $scanId, $issueId)}/reviews", [
-            'form_params' => ['review' => $input],
-        ]);
+        if (is_null($this->markupRequests)) {
+            $this->markupRequests = new MarkupRequests($this->client);
+        }
 
-        return $this->handleResponse($response);
+        return $this->markupRequests;
     }
 
     /**
-     * Delete all comments for an issue
+     * Origin requests accessor
      *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueid
-     * @return void
+     * @return OriginRequests
      */
-    public function deleteComments($appId, $scanId, $issueId)
+    public function origins()
     {
-        $this->client->delete("{$this->uri($appId, $scanId, $issueId)}/comments");
+        if (is_null($this->originRequests)) {
+            $this->originRequests = new OriginRequests($this->client);
+        }
+
+        return $this->originRequests;
     }
 
     /**
-     * Delete comment of issue by id
+     * Accessor for review requests
      *
-     * @param int $appId
-     * @param int $scanId
-     * @param int $issueId
-     * @param int $commentId
-     * @return void
+     * @return ReviewRequests
      */
-    public function deleteCommentById($appId, $scanId, $issueId, $commentId)
+    public function reviews()
     {
-        $this->client->delete("{$this->uri($appId, $scanId, $issueId)}/comments/{$commentId}");
+        if (is_null($this->reviewRequests)) {
+            $this->reviewRequests = new ReviewRequests($this->client);
+        }
+
+        return $this->reviewRequests;
+    }
+
+    /**
+     * Accessor for summary requests
+     *
+     * @return SummaryRequests
+     */
+    public function summaries()
+    {
+        if (is_null($this->summaryRequests)) {
+            $this->summaryRequests = new SummaryRequests($this->client);
+        }
+
+        return $this->summaryRequests;
+    }
+
+    /**
+     * Type requests accessor
+     *
+     * @return TypeRequests
+     */
+    public function types()
+    {
+        if (is_null($this->typeRequests)) {
+            $this->typeRequests = new TypeRequests($this->client);
+        }
+
+        return $this->typeRequests;
     }
 }

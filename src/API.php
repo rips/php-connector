@@ -3,49 +3,77 @@
 namespace RIPS\Connector;
 
 use GuzzleHttp\Client;
-use RIPS\Connector\Requests\UserRequests;
+use RIPS\Connector\Requests\ApplicationRequests;
+use RIPS\Connector\Requests\LicenseRequests;
+use RIPS\Connector\Requests\LogRequests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
-use RIPS\Connector\Requests\LogRequests;
-use RIPS\Connector\Requests\ApplicationRequests;
-use RIPS\Connector\Requests\Application\ScanRequests;
-use RIPS\Connector\Requests\Application\UploadRequests;
-use RIPS\Connector\Requests\Application\Scan\IssueRequests;
-use RIPS\Connector\Requests\Application\Scan\Export\PdfRequests;
+use RIPS\Connector\Requests\SettingsRequests;
+use RIPS\Connector\Requests\SourceRequests;
+use RIPS\Connector\Requests\StatusRequests;
+use RIPS\Connector\Requests\TeamRequests;
+use RIPS\Connector\Requests\UserRequests;
 
 class API
 {
-    /** @var string $version version number */
-    public $version = '1.2.0';
+    /**
+     * @var string
+     */
+    protected $version = '1.2.0';
 
-    /** @var UserRequests */
-    public $users;
-
-    /** @var OrgRequests */
-    public $orgs;
-
-    /** @var QuotaRequests */
-    public $quotas;
-
-    /** @var LogRequests */
-    public $logs;
-
-    /** @var ApplicationRequests */
+    /**
+     * @var ApplicationRequests
+     */
     public $applications;
 
-    /** @var ScanRequests */
-    public $scans;
+    /**
+     * @var LicenseRequests
+     */
+    public $licenses;
 
-    /** @var UploadRequests */
-    public $uploads;
+    /**
+     * @var LogRequests
+     */
+    public $logs;
 
-    /** @var IssueRequests */
-    public $issues;
+    /**
+     * @var OrgRequests
+     */
+    public $orgs;
 
-    /** @var PdfRequests */
-    public $pdfs;
+    /**
+     * @var QuotaRequests
+     */
+    public $quotas;
 
-    /** @var array $clientConfig Config values for $client */
+    /**
+     * @var SettingsRequests
+     */
+    public $settings;
+
+    /**
+     * @var SourceRequests
+     */
+    public $sources;
+
+    /**
+     * @var StatusRequests
+     */
+    public $status;
+
+    /**
+     * @var TeamRequests
+     */
+    public $teams;
+
+    /**
+     * @var UserRequests
+     */
+    public $users;
+
+    /**
+     * @var array - Config values for GuzzleClient
+     */
     protected $clientConfig = [
         'base_uri' => 'http://localhost:8000',
         'timeout' => 100,
@@ -88,14 +116,25 @@ class API
         ]);
 
         $client = new Client($mergedConfig);
-        $this->users = new UserRequests($client);
+        $this->applications = new ApplicationRequests($client);
+        $this->licenses = new LicenseRequests($client);
+        $this->logs = new LogRequests($client);
         $this->orgs = new OrgRequests($client);
         $this->quotas = new QuotaRequests($client);
-        $this->logs = new LogRequests($client);
-        $this->applications = new ApplicationRequests($client);
-        $this->scans = new ScanRequests($client);
-        $this->uploads = new UploadRequests($client);
-        $this->issues = new IssueRequests($client);
-        $this->pdfs = new PdfRequests($client);
+        $this->settings = new SettingsRequests($client);
+        $this->sources = new SourceRequests($client);
+        $this->status = new StatusRequests($client);
+        $this->teams = new TeamRequests($client);
+        $this->users = new UserRequests($client);
+    }
+
+    /**
+     * Get the current version number
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
     }
 }

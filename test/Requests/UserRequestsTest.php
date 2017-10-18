@@ -6,7 +6,6 @@ use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\UserRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Middleware;
 
 class UserRequestsTest extends TestCase
@@ -66,6 +65,20 @@ class UserRequestsTest extends TestCase
     /**
      * @test
      */
+    public function create()
+    {
+        $response = $this->userRequests->create(['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users', $request->getUri()->getPath());
+        $this->assertEquals('user[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->userRequests->update(1, ['test' => 'input']);
@@ -80,6 +93,39 @@ class UserRequestsTest extends TestCase
     /**
      * @test
      */
+    public function deleteAll()
+    {
+        $this->userRequests->deleteAll([
+            'notEqual' => [
+                'name' => 'test',
+            ],
+            'greaterThan' => [
+                'id' => 1,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/users', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function deleteById()
+    {
+        $this->userRequests->deleteById(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/users/1', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function invite()
     {
         $response = $this->userRequests->invite(['test' => 'input']);
@@ -89,5 +135,57 @@ class UserRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/invite/ui', $request->getUri()->getPath());
         $this->assertEquals('user[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function reset()
+    {
+        $response = $this->userRequests->reset(['test' => 'input']);
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/reset/ui', $request->getUri()->getPath());
+        $this->assertEquals('user[test]=input', $body);
+    }
+
+    /**
+     * @test
+     */
+    public function activate()
+    {
+        $response = $this->userRequests->activate(1, 'token');
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/1/activate/token', $request->getUri()->getPath());
+    }
+    /**
+     * @test
+     */
+    public function confirm()
+    {
+        $response = $this->userRequests->confirm(1, 'token');
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/1/confirm/token', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function confirmReset()
+    {
+        $response = $this->userRequests->confirmReset(1, 'token');
+        $request = $this->container[0]['request'];
+        $body =  urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/users/1/reset/token', $request->getUri()->getPath());
     }
 }

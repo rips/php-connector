@@ -4,13 +4,18 @@ namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\Application\CustomRequests;
+use RIPS\Connector\Requests\Application\Custom\IgnoreRequests;
+use RIPS\Connector\Requests\Application\Custom\SanitiserRequests;
+use RIPS\Connector\Requests\Application\Custom\SinkRequests;
+use RIPS\Connector\Requests\Application\Custom\SourceRequests;
+use RIPS\Connector\Requests\Application\Custom\ValidatorRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
 class CustomRequestsTest extends TestCase
 {
-    /** @var ScanRequests */
+    /** @var CustomRequests */
     protected $customRequests;
 
     protected function setUp()
@@ -52,116 +57,6 @@ class CustomRequestsTest extends TestCase
     /**
      * @test
      */
-    public function getAllIgnores()
-    {
-        $response = $this->customRequests->getAllIgnores(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function getAllSanitisers()
-    {
-        $response = $this->customRequests->getAllSanitisers(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sanitisers', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function getAllSinks()
-    {
-        $response = $this->customRequests->getAllSinks(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sinks', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function getAllSources()
-    {
-        $response = $this->customRequests->getAllSources(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sources', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function getAllValidators()
-    {
-        $response = $this->customRequests->getAllValidators(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
     public function getById()
     {
         $response = $this->customRequests->getById(1, 2);
@@ -170,76 +65,6 @@ class CustomRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getIgnoreById()
-    {
-        $response = $this->customRequests->getIgnoreById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getSanitiserById()
-    {
-        $response = $this->customRequests->getSanitiserById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sanitisers/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getSinkById()
-    {
-        $response = $this->customRequests->getSinkById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sinks/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getSourceById()
-    {
-        $response = $this->customRequests->getSourceById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sources/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
-    }
-
-    /**
-     * @test
-     */
-    public function getValidatorById()
-    {
-        $response = $this->customRequests->getValidatorById(1, 2, 3);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators/3', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
     }
 
@@ -260,76 +85,6 @@ class CustomRequestsTest extends TestCase
     /**
      * @test
      */
-    public function createIgnore()
-    {
-        $this->customRequests->createIgnore(1, 2, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores', $request->getUri()->getPath());
-        $this->assertEquals('ignore[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function createSanitiser()
-    {
-        $this->customRequests->createSanitiser(1, 2, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sanitisers', $request->getUri()->getPath());
-        $this->assertEquals('sanitiser[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function createSink()
-    {
-        $this->customRequests->createSink(1, 2, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sinks', $request->getUri()->getPath());
-        $this->assertEquals('sink[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function createSource()
-    {
-        $this->customRequests->createSource(1, 2, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sources', $request->getUri()->getPath());
-        $this->assertEquals('source[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function createValidator()
-    {
-        $this->customRequests->createValidator(1, 2, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators', $request->getUri()->getPath());
-        $this->assertEquals('validator[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
     public function update()
     {
         $this->customRequests->update(1, 2, ['test' => 'input']);
@@ -339,76 +94,6 @@ class CustomRequestsTest extends TestCase
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
         $this->assertEquals('custom[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function updateIgnore()
-    {
-        $this->customRequests->updateIgnore(1, 2, 3, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
-        $this->assertEquals('ignore[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function updateSanitiser()
-    {
-        $this->customRequests->updateSanitiser(1, 2, 3, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sanitisers/3', $request->getUri()->getPath());
-        $this->assertEquals('sanitiser[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function updateSink()
-    {
-        $this->customRequests->updateSink(1, 2, 3, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sinks/3', $request->getUri()->getPath());
-        $this->assertEquals('sink[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function updateSource()
-    {
-        $this->customRequests->updateSource(1, 2, 3, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sources/3', $request->getUri()->getPath());
-        $this->assertEquals('source[test]=input', $body);
-    }
-
-    /**
-     * @test
-     */
-    public function updateValidator()
-    {
-        $this->customRequests->updateValidator(1, 2, 3, ['test' => 'input']);
-        $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
-
-        $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators/3', $request->getUri()->getPath());
-        $this->assertEquals('validator[test]=input', $body);
     }
 
     /**
@@ -435,110 +120,6 @@ class CustomRequestsTest extends TestCase
     /**
      * @test
      */
-    public function deleteAllIgnores()
-    {
-        $this->customRequests->deleteAllIgnores(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores', $request->getUri()->getPath());
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function deleteAllSanitisers()
-    {
-        $this->customRequests->deleteAllSanitisers(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sanitisers', $request->getUri()->getPath());
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function deleteAllSinks()
-    {
-        $this->customRequests->deleteAllSinks(1, 2, [ 'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sinks', $request->getUri()->getPath());
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function deleteAllSources()
-    {
-        $this->customRequests->deleteAllSources(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sources', $request->getUri()->getPath());
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
-    public function deleteAllValidators()
-    {
-        $this->customRequests->deleteAllValidators(1, 2, [
-            'notEqual' => [
-                'phase' => 1,
-            ],
-            'greaterThan' => [
-                'phase' => 2,
-            ]
-        ]);
-        $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
-
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators', $request->getUri()->getPath());
-        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
-    }
-
-    /**
-     * @test
-     */
     public function deleteById()
     {
         $this->customRequests->deleteById(1, 2, 3);
@@ -552,60 +133,50 @@ class CustomRequestsTest extends TestCase
     /**
      * @test
      */
-    public function deleteIgnoreById()
+    public function ignores()
     {
-        $this->customRequests->deleteIgnoreById(1, 2, 3);
-        $request = $this->container[0]['request'];
+        $ignoreRequests = $this->customRequests->ignores();
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
+        $this->assertInstanceOf(IgnoreRequests::class, $ignoreRequests);
     }
 
     /**
      * @test
      */
-    public function deleteSanitiserById()
+    public function sanitisers()
     {
-        $this->customRequests->deleteSanitiserById(1, 2, 3);
-        $request = $this->container[0]['request'];
+        $sanitiserRequests = $this->customRequests->sanitisers();
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sanitisers/3', $request->getUri()->getPath());
+        $this->assertInstanceOf(SanitiserRequests::class, $sanitiserRequests);
     }
 
     /**
      * @test
      */
-    public function deleteSinkById()
+    public function sinks()
     {
-        $this->customRequests->deleteSinkById(1, 2, 3);
-        $request = $this->container[0]['request'];
+        $sinkRequests = $this->customRequests->sinks();
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sinks/3', $request->getUri()->getPath());
+        $this->assertInstanceOf(SinkRequests::class, $sinkRequests);
     }
 
     /**
      * @test
      */
-    public function deleteSourceById()
+    public function sources()
     {
-        $this->customRequests->deleteSourceById(1, 2, 3);
-        $request = $this->container[0]['request'];
+        $sourceRequests = $this->customRequests->sources();
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/sources/3', $request->getUri()->getPath());
+        $this->assertInstanceOf(SourceRequests::class, $sourceRequests);
     }
 
     /**
      * @test
      */
-    public function deleteValidatorById()
+    public function validators()
     {
-        $this->customRequests->deleteValidatorById(1, 2, 3);
-        $request = $this->container[0]['request'];
+        $validatorRequests = $this->customRequests->validators();
 
-        $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators/3', $request->getUri()->getPath());
+        $this->assertInstanceOf(ValidatorRequests::class, $validatorRequests);
     }
 }

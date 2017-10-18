@@ -30,12 +30,71 @@ class UploadRequestsTest extends TestCase
     /**
      * @test
      */
-    public function upload()
+    public function getAll()
     {
-        $this->uploadRequests->upload(1, 'test.zip', '<?php return 123;');
+        $response = $this->uploadRequests->getAll(1, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/uploads', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getById()
+    {
+        $response = $this->uploadRequests->getById(1, 2);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/uploads/2', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
+    public function create()
+    {
+        $this->uploadRequests->create(1, 'test.zip', '<?php return 123;');
         $request = $this->container[0]['request'];
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/uploads', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function deleteAll()
+    {
+        $this->uploadRequests->deleteAll(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/uploads', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function deleteById()
+    {
+        $this->uploadRequests->deleteById(1, 2);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/uploads/2', $request->getUri()->getPath());
     }
 }

@@ -4,13 +4,14 @@ namespace RIPS\Connector\Requests;
 
 class OrgRequests extends BaseRequest
 {
+
     /**
-     * Build a uri for the request
+     * Build a URI for the request
      *
      * @param int $orgId
      * @return string
      */
-    private function uri($orgId = null)
+    protected function uri($orgId = null)
     {
         return is_null($orgId) ? '/organisations' : "/organisations/{$orgId}";
     }
@@ -31,7 +32,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Get an organization by id
+     * Get an organisation by id
      *
      * @param int $orgId
      * @return \stdClass
@@ -39,6 +40,37 @@ class OrgRequests extends BaseRequest
     public function getById($orgId)
     {
         $response = $this->client->get($this->uri($orgId));
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Create a new organisation
+     *
+     * @param array $input
+     * @return \stdClass
+     */
+    public function create(array $input)
+    {
+        $response = $this->client->post($this->uri(), [
+            'form_params' => ['organisation' => $input],
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Update an existing organisation
+     *
+     * @param int $orgId
+     * @param array $input
+     * @return \stdClass
+     */
+    public function update($orgId, array $input)
+    {
+        $response = $this->client->patch($this->uri($orgId), [
+            'form_params' => ['organisation' => $input],
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -55,48 +87,19 @@ class OrgRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response);
+        $this->handleResponse($response, true);
     }
 
     /**
-     * Delete an organization by id
+     * Delete an organisation by id
      *
      * @param int $orgId
      * @return void
      */
     public function deleteById($orgId)
     {
-        $this->client->delete($this->uri($orgId));
-    }
+        $response = $this->client->delete($this->uri($orgId));
 
-    /**
-     * Update an existing organization
-     *
-     * @param int $orgId
-     * @param array $input
-     * @return \stdClass
-     */
-    public function update($orgId, array $input)
-    {
-        $response = $this->client->patch($this->uri($orgId), [
-            'form_params' => ['organisation' => $input],
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Create a new organization
-     *
-     * @param array $input
-     * @return \stdClass
-     */
-    public function create(array $input)
-    {
-        $response = $this->client->post($this->uri(), [
-            'form_params' => ['organisation' => $input],
-        ]);
-
-        return $this->handleResponse($response);
+        $this->handleResponse($response, true);
     }
 }
