@@ -18,7 +18,7 @@ class ClassRequests extends BaseRequest
     {
         return is_null($classId)
             ? "/applications/{$appId}/scans/{$scanId}/classes"
-            : "/applications/{$scanId}/scans/{$scanId}/classes/{$classId}";
+            : "/applications/{$appId}/scans/{$scanId}/classes/{$classId}";
     }
 
     /**
