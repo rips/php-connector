@@ -26,4 +26,39 @@ class TypeRequestsTest extends TestCase
 
         $this->typeRequests = new TypeRequests($this->client);
     }
+
+    /**
+     * @test
+     */
+    public function getAll()
+    {
+        $response = $this->typeRequests->getAll([
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/scans/issues/reviews/types', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getById()
+    {
+        $response = $this->typeRequests->getById(1);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/scans/issues/reviews/types/1', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
 }

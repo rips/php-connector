@@ -3,6 +3,7 @@
 namespace RIPS\Test\Requests\Application\Scan\Issue;
 
 use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\Origin\TypeRequests;
 use RIPS\Test\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
@@ -25,5 +26,15 @@ class OriginRequestsTest extends TestCase
         ]));
 
         $this->originRequests = new OriginRequests($this->client);
+    }
+
+    /**
+     * @test
+     */
+    public function types()
+    {
+        $typeRequests = $this->originRequests->types();
+
+        $this->assertInstanceOf(TypeRequests::class, $typeRequests);
     }
 }

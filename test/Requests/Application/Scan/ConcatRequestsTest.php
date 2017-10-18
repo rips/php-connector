@@ -26,4 +26,39 @@ class ConcatRequestsTest extends TestCase
 
         $this->concatRequests = new ConcatRequests($this->client);
     }
+
+    /**
+     * @test
+     */
+    public function getAll()
+    {
+        $response = $this->concatRequests->getAll(1, 2, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/concats', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getById()
+    {
+        $response = $this->concatRequests->getById(1, 2, 3);
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/concats/3', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+    }
 }
