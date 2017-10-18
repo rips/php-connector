@@ -26,4 +26,26 @@ class ComparisonRequestsTest extends TestCase
 
         $this->comparisonRequests = new ComparisonRequests($this->client);
     }
+
+    /**
+     * @test
+     */
+    public function getComparision()
+    {
+        $response = $this->comparisonRequests->getComparison(1, 2, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/comparison', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
 }
