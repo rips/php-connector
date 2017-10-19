@@ -19,7 +19,7 @@ class API
     /**
      * @var string
      */
-    protected $version = '1.2.0';
+    protected $version = '2.9.0';
 
     /**
      * @var ApplicationRequests
