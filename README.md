@@ -3,22 +3,13 @@ RIPS Connector
 
 # Installation
 
-Update composer.json to read from the public RIPS repository
-
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://source.internal.ripstech.com/scm/rac/php-connector.git"
-        }
-    ],
-
 Use composer to inlcude the package:
 
-    composer require rips/connector:dev-dev
+    composer require rips/connector:~2.9
 
 OR add to composer.json and run `composer update`
 	
-	"rips/connector": "dev-dev"
+	"rips/connector": "~2.9"
 
 
 # Usage
@@ -28,7 +19,13 @@ OR add to composer.json and run `composer update`
 	use RIPS\Connector\Exceptions\ServerException;
     
 	$config = ['base_uri' => 'http://localhost:8000'];
+
+    // Initialize with config in constructor
     $api = new API('username', 'password', $config);
+
+    // Or initialize manually
+    $api = new API();
+    $api->initialize('username', 'password', $config);
 
 	try {
 		// get all users
@@ -45,7 +42,7 @@ OR add to composer.json and run `composer update`
 		// 500 error
 	}
 
-All methods return stdClass objects or an array of stdClass objects
+Most methods will return either a stdClass object or an array of stdClass objects.
 
 # Config/Options
 
@@ -70,46 +67,3 @@ With global install:
 With composer install:
 
     'vendor/bin/phpunit'
-
-# Endpoints:
-
-Current endpoints implemented:
-
-Applications:
-
-    GET - /applications
-    POST - /applications/{applicationId}/uploads
-
-Scans:
-
-    GET - /applications/scans/all
-    GET|DELETE|POST - /applications/{applicationId}/scans
-    GET|DELETE|PATCH - /applications/{applicationId}/scans/{scanId}
-    GET - /applications/{applicationId}/scans/stats
-   
-Issues:
-
-    GET - /applications/{applicationId}/scans/{scanId}/issues
-
-Organisations:
-
-    GET|DELETE|PATCH - /organisations/{organisationId}
-    DELETE|POST - /organisations
-
-Quotas:
-
-    GET - /quotas
-
-Teams:
-
-    N/A
-
-Users:
-
-    GET - /users
-    GET - /users/{teamId}
-    POST - /users/invite/ui
-
-Exports:
-
-    GET - /applications/{applicationId}/scans/{scanId}/exports/pdfs
