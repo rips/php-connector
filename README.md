@@ -62,8 +62,8 @@ Run the tests by executing phpunit in the root directory of the project:
 
 With global install:
 
-    `phpunit`
+    phpunit
 
 With composer install:
 
-    'vendor/bin/phpunit'
+    vendor/bin/phpunit
