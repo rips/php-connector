@@ -126,7 +126,7 @@ class UserRequests extends BaseRequest
     public function reset(array $input)
     {
         $response = $this->client->post("{$this->uri()}/reset/ui", [
-            'form_params' => ['user' => $input],
+            'form_params' => ['reset' => $input],
         ]);
 
         $this->handleResponse($response, true);
