@@ -148,7 +148,7 @@ class UserRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/reset/ui', $request->getUri()->getPath());
-        $this->assertEquals('user[test]=input', $body);
+        $this->assertEquals('reset[test]=input', $body);
     }
 
     /**
