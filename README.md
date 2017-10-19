@@ -3,7 +3,7 @@ RIPS Connector
 
 # Installation
 
-Use composer to inlcude the package:
+Use composer to include the package:
 
     composer require rips/connector:~2.9
 
@@ -54,7 +54,7 @@ The following config options are available:
 
 # Testing
 
-Testing is done with phpunit. You can [install phpunit globally](https://phpunit.de/manual/current/en/installation.html) or use the composer installed executabled in `vendor/bin/phpunit`.
+Testing is done with phpunit. You can [install phpunit globally](https://phpunit.de/manual/current/en/installation.html) or use the composer installed executable in `vendor/bin/phpunit`.
 
 Abstract classes use stubs found in test/Stubs.
 
