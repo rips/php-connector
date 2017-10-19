@@ -31,6 +31,7 @@ class AclRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->aclRequests->getAll(1, [
             'notEqual' => [
                 'phase' => 1,
@@ -39,6 +40,7 @@ class AclRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -53,6 +55,7 @@ class AclRequestsTest extends TestCase
      */
     public function getAllNoAppId()
     {
+        /** @var \stdClass $response */
         $response = $this->aclRequests->getAll(null, [
             'notEqual' => [
                 'phase' => 1,
@@ -61,6 +64,7 @@ class AclRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -76,6 +80,7 @@ class AclRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->aclRequests->getById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -89,12 +94,14 @@ class AclRequestsTest extends TestCase
     public function create()
     {
         $response = $this->aclRequests->create(1, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/acls', $request->getUri()->getPath());
         $this->assertEquals('acl[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -103,12 +110,14 @@ class AclRequestsTest extends TestCase
     public function update()
     {
         $response = $this->aclRequests->update(1, 2, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());
         $this->assertEquals('acl[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -124,6 +133,7 @@ class AclRequestsTest extends TestCase
                 'id' => 1,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -138,8 +148,8 @@ class AclRequestsTest extends TestCase
     public function deleteById()
     {
         $this->aclRequests->deleteById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());

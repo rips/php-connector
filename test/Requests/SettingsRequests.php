@@ -32,6 +32,7 @@ class SettingsRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->settingsRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class SettingsRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,6 +57,7 @@ class SettingsRequestsTest extends TestCase
     public function getByKey()
     {
         $response = $this->settingsRequests->getByKey('key');
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -68,12 +71,14 @@ class SettingsRequestsTest extends TestCase
     public function createOrUpdate()
     {
         $response = $this->settingsRequests->createOrUpdate('key', ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PUT', $request->getMethod());
         $this->assertEquals('/settings/key', $request->getUri()->getPath());
         $this->assertEquals('setting[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -89,6 +94,7 @@ class SettingsRequestsTest extends TestCase
                 'id' => 1,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -103,6 +109,7 @@ class SettingsRequestsTest extends TestCase
     public function deleteByKey()
     {
         $this->settingsRequests->deleteByKey('key');
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());

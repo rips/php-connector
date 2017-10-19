@@ -32,6 +32,7 @@ class FunctionRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->functionRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class FunctionRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,6 +57,7 @@ class FunctionRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->functionRequests->getById(1, 2, 3);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -68,11 +71,13 @@ class FunctionRequestsTest extends TestCase
     public function create()
     {
         $response = $this->functionRequests->create(1, 2, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/functions/batches', $request->getUri()->getPath());
         $this->assertEquals('function[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 }

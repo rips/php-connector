@@ -32,6 +32,7 @@ class TeamRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->teamRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class TeamRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,6 +57,7 @@ class TeamRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->teamRequests->getById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -68,12 +71,14 @@ class TeamRequestsTest extends TestCase
     public function create()
     {
         $response = $this->teamRequests->create(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/teams', $request->getUri()->getPath());
         $this->assertEquals('team[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -82,12 +87,14 @@ class TeamRequestsTest extends TestCase
     public function update()
     {
         $response = $this->teamRequests->update(1, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/teams/1', $request->getUri()->getPath());
         $this->assertEquals('team[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -103,6 +110,7 @@ class TeamRequestsTest extends TestCase
                 'id' => 1,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -117,6 +125,7 @@ class TeamRequestsTest extends TestCase
     public function deleteById()
     {
         $this->teamRequests->deleteById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());

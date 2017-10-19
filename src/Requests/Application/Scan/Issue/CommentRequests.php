@@ -29,7 +29,7 @@ class CommentRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return \stdClass
+     * @return \stdClass[]
      */
     public function getAll($appId = null, $scanId = null, $issueId = null, array $queryParams = [])
     {

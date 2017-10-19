@@ -43,6 +43,7 @@ class ScanRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->scanRequests->getAll(null, [
             'notEqual' => [
                 'phase' => 1,
@@ -51,6 +52,7 @@ class ScanRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -65,7 +67,9 @@ class ScanRequestsTest extends TestCase
      */
     public function getAllWithAppId()
     {
+        /** @var \stdClass $response */
         $response = $this->scanRequests->getAll(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -79,6 +83,7 @@ class ScanRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->scanRequests->getById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -92,6 +97,7 @@ class ScanRequestsTest extends TestCase
     public function getStats()
     {
         $response = $this->scanRequests->getStats(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -106,13 +112,15 @@ class ScanRequestsTest extends TestCase
      */
     public function create()
     {
-        $this->scanRequests->create(1, ['test' => 'input']);
+        $response = $this->scanRequests->create(1, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
         $this->assertEquals('scan[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -120,13 +128,15 @@ class ScanRequestsTest extends TestCase
      */
     public function update()
     {
-        $this->scanRequests->update(1, 2, ['test' => 'input']);
+        $response = $this->scanRequests->update(1, 2, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
         $this->assertEquals('scan[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -135,6 +145,7 @@ class ScanRequestsTest extends TestCase
     public function deleteAll()
     {
         $this->scanRequests->deleteAll(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
@@ -147,6 +158,7 @@ class ScanRequestsTest extends TestCase
     public function deleteById()
     {
         $this->scanRequests->deleteById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
@@ -168,10 +180,15 @@ class ScanRequestsTest extends TestCase
         $this->scanRequests->blockUntilDone(1, 1, 0, 2);
         $duration = floor($stopwatch->stop('blockUntilDone')->getDuration() / 1000);
 
+        /** @var \GuzzleHttp\Psr7\Request $request1 */
+        $request1 = $this->container[0]['request'];
+        /** @var \GuzzleHttp\Psr7\Request $request2 */
+        $request2 = $this->container[1]['request'];
+
         $this->assertEquals(2, $duration);
         $this->assertEquals(2, count($this->container));
-        $this->assertEquals('/applications/1/scans/1', $this->container[0]['request']->getUri()->getPath());
-        $this->assertEquals('/applications/1/scans/1', $this->container[1]['request']->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/1', $request1->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/1', $request2->getUri()->getPath());
     }
 
     /**

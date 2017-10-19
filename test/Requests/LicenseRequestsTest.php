@@ -32,6 +32,7 @@ class LicenseRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->licenseRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class LicenseRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,6 +57,7 @@ class LicenseRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->licenseRequests->getById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -68,11 +71,13 @@ class LicenseRequestsTest extends TestCase
     public function activate()
     {
         $response = $this->licenseRequests->activate(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/licenses', $request->getUri()->getPath());
         $this->assertEquals('license[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 }

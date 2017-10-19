@@ -38,6 +38,7 @@ class IssueRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->issueRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
@@ -46,6 +47,7 @@ class IssueRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -68,6 +70,7 @@ class IssueRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -90,6 +93,7 @@ class IssueRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -105,12 +109,14 @@ class IssueRequestsTest extends TestCase
     public function create()
     {
         $response = $this->issueRequests->create(1, 2, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/issues', $request->getUri()->getPath());
         $this->assertEquals('issue[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**

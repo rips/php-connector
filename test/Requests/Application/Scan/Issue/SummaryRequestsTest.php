@@ -32,6 +32,7 @@ class SummaryRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->summaryRequests->getAll(1, 2, 3, [
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class SummaryRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,8 +57,8 @@ class SummaryRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->summaryRequests->getById(1, 2, 3, 4);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('value', $response->key);

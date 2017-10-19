@@ -33,11 +33,13 @@ class QuotaRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->quotaRequests->getAll([
             'greaterThan' => [
                 'id' => 1,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -53,6 +55,7 @@ class QuotaRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->quotaRequests->getById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -66,12 +69,14 @@ class QuotaRequestsTest extends TestCase
     public function create()
     {
         $response = $this->quotaRequests->create(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/quotas', $request->getUri()->getPath());
         $this->assertEquals('quota[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -80,12 +85,14 @@ class QuotaRequestsTest extends TestCase
     public function update()
     {
         $response = $this->quotaRequests->update(1, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/quotas/1', $request->getUri()->getPath());
         $this->assertEquals('quota[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -101,6 +108,7 @@ class QuotaRequestsTest extends TestCase
                 'id' => 1,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -115,8 +123,8 @@ class QuotaRequestsTest extends TestCase
     public function deleteById()
     {
         $this->quotaRequests->deleteById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/quotas/1', $request->getUri()->getPath());

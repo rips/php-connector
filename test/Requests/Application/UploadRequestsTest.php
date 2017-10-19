@@ -32,6 +32,7 @@ class UploadRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->uploadRequests->getAll(1, [
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class UploadRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,6 +57,7 @@ class UploadRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->uploadRequests->getById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -71,6 +74,7 @@ class UploadRequestsTest extends TestCase
         touch($file);
         
         $this->uploadRequests->create(1, 'filename', $file);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('POST', $request->getMethod());
@@ -85,6 +89,7 @@ class UploadRequestsTest extends TestCase
     public function deleteAll()
     {
         $this->uploadRequests->deleteAll(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
@@ -97,6 +102,7 @@ class UploadRequestsTest extends TestCase
     public function deleteById()
     {
         $this->uploadRequests->deleteById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());

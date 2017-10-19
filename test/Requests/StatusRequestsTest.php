@@ -33,6 +33,7 @@ class StatusRequestsTest extends TestCase
     public function getStatus()
     {
         $response = $this->statusRequests->getStatus();
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());

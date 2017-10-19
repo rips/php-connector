@@ -33,9 +33,9 @@ class ExportRequestsTest extends TestCase
     public function exportCsv()
     {
         $file = __DIR__ . '\file';
-        $response = $this->exportRequests->exportCsv(1, 2, $file);
+        $this->exportRequests->exportCsv(1, 2, $file);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/csvs', $request->getUri()->getPath());
@@ -50,9 +50,9 @@ class ExportRequestsTest extends TestCase
     public function exportJiraCsv()
     {
         $file = __DIR__ . '\file';
-        $response = $this->exportRequests->exportJiraCsv(1, 2, $file);
+        $this->exportRequests->exportJiraCsv(1, 2, $file);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/jiracsvs', $request->getUri()->getPath());
@@ -67,9 +67,9 @@ class ExportRequestsTest extends TestCase
     public function exportPdf()
     {
         $file = __DIR__ . '\file';
-        $response = $this->exportRequests->exportPdf(1, 2, $file);
+        $this->exportRequests->exportPdf(1, 2, $file);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/pdfs', $request->getUri()->getPath());

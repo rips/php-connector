@@ -10,7 +10,7 @@ use GuzzleHttp\Middleware;
 
 class IgnoreRequestsTest extends TestCase
 {
-    /** @var ScanRequests */
+    /** @var IgnoreRequests */
     protected $ignoreRequests;
 
     protected function setUp()
@@ -32,6 +32,7 @@ class IgnoreRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->ignoreRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class IgnoreRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -56,8 +58,8 @@ class IgnoreRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->ignoreRequests->getById(1, 2, 3);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
@@ -69,13 +71,15 @@ class IgnoreRequestsTest extends TestCase
      */
     public function create()
     {
-        $this->ignoreRequests->create(1, 2, ['test' => 'input']);
+        $response = $this->ignoreRequests->create(1, 2, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/ignores', $request->getUri()->getPath());
         $this->assertEquals('ignore[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -83,13 +87,15 @@ class IgnoreRequestsTest extends TestCase
      */
     public function update()
     {
-        $this->ignoreRequests->update(1, 2, 3, ['test' => 'input']);
+        $response = $this->ignoreRequests->update(1, 2, 3, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
         $this->assertEquals('ignore[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -105,6 +111,7 @@ class IgnoreRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -119,8 +126,8 @@ class IgnoreRequestsTest extends TestCase
     public function deleteById()
     {
         $this->ignoreRequests->deleteById(1, 2, 3);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());

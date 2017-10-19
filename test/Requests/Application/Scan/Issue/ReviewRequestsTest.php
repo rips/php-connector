@@ -32,6 +32,7 @@ class ReviewRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->reviewRequests->getAll(1, 2, 3, [
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class ReviewRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,8 +57,8 @@ class ReviewRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->reviewRequests->getById(1, 2, 3, 4);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('value', $response->key);
@@ -69,11 +71,13 @@ class ReviewRequestsTest extends TestCase
     public function create()
     {
         $response = $this->reviewRequests->create(1, 2, 3, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/issues/3/reviews', $request->getUri()->getPath());
         $this->assertEquals('review[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 }

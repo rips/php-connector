@@ -37,6 +37,7 @@ class CustomRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->customRequests->getAll(1, [
             'notEqual' => [
                 'phase' => 1,
@@ -45,6 +46,7 @@ class CustomRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -60,8 +62,8 @@ class CustomRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->customRequests->getById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
@@ -73,13 +75,15 @@ class CustomRequestsTest extends TestCase
      */
     public function create()
     {
-        $this->customRequests->create(1, ['test' => 'input']);
+        $response = $this->customRequests->create(1, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/customs', $request->getUri()->getPath());
         $this->assertEquals('custom[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -87,13 +91,15 @@ class CustomRequestsTest extends TestCase
      */
     public function update()
     {
-        $this->customRequests->update(1, 2, ['test' => 'input']);
+        $response = $this->customRequests->update(1, 2, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
         $this->assertEquals('custom[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -109,6 +115,7 @@ class CustomRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -122,9 +129,9 @@ class CustomRequestsTest extends TestCase
      */
     public function deleteById()
     {
-        $this->customRequests->deleteById(1, 2, 3);
+        $this->customRequests->deleteById(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());

@@ -32,6 +32,7 @@ class UserRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->userRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -40,6 +41,7 @@ class UserRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -55,6 +57,7 @@ class UserRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->userRequests->getById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -67,9 +70,10 @@ class UserRequestsTest extends TestCase
      */
     public function create()
     {
-        $response = $this->userRequests->create(['test' => 'input']);
+        $this->userRequests->create(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users', $request->getUri()->getPath());
@@ -81,9 +85,10 @@ class UserRequestsTest extends TestCase
      */
     public function update()
     {
-        $response = $this->userRequests->update(1, ['test' => 'input']);
+        $this->userRequests->update(1, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/users/1', $request->getUri()->getPath());
@@ -103,6 +108,7 @@ class UserRequestsTest extends TestCase
                 'id' => 1,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -117,6 +123,7 @@ class UserRequestsTest extends TestCase
     public function deleteById()
     {
         $this->userRequests->deleteById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
@@ -128,9 +135,10 @@ class UserRequestsTest extends TestCase
      */
     public function invite()
     {
-        $response = $this->userRequests->invite(['test' => 'input']);
+        $this->userRequests->invite(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/invite/ui', $request->getUri()->getPath());
@@ -142,9 +150,10 @@ class UserRequestsTest extends TestCase
      */
     public function reset()
     {
-        $response = $this->userRequests->reset(['test' => 'input']);
+        $this->userRequests->reset(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/reset/ui', $request->getUri()->getPath());
@@ -156,9 +165,9 @@ class UserRequestsTest extends TestCase
      */
     public function activate()
     {
-        $response = $this->userRequests->activate(1, 'token');
+        $this->userRequests->activate(1, 'token');
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/1/activate/token', $request->getUri()->getPath());
@@ -168,9 +177,9 @@ class UserRequestsTest extends TestCase
      */
     public function confirm()
     {
-        $response = $this->userRequests->confirm(1, 'token');
+        $this->userRequests->confirm(1, 'token');
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/1/confirm/token', $request->getUri()->getPath());
@@ -181,9 +190,9 @@ class UserRequestsTest extends TestCase
      */
     public function confirmReset()
     {
-        $response = $this->userRequests->confirmReset(1, 'token');
+        $this->userRequests->confirmReset(1, 'token');
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/1/reset/token', $request->getUri()->getPath());

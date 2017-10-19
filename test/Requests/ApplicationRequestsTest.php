@@ -36,6 +36,7 @@ class ApplicationRequestsTest extends TestCase
      */
     public function getAll()
     {
+        /** @var \stdClass $response */
         $response = $this->applicationRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -44,6 +45,7 @@ class ApplicationRequestsTest extends TestCase
                 'phase' => 2,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -59,6 +61,7 @@ class ApplicationRequestsTest extends TestCase
     public function getById()
     {
         $response = $this->applicationRequests->getById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
@@ -72,12 +75,14 @@ class ApplicationRequestsTest extends TestCase
     public function update()
     {
         $response = $this->applicationRequests->update(1, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $body =  urldecode($request->getBody()->getContents());
+        $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1', $request->getUri()->getPath());
         $this->assertEquals('application[test]=input', $body);
+        $this->assertEquals('value', $response->key);
     }
 
     /**
@@ -93,6 +98,7 @@ class ApplicationRequestsTest extends TestCase
                 'id' => 1,
             ]
         ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
@@ -107,8 +113,8 @@ class ApplicationRequestsTest extends TestCase
     public function deleteById()
     {
         $this->applicationRequests->deleteById(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
-        $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/applications/1', $request->getUri()->getPath());

@@ -59,6 +59,7 @@ class ExportRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param string $outFile - File path that PDF contents will be stored to
+     * @return void
      */
     public function exportPdf($appId, $scanId, $outFile)
     {

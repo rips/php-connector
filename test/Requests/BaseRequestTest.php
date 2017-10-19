@@ -5,9 +5,16 @@ namespace RIPS\Test\Requests;
 use RIPS\Test\TestCase;
 use RIPS\Test\Stubs\BaseRequestStub;
 use GuzzleHttp\Psr7\Response;
+use ReflectionMethod;
 
 class BaseRequestTest extends TestCase
 {
+    /** @var ReflectionMethod */
+    protected $handleResponse;
+
+    /** @var BaseRequestStub */
+    protected $baseRequest;
+
     public function setUp()
     {
         parent::setUp();
@@ -32,7 +39,7 @@ class BaseRequestTest extends TestCase
 
     /**
      * @test
-     * @expectedException RIPS\Connector\Exceptions\ClientException
+     * @expectedException \RIPS\Connector\Exceptions\ClientException
      */
     public function handleResponseClientError()
     {
@@ -45,7 +52,7 @@ class BaseRequestTest extends TestCase
 
     /**
      * @test
-     * @expectedException RIPS\Connector\Exceptions\ServerException
+     * @expectedException \RIPS\Connector\Exceptions\ServerException
      */
     public function handleResponseServerError()
     {
