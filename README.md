@@ -7,7 +7,7 @@ Use composer to include the package:
 
     composer require rips/connector:~2.9
 
-OR add to composer.json and run `composer update`
+OR add the following to composer.json and run `composer update`
 	
 	"rips/connector": "~2.9"
 
