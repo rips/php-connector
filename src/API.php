@@ -75,7 +75,7 @@ class API
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
-        'base_uri' => 'http://localhost:8000',
+        'base_uri' => 'http://localhost:8080',
         'timeout' => 100,
         'connect_timeout' => 10,
         'http_errors' => false,
