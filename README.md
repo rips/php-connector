@@ -1,6 +1,8 @@
 RIPS Connector
 ---
 
+A simple PHP interface for easy access to the RIPS API.
+
 # Installation
 
 Use composer to include the package:
@@ -28,13 +30,13 @@ OR add the following to composer.json and run `composer update`
     $api->initialize('username', 'password', $config);
 
 	try {
-		// get all users
+		// Get all users
 		$users = $api->users->getAll();
 
-		// create new organization
+		// Create new organization
 		$org = $api->orgs->create([
-			'name' => 'My New Org',
-			'validUntil' => '2018-08-03T15:23:04.286Z',
+			'name'       => 'My New Org',
+			'validUntil' => '2018-08-03T15:23:04.286Z'
 		]);
 	} catch (ClientException $e) {
 		// 400 error
@@ -42,15 +44,15 @@ OR add the following to composer.json and run `composer update`
 		// 500 error
 	}
 
-Most methods will return either a stdClass object or an array of stdClass objects.
+Most methods will return either a `stdClass` object or an array of `stdClass` objects.
 
 # Config/Options
 
 The following config options are available:
 
-	'base_uri' (required default: http://localhost:8000): API URL
-	'timeout' (optional default: 100): Timeout of request in seconds
-	'connect_timeout' (optional default: 10): Number of seconds to wait while trying to connect to server
+	'base_uri' (required, default: http://localhost:8080): API URL
+	'timeout' (optional, default: 100): Timeout of request in seconds
+	'connect_timeout' (optional, default: 10): Number of seconds to wait while trying to connect to server
 
 # Testing
 
