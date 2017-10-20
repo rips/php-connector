@@ -3,7 +3,7 @@
     "description": "RIPS API connector package",
     "version": "2.9.0",
     "type": "library",
-    "license": "Proprietary",
+    "license": "BSD-3-Clause",
     "autoload": {
         "psr-4": {
             "RIPS\\Connector\\": "src"
