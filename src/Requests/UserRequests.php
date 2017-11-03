@@ -106,7 +106,7 @@ class UserRequests extends BaseRequest
      * Invite a new user
      *
      * @param array $input
-     * @return void
+     * @return \stdClass
      */
     public function invite(array $input)
     {
@@ -114,7 +114,7 @@ class UserRequests extends BaseRequest
             'form_params' => ['user' => $input],
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
