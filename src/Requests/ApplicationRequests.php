@@ -59,11 +59,14 @@ class ApplicationRequests extends BaseRequest
      * Get application by id
      *
      * @param int $appId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId)
+    public function getById($appId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId));
+        $response = $this->client->get($this->uri($appId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -72,12 +75,14 @@ class ApplicationRequests extends BaseRequest
      * Create a new application
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create(array $input = [])
+    public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['application' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -88,12 +93,14 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($appId, array $input = [])
+    public function update($appId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId), [
             'form_params' => ['application' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -118,11 +125,14 @@ class ApplicationRequests extends BaseRequest
      * Delete application by id
      *
      * @param int $appId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId)
+    public function deleteById($appId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId));
+        $response = $this->client->delete($this->uri($appId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

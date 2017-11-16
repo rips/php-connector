@@ -44,11 +44,14 @@ class SourceRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $sourceId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $sourceId)
+    public function getById($appId, $scanId, $sourceId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $sourceId));
+        $response = $this->client->get($this->uri($appId, $scanId, $sourceId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }

@@ -41,11 +41,14 @@ class QuotaRequests extends BaseRequest
      * Get a quota by id
      *
      * @param int $quotaId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($quotaId)
+    public function getById($quotaId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($quotaId));
+        $response = $this->client->get($this->uri($quotaId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -54,12 +57,14 @@ class QuotaRequests extends BaseRequest
      * Create a new quota
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create(array $input)
+    public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['quota' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -70,12 +75,14 @@ class QuotaRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($quotaId, array $input = [])
+    public function update($quotaId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($quotaId), [
             'form_params' => ['quota' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -100,11 +107,14 @@ class QuotaRequests extends BaseRequest
      * Delete quota by id
      *
      * @param int $quotaId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($quotaId)
+    public function deleteById($quotaId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($quotaId));
+        $response = $this->client->delete($this->uri($quotaId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

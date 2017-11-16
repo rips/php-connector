@@ -41,11 +41,14 @@ class UploadRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $uploadId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $uploadId)
+    public function getById($appId, $uploadId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $uploadId));
+        $response = $this->client->get($this->uri($appId, $uploadId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -56,9 +59,10 @@ class UploadRequests extends BaseRequest
      * @param int $appId
      * @param string $filename
      * @param string $filepath
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $filename, $filepath)
+    public function create($appId, $filename, $filepath, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId), [
             'multipart' => [
@@ -68,6 +72,7 @@ class UploadRequests extends BaseRequest
                     'filename' => $filename,
                 ],
             ],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -94,11 +99,14 @@ class UploadRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $uploadId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId, $uploadId)
+    public function deleteById($appId, $uploadId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $uploadId));
+        $response = $this->client->delete($this->uri($appId, $uploadId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

@@ -34,11 +34,14 @@ class TeamRequests extends BaseRequest
      * Get a team by id
      *
      * @param int $teamId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($teamId)
+    public function getById($teamId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($teamId));
+        $response = $this->client->get($this->uri($teamId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -47,12 +50,14 @@ class TeamRequests extends BaseRequest
      * Create a new team
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create(array $input)
+    public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['team' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -63,12 +68,14 @@ class TeamRequests extends BaseRequest
      *
      * @param int $teamId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($teamId, array $input)
+    public function update($teamId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($teamId), [
             'form_params' => ['team' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -93,11 +100,14 @@ class TeamRequests extends BaseRequest
      * Delete a team by id
      *
      * @param int $teamId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($teamId)
+    public function deleteById($teamId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($teamId));
+        $response = $this->client->delete($this->uri($teamId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

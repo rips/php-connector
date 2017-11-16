@@ -35,11 +35,14 @@ class OrgRequests extends BaseRequest
      * Get an organisation by id
      *
      * @param int $orgId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($orgId)
+    public function getById($orgId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($orgId));
+        $response = $this->client->get($this->uri($orgId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -48,12 +51,14 @@ class OrgRequests extends BaseRequest
      * Create a new organisation
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create(array $input)
+    public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['organisation' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -64,12 +69,14 @@ class OrgRequests extends BaseRequest
      *
      * @param int $orgId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($orgId, array $input)
+    public function update($orgId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($orgId), [
             'form_params' => ['organisation' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -94,11 +101,14 @@ class OrgRequests extends BaseRequest
      * Delete an organisation by id
      *
      * @param int $orgId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($orgId)
+    public function deleteById($orgId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($orgId));
+        $response = $this->client->delete($this->uri($orgId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

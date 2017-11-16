@@ -99,11 +99,14 @@ class ScanRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId)
+    public function getById($appId, $scanId, array $queryParams = [])
     {
-        $response = $this->client->get("{$this->uri($appId)}/{$scanId}");
+        $response = $this->client->get("{$this->uri($appId)}/{$scanId}", [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -113,12 +116,15 @@ class ScanRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getStats($appId, $scanId)
+    public function getStats($appId, $scanId, array $queryParams = [])
     {
+        $queryParams['equal[id]'] = $scanId;
+
         $response = $this->client->get("{$this->uri($appId)}/stats", [
-            'query' => ['equal[id]' => $scanId],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -129,12 +135,14 @@ class ScanRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, array $input)
+    public function create($appId, array $input, array $queryParams = [])
     {
         $response = $this->client->post("{$this->uri($appId)}", [
             'form_params' => ['scan' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -146,12 +154,14 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($appId, $scanId, array $input)
+    public function update($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch("{$this->uri($appId)}/{$scanId}", [
             'form_params' => ['scan' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -178,11 +188,14 @@ class ScanRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId, $scanId)
+    public function deleteById($appId, $scanId, array $queryParams = [])
     {
-        $response = $this->client->delete("{$this->uri($appId)}/{$scanId}");
+        $response = $this->client->delete("{$this->uri($appId)}/{$scanId}", [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }
@@ -194,6 +207,7 @@ class ScanRequests extends BaseRequest
      * @param int $scanId
      * @param int $waitTime - Optional time to wait, will wait indefinitely if 0 (default: 0)
      * @param int $sleepTime - Time to wait between scan completion checks (default: 5)
+     * @param array $queryParams
      * @return \stdClass
      * @throws \Exception if scan does not finish in time
      */
@@ -201,10 +215,11 @@ class ScanRequests extends BaseRequest
         $appId,
         $scanId,
         $waitTime = 0,
-        $sleepTime = 5
+        $sleepTime = 5,
+        array $queryParams = []
     ) {
         for ($iteration = 0;; $iteration++) {
-            $scan = $this->getById($appId, $scanId);
+            $scan = $this->getById($appId, $scanId, $queryParams);
 
             if ((int) $scan->phase === 0 && (int) $scan->percent === 100) {
                 return $scan;
@@ -214,6 +229,8 @@ class ScanRequests extends BaseRequest
 
             sleep($sleepTime);
         }
+
+        throw new \Exception('blockUntilDone unexpected state');
     }
 
     /**
