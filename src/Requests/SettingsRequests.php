@@ -34,11 +34,14 @@ class SettingsRequests extends BaseRequest
      * Get a setting by key
      *
      * @param string $key
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getByKey($key)
+    public function getByKey($key, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($key));
+        $response = $this->client->get($this->uri($key), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -48,12 +51,14 @@ class SettingsRequests extends BaseRequest
      *
      * @param string $key
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function createOrUpdate($key, array $input)
+    public function createOrUpdate($key, array $input, array $queryParams = [])
     {
         $response = $this->client->put($this->uri($key), [
             'form_params' => ['setting' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -78,11 +83,14 @@ class SettingsRequests extends BaseRequest
      * Delete setting by key
      *
      * @param string $key
+     * @param array $queryParams
      * @return void
      */
-    public function deleteByKey($key)
+    public function deleteByKey($key, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($key));
+        $response = $this->client->delete($this->uri($key), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

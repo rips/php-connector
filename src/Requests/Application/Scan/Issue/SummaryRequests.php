@@ -47,11 +47,14 @@ class SummaryRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $summaryId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $issueId, $summaryId)
+    public function getById($appId, $scanId, $issueId, $summaryId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $summaryId));
+        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $summaryId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }

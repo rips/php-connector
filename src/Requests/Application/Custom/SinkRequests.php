@@ -44,11 +44,14 @@ class SinkRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param int $sinkId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $customId, $sinkId)
+    public function getById($appId, $customId, $sinkId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $customId, $sinkId));
+        $response = $this->client->get($this->uri($appId, $customId, $sinkId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -59,12 +62,14 @@ class SinkRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $customId, array $input = [])
+    public function create($appId, $customId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $customId), [
             'form_params' => ['sink' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -77,12 +82,14 @@ class SinkRequests extends BaseRequest
      * @param int $customId
      * @param int $sinkId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($appId, $customId, $sinkId, array $input = [])
+    public function update($appId, $customId, $sinkId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $customId, $sinkId), [
             'form_params' => ['sink' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -111,11 +118,14 @@ class SinkRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param int $sinkId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId, $customId, $sinkId)
+    public function deleteById($appId, $customId, $sinkId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $customId, $sinkId));
+        $response = $this->client->delete($this->uri($appId, $customId, $sinkId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

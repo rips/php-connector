@@ -38,11 +38,14 @@ class TypeRequests extends BaseRequest
      * Get type by id
      *
      * @param int $typeId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($typeId)
+    public function getById($typeId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($typeId));
+        $response = $this->client->get($this->uri($typeId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }

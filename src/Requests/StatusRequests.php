@@ -17,11 +17,14 @@ class StatusRequests extends BaseRequest
     /**
      * Get status info for the current session and API env.
      *
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getStatus()
+    public function getStatus(array $queryParams = [])
     {
-        $response = $this->client->get($this->uri());
+        $response = $this->client->get($this->uri(), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }

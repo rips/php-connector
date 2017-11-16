@@ -44,11 +44,14 @@ class ProcessRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $processId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $processId)
+    public function getById($appId, $scanId, $processId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $processId));
+        $response = $this->client->get($this->uri($appId, $scanId, $processId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -59,12 +62,14 @@ class ProcessRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $scanId, array $input = [])
+    public function create($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId), [
             'form_params' => ['process' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -76,12 +81,14 @@ class ProcessRequests extends BaseRequest
      * @param int $scanId
      * @param int $processId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($appId, $scanId, $processId, array $input = [])
+    public function update($appId, $scanId, $processId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $scanId, $processId), [
             'form_params' => ['process' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);

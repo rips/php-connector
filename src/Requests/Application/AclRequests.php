@@ -43,11 +43,14 @@ class AclRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $aclId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $aclId)
+    public function getById($appId, $aclId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $aclId));
+        $response = $this->client->get($this->uri($appId, $aclId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -57,12 +60,14 @@ class AclRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, array $input = [])
+    public function create($appId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId), [
             'form_params' => ['acl' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -74,12 +79,14 @@ class AclRequests extends BaseRequest
      * @param int $appId
      * @param int $aclId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($appId, $aclId, array $input = [])
+    public function update($appId, $aclId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $aclId), [
             'form_params' => ['acl' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -106,11 +113,14 @@ class AclRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $aclId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId, $aclId)
+    public function deleteById($appId, $aclId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $aclId));
+        $response = $this->client->delete($this->uri($appId, $aclId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

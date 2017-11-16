@@ -34,11 +34,14 @@ class LogRequests extends BaseRequest
      * Get a log by id
      *
      * @param int $logId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($logId)
+    public function getById($logId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($logId));
+        $response = $this->client->get($this->uri($logId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -47,12 +50,14 @@ class LogRequests extends BaseRequest
      * Create a new log
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create(array $input)
+    public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['log' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);

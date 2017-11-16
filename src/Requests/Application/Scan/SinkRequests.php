@@ -44,11 +44,14 @@ class SinkRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $sinkId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $sinkId)
+    public function getById($appId, $scanId, $sinkId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $sinkId));
+        $response = $this->client->get($this->uri($appId, $scanId, $sinkId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
