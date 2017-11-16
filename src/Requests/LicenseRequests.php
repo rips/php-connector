@@ -21,7 +21,7 @@ class LicenseRequests extends BaseRequest
      * @param array $queryParams
      * @return \stdClass[]
      */
-    public function getAll(array $queryParams)
+    public function getAll(array $queryParams = [])
     {
         $response = $this->client->get($this->uri(), [
             'query' => $queryParams,
@@ -34,11 +34,14 @@ class LicenseRequests extends BaseRequest
      * Get license by id
      *
      * @param int $licenseId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($licenseId)
+    public function getById($licenseId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($licenseId));
+        $response = $this->client->get($this->uri($licenseId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -47,12 +50,14 @@ class LicenseRequests extends BaseRequest
      * Activate a license
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function activate(array $input)
+    public function activate(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['license' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);

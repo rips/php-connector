@@ -115,12 +115,14 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $scanId, array $input = [])
+    public function create($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId), [
             'form_params' => ['issue' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);

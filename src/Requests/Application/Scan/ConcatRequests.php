@@ -44,11 +44,14 @@ class ConcatRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $concatId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $concatId)
+    public function getById($appId, $scanId, $concatId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $concatId));
+        $response = $this->client->get($this->uri($appId, $scanId, $concatId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }

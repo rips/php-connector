@@ -53,11 +53,14 @@ class ReviewRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $reviewId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $issueId, $reviewId)
+    public function getById($appId, $scanId, $issueId, $reviewId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $reviewId));
+        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $reviewId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -69,12 +72,14 @@ class ReviewRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $scanId, $issueId, array $input = [])
+    public function create($appId, $scanId, $issueId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId, $issueId), [
             'form_params' => ['review' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);

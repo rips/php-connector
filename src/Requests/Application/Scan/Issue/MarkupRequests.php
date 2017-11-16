@@ -47,11 +47,14 @@ class MarkupRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $markupId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $issueId, $markupId)
+    public function getById($appId, $scanId, $issueId, $markupId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $markupId));
+        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $markupId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }

@@ -50,11 +50,14 @@ class CommentRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $commentId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $issueId, $commentId)
+    public function getById($appId, $scanId, $issueId, $commentId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $commentId));
+        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $commentId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -66,12 +69,14 @@ class CommentRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $scanId, $issueId, array $input = [])
+    public function create($appId, $scanId, $issueId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId, $issueId), [
             'form_params' => ['comment' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -102,11 +107,14 @@ class CommentRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param int $commentId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId, $scanId, $issueId, $commentId)
+    public function deleteById($appId, $scanId, $issueId, $commentId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $scanId, $issueId, $commentId));
+        $response = $this->client->delete($this->uri($appId, $scanId, $issueId, $commentId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, null);
     }

@@ -44,11 +44,14 @@ class FunctionRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $functionId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $functionId)
+    public function getById($appId, $scanId, $functionId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $functionId));
+        $response = $this->client->get($this->uri($appId, $scanId, $functionId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -59,12 +62,14 @@ class FunctionRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $scanId, array $input = [])
+    public function create($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->post("{$this->uri($appId, $scanId)}/batches", [
             'form_params' => ['function' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);

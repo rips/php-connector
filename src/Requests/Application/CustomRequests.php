@@ -71,11 +71,14 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $customId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $customId)
+    public function getById($appId, $customId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $customId));
+        $response = $this->client->get($this->uri($appId, $customId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -85,12 +88,14 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create($appId, $input)
+    public function create($appId, $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId), [
             'form_params' => ['custom' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -102,12 +107,14 @@ class CustomRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($appId, $customId, array $input = [])
+    public function update($appId, $customId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $customId), [
             'form_params' => ['custom' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -134,11 +141,14 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $customId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId, $customId)
+    public function deleteById($appId, $customId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $customId));
+        $response = $this->client->delete($this->uri($appId, $customId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }

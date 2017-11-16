@@ -34,11 +34,14 @@ class UserRequests extends BaseRequest
      * Get a user by user ID
      *
      * @param int $userId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($userId)
+    public function getById($userId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($userId));
+        $response = $this->client->get($this->uri($userId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -47,12 +50,14 @@ class UserRequests extends BaseRequest
      * Create a new user
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function create(array $input)
+    public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
             'form_params' => ['user' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -63,12 +68,14 @@ class UserRequests extends BaseRequest
      *
      * @param int $userId
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function update($userId, $input)
+    public function update($userId, $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($userId), [
             'form_params' => ['user' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -93,11 +100,14 @@ class UserRequests extends BaseRequest
      * Delete a user by id
      *
      * @param int $userId
+     * @param array $queryParams
      * @return void
      */
-    public function deleteById($userId)
+    public function deleteById($userId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($userId));
+        $response = $this->client->delete($this->uri($userId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }
@@ -106,12 +116,14 @@ class UserRequests extends BaseRequest
      * Invite a new user
      *
      * @param array $input
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function invite(array $input)
+    public function invite(array $input, array $queryParams = [])
     {
         $response = $this->client->post("{$this->uri()}/invite/ui", [
             'form_params' => ['user' => $input],
+            'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
@@ -121,12 +133,14 @@ class UserRequests extends BaseRequest
      * Request a reset e-mail
      *
      * @param array $input
+     * @param array $queryParams
      * @return void
      */
-    public function reset(array $input)
+    public function reset(array $input, array $queryParams = [])
     {
         $response = $this->client->post("{$this->uri()}/reset/ui", [
             'form_params' => ['reset' => $input],
+            'query' => $queryParams,
         ]);
 
         $this->handleResponse($response, true);
@@ -137,11 +151,14 @@ class UserRequests extends BaseRequest
      *
      * @param int $userId
      * @param string $token
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function activate($userId, $token)
+    public function activate($userId, $token, array $queryParams = [])
     {
-        $response = $this->client->post("{$this->uri($userId)}/activate/{$token}");
+        $response = $this->client->post("{$this->uri($userId)}/activate/{$token}", [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -151,11 +168,14 @@ class UserRequests extends BaseRequest
      *
      * @param int $userId
      * @param string $token
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function confirm($userId, $token)
+    public function confirm($userId, $token, array $queryParams = [])
     {
-        $response = $this->client->post("{$this->uri($userId)}/confirm/{$token}");
+        $response = $this->client->post("{$this->uri($userId)}/confirm/{$token}", [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -165,11 +185,14 @@ class UserRequests extends BaseRequest
      *
      * @param int $userId
      * @param string $token
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function confirmReset($userId, $token)
+    public function confirmReset($userId, $token, array $queryParams = [])
     {
-        $response = $this->client->post("{$this->uri($userId)}/reset/{$token}");
+        $response = $this->client->post("{$this->uri($userId)}/reset/{$token}", [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }

@@ -44,11 +44,14 @@ class FileRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $fileId
+     * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $fileId)
+    public function getById($appId, $scanId, $fileId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $fileId));
+        $response = $this->client->get($this->uri($appId, $scanId, $fileId), [
+            'query' => $queryParams,
+        ]);
 
         return $this->handleResponse($response);
     }
@@ -58,11 +61,14 @@ class FileRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
+     * @param array $queryParams
      * @return void
      */
-    public function delete($appId, $scanId)
+    public function delete($appId, $scanId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $scanId));
+        $response = $this->client->delete($this->uri($appId, $scanId), [
+            'query' => $queryParams,
+        ]);
 
         $this->handleResponse($response, true);
     }
