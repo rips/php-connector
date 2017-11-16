@@ -25,12 +25,14 @@ class ExportRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param string $outFile - File path that CSV contents will be stored to
+     * @param array $queryParams
      * @return void
      */
-    public function exportCsv($appId, $scanId, $outFile)
+    public function exportCsv($appId, $scanId, $outFile, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'csvs'), [
-            'sink' => "{$outFile}.csv",
+            'sink'  => "{$outFile}.csv",
+            'query' => $queryParams,
         ]);
 
         $this->handleResponse($response);
@@ -42,12 +44,14 @@ class ExportRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param string $outFile - File path that CSV contents will be stored to
+     * @param array $queryParams
      * @return void
      */
-    public function exportJiraCsv($appId, $scanId, $outFile)
+    public function exportJiraCsv($appId, $scanId, $outFile, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'jiracsvs'), [
-            'sink' => "{$outFile}.jira.csv",
+            'sink'  => "{$outFile}.jira.csv",
+            'query' => $queryParams,
         ]);
 
         $this->handleResponse($response);
@@ -59,12 +63,14 @@ class ExportRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param string $outFile - File path that PDF contents will be stored to
+     * @param array $queryParams
      * @return void
      */
-    public function exportPdf($appId, $scanId, $outFile)
+    public function exportPdf($appId, $scanId, $outFile, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'pdfs'), [
-            'sink' => "{$outFile}.pdf",
+            'sink'  => "{$outFile}.pdf",
+            'query' => $queryParams,
         ]);
 
         $this->handleResponse($response);
