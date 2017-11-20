@@ -43,8 +43,12 @@ class CustomRequests extends BaseRequest
      * @param int $customId
      * @return string
      */
-    protected function uri($appId, $customId = null)
+    protected function uri($appId = null, $customId = null)
     {
+        if (is_null($appId)) {
+            return '/applications/customs/all';
+        }
+
         return is_null($customId)
             ? "/applications/{$appId}/customs"
             : "/applications/{$appId}/customs/{$customId}";
@@ -57,7 +61,7 @@ class CustomRequests extends BaseRequest
      * @param array $queryParams
      * @return \stdClass[]
      */
-    public function getAll($appId, array $queryParams = [])
+    public function getAll($appId = null, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId), [
             'query' => $queryParams,
