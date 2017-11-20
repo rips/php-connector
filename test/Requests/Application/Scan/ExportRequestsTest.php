@@ -39,7 +39,7 @@ class ExportRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/csvs', $request->getUri()->getPath());
-        $this->assertTrue(file_exists($file . '.csv'));
+        $this->assertTrue(file_exists($file));
 
         unlink($file . '.csv');
     }
@@ -56,7 +56,7 @@ class ExportRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/jiracsvs', $request->getUri()->getPath());
-        $this->assertTrue(file_exists($file . '.jira.csv'));
+        $this->assertTrue(file_exists($file));
 
         unlink($file . '.jira.csv');
     }
@@ -73,7 +73,7 @@ class ExportRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/exports/pdfs', $request->getUri()->getPath());
-        $this->assertTrue(file_exists($file . '.pdf'));
+        $this->assertTrue(file_exists($file));
 
         unlink($file . '.pdf');
     }
