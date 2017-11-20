@@ -107,13 +107,18 @@ class API
      */
     public function initialize($username, $password, array $clientConfig = [])
     {
-        $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
-            'headers' => [
-                'X-API-Username' => $username,
-                'X-API-Password' => $password,
-                'User-Agent' => "RIPS-API-Connector/{$this->version}",
+        $mergedConfig = array_merge(
+            $this->clientConfig,
+            $clientConfig,
+            [
+                'headers' => [
+                    'User-Agent' => "RIPS-API-Connector/{$this->version}",
+                ],
             ],
-        ]);
+            [
+                'headers' => $this->getAuthHeaders($username, $password, $clientConfig)
+            ]
+        );
 
         $client = new Client($mergedConfig);
         $this->applications = new ApplicationRequests($client);
@@ -136,5 +141,152 @@ class API
     public function getVersion()
     {
         return $this->version;
+    }
+
+    /**
+     * Get the authentication headers
+     *
+     * @param string $username
+     * @param string $password
+     * @param array $clientConfig
+     * @return array
+     * @throws \Exception
+     */
+    private function getAuthHeaders($username, $password, $clientConfig)
+    {
+        if (!array_key_exists('oauth2', $clientConfig)) {
+            return [
+                'X-API-Username' => $username,
+                'X-API-Password' => $password
+            ];
+        }
+
+        $oauth2Config = $clientConfig['oauth2'];
+        $accessToken = array_key_exists('access_token', $oauth2Config) ? $oauth2Config["access_token"] : "";
+        if (empty($oauth2Config['access_token'])) {
+            $accessToken = $this->getAccessToken($username, $password, $clientConfig);
+        }
+
+        if (!$this->isAccessTokenValid($clientConfig, $accessToken)) {
+            throw new \Exception('Cannot find/create valid token');
+        }
+
+        return [
+            'Authorization' => "Bearer {$accessToken}"
+        ];
+    }
+
+    /**
+     * Gets an access token either from config, from disk or by requesting a new one
+     *
+     * @param $username
+     * @param $password
+     * @param $clientConfig
+     * @return null
+     */
+    private function getAccessToken($username, $password, $clientConfig)
+    {
+        $oauth2Config = $clientConfig['oauth2'];
+        $accessToken = null;
+
+        // If there is a token file, try to read it and test the found token
+        try {
+            $filePath = array_key_exists('token_file_path', $oauth2Config) && !empty($oauth2Config['token_file_path'])
+                ? $oauth2Config['token_file_path'] : __DIR__ . '/../tokens.json';
+
+            if (file_exists($filePath)) {
+                $accessToken = (json_decode(file_get_contents($filePath)))->access_token;
+            }
+
+            return $accessToken;
+        } catch (\Exception $e) {
+        }
+
+        return $this->createAccessToken($username, $password, $clientConfig);
+    }
+
+    /**
+     * Checks if the given access token is valid
+     *
+     * @param $clientConfig
+     * @param $accessToken
+     * @return bool
+     */
+    private function isAccessTokenValid($clientConfig, $accessToken)
+    {
+        if (is_null($accessToken)) {
+            return false;
+        }
+
+        $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
+            'headers' => [
+                'User-Agent' => "RIPS-API-Connector/{$this->version}",
+                'Authorization' => "Bearer {$accessToken}",
+            ],
+        ]);
+        $validationCheckerClient = new Client($mergedConfig);
+        $response = $validationCheckerClient->request('GET', '/status');
+
+        return property_exists(
+            json_decode(
+                $response->getBody()
+            ),
+            'user'
+        );
+    }
+
+    /**
+     * Creates an access token by requesting it from the server
+     *
+     * @param $username
+     * @param $password
+     * @param $clientConfig
+     * @return mixed
+     * @throws \Exception
+     */
+    private function createAccessToken($username, $password, $clientConfig)
+    {
+        $oauth2Config = $clientConfig['oauth2'];
+        if (!array_key_exists('client_id', $oauth2Config)) {
+            throw new \Exception('Cannot create new oauth token without client id');
+        }
+
+        $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
+            'headers' => [
+                'User-Agent' => "RIPS-API-Connector/{$this->version}",
+            ],
+        ]);
+        $oauth2Client = new Client($mergedConfig);
+
+        $body = [
+            'multipart' => [
+                [
+                    'name' => 'grant_type',
+                    'contents' => 'password',
+                ],
+                [
+                    'name' => 'client_id',
+                    'contents' => $oauth2Config['client_id'],
+                ],
+                [
+                    'name' => 'username',
+                    'contents' => $username,
+                ],
+                [
+                    'name' => 'password',
+                    'contents' => $password,
+                ],
+            ]
+        ];
+        $response = $oauth2Client->request('POST', '/oauth/v2/auth/tokens', $body);
+        $tokenBody = $response->getBody()->getContents();
+
+        if ($oauth2Config['store_token']) {
+            $filePath = array_key_exists('token_file_path', $oauth2Config) && !empty($oauth2Config['token_file_path'])
+                ? $oauth2Config['token_file_path'] : __DIR__ . '/../tokens.json';
+            file_put_contents($filePath, $tokenBody);
+        }
+
+        return (json_decode($tokenBody))->access_token;
     }
 }
