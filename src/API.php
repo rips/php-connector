@@ -182,7 +182,7 @@ class API
      * @param $username
      * @param $password
      * @param $clientConfig
-     * @return null
+     * @return string|null
      */
     private function getAccessToken($username, $password, $clientConfig)
     {
@@ -241,7 +241,7 @@ class API
      * @param $username
      * @param $password
      * @param $clientConfig
-     * @return mixed
+     * @return string
      * @throws \Exception
      */
     private function createAccessToken($username, $password, $clientConfig)
