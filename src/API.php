@@ -3,6 +3,7 @@
 namespace RIPS\Connector;
 
 use GuzzleHttp\Client;
+use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
@@ -150,7 +151,7 @@ class API
      * @param string $password
      * @param array $clientConfig
      * @return array
-     * @throws \Exception
+     * @throws ClientException
      */
     private function getAuthHeaders($username, $password, $clientConfig)
     {
@@ -168,7 +169,7 @@ class API
         }
 
         if (!$this->isAccessTokenValid($clientConfig, $accessToken)) {
-            throw new \Exception('Cannot find/create valid token');
+            throw new ClientException('Cannot find/create valid token');
         }
 
         return [
@@ -242,13 +243,13 @@ class API
      * @param $password
      * @param $clientConfig
      * @return mixed
-     * @throws \Exception
+     * @throws ClientException
      */
     private function createAccessToken($username, $password, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         if (!array_key_exists('client_id', $oauth2Config)) {
-            throw new \Exception('Cannot create new oauth token without client id');
+            throw new ClientException('Cannot create new oauth token without client id');
         }
 
         $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
