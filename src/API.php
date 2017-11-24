@@ -197,9 +197,9 @@ class API
 
             if (file_exists($filePath)) {
                 $accessToken = (json_decode(file_get_contents($filePath)))->access_token;
-            }
 
-            return $accessToken;
+                return $accessToken;
+            }
         } catch (\Exception $e) {
         }
 
@@ -282,7 +282,7 @@ class API
         $response = $oauth2Client->request('POST', '/oauth/v2/auth/tokens', $body);
         $tokenBody = $response->getBody()->getContents();
 
-        if ($oauth2Config['store_token']) {
+        if (isset($oauth2Config['store_token']) && $oauth2Config['store_token'] === true) {
             $filePath = array_key_exists('token_file_path', $oauth2Config) && !empty($oauth2Config['token_file_path'])
                 ? $oauth2Config['token_file_path'] : __DIR__ . '/../tokens.json';
             file_put_contents($filePath, $tokenBody);
