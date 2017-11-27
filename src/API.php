@@ -8,6 +8,8 @@ use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
+use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
+use RIPS\Connector\Requests\OAuth2\LoginCheckRequest;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
 use RIPS\Connector\Requests\SettingsRequests;
@@ -230,15 +232,9 @@ class API
                 'Authorization' => "Bearer {$accessToken}",
             ],
         ]);
-        $validationCheckerClient = new Client($mergedConfig);
-        $response = $validationCheckerClient->request('GET', '/status');
+        $request = new LoginCheckRequest(new Client($mergedConfig));
 
-        return property_exists(
-            json_decode(
-                $response->getBody()
-            ),
-            'user'
-        );
+        return $request->isLoggedIn();
     }
 
     /**
@@ -268,30 +264,9 @@ class API
                 'password' => $password
             ]
         ]);
-        $oauth2Client = new Client($mergedConfig);
 
-        $body = [
-            'multipart' => [
-                [
-                    'name' => 'grant_type',
-                    'contents' => 'password',
-                ],
-                [
-                    'name' => 'client_id',
-                    'contents' => $oauth2Config['client_id'],
-                ],
-                [
-                    'name' => 'username',
-                    'contents' => $username,
-                ],
-                [
-                    'name' => 'password',
-                    'contents' => $password,
-                ],
-            ]
-        ];
-        $response = $oauth2Client->request('POST', '/oauth/v2/auth/tokens', $body);
-        $tokenBody = $response->getBody()->getContents();
+        $request = new AccessTokenRequest(new Client($mergedConfig));
+        $tokens = $request->getTokens();
 
         if (isset($oauth2Config['store_token']) && $oauth2Config['store_token'] === true) {
             $filePath = array_key_exists('token_file_path', $oauth2Config) && !empty($oauth2Config['token_file_path'])
@@ -299,6 +274,6 @@ class API
             file_put_contents($filePath, json_encode($tokens));
         }
 
-        return (json_decode($tokenBody))->access_token;
+        return $tokens->access_token;
     }
 }
