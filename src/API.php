@@ -3,6 +3,7 @@
 namespace RIPS\Connector;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\LicenseRequests;
@@ -196,9 +197,13 @@ class API
                 ? $oauth2Config['token_file_path'] : __DIR__ . '/../tokens.json';
 
             if (file_exists($filePath)) {
-                $accessToken = (json_decode(file_get_contents($filePath)))->access_token;
+                $data = file_get_contents($filePath);
 
-                return $accessToken;
+                if (!empty($data)) {
+                    $accessToken = (json_decode($data))->access_token;
+
+                    return $accessToken;
+                }
             }
         } catch (\Exception $e) {
         }
@@ -256,6 +261,12 @@ class API
             'headers' => [
                 'User-Agent' => "RIPS-API-Connector/{$this->version}",
             ],
+            RequestOptions::JSON => [
+                'grant_type' => 'password',
+                'client_id' => $oauth2Config['client_id'],
+                'username' => $username,
+                'password' => $password
+            ]
         ]);
         $oauth2Client = new Client($mergedConfig);
 
@@ -285,7 +296,7 @@ class API
         if (isset($oauth2Config['store_token']) && $oauth2Config['store_token'] === true) {
             $filePath = array_key_exists('token_file_path', $oauth2Config) && !empty($oauth2Config['token_file_path'])
                 ? $oauth2Config['token_file_path'] : __DIR__ . '/../tokens.json';
-            file_put_contents($filePath, $tokenBody);
+            file_put_contents($filePath, json_encode($tokens));
         }
 
         return (json_decode($tokenBody))->access_token;
