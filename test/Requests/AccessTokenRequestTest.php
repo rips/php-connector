@@ -43,7 +43,7 @@ class AccessTokenRequestTest extends TestCase
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/oauth/v2/auth/tokens', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
     }
