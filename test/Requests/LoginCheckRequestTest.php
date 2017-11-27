@@ -37,11 +37,14 @@ class LoginCheckRequestTest extends TestCase
      */
     public function loginWithoutOauth2()
     {
-        $this->loginCheckRequest->isLoggedIn();
+        /** @var \stdClass $response */
+        $response = $this->loginCheckRequest->isLoggedIn();
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
-        var_dump($request->getUri());
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/status', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->key);
     }
 }
