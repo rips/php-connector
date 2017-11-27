@@ -44,5 +44,4 @@ class LoginCheckRequestTest extends TestCase
 
         var_dump($request->getUri());
     }
-
 }

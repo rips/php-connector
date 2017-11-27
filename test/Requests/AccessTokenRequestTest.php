@@ -44,5 +44,4 @@ class AccessTokenRequestTest extends TestCase
 
         var_dump($request->getUri());
     }
-
 }
