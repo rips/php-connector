@@ -13,6 +13,7 @@ use RIPS\Connector\Requests\SourceRequests;
 use RIPS\Connector\Requests\StatusRequests;
 use RIPS\Connector\Requests\TeamRequests;
 use RIPS\Connector\Requests\UserRequests;
+use RIPS\Connector\Requests\ActivityRequests;
 
 class API
 {
@@ -72,6 +73,11 @@ class API
     public $users;
 
     /**
+     * @var ActivityRequests
+     */
+    public $activities;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
@@ -126,6 +132,7 @@ class API
         $this->status = new StatusRequests($client);
         $this->teams = new TeamRequests($client);
         $this->users = new UserRequests($client);
+        $this->activities = new ActivityRequests($client);
     }
 
     /**
