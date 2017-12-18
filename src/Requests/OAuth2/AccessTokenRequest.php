@@ -17,7 +17,7 @@ class AccessTokenRequest extends BaseRequest
     }
 
     /**
-     * Get status info for the current session and API env.
+     * Get status info for the current session and API env
      *
      * @return \stdClass
      */

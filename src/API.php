@@ -167,7 +167,7 @@ class API
 
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = array_key_exists('access_token', $oauth2Config) ? $oauth2Config["access_token"] : "";
-        if (empty($oauth2Config['access_token'])) {
+        if (empty($accessToken)) {
             $accessToken = $this->getAccessToken($username, $password, $clientConfig);
         }
 

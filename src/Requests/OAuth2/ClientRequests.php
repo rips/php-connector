@@ -88,6 +88,7 @@ class ClientRequests extends BaseRequest
      *
      * @param int $clientId
      * @param array $queryParams
+     * @return void
      */
     public function delete($clientId, array $queryParams = [])
     {
