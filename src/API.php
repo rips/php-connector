@@ -9,7 +9,6 @@ use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
-use RIPS\Connector\Requests\OAuth2\LoginCheckRequest;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
 use RIPS\Connector\Requests\SettingsRequests;
@@ -232,7 +231,7 @@ class API
                 'Authorization' => "Bearer {$accessToken}",
             ],
         ]);
-        $request = new LoginCheckRequest(new Client($mergedConfig));
+        $request = new StatusRequests(new Client($mergedConfig));
 
         return $request->isLoggedIn();
     }
