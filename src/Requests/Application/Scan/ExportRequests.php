@@ -31,7 +31,7 @@ class ExportRequests extends BaseRequest
     public function exportCsv($appId, $scanId, $outFile, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'csvs'), [
-            'sink'  => "{$outFile}.csv",
+            'sink'  => $outFile,
             'query' => $queryParams,
         ]);
 
@@ -50,7 +50,7 @@ class ExportRequests extends BaseRequest
     public function exportJiraCsv($appId, $scanId, $outFile, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'jiracsvs'), [
-            'sink'  => "{$outFile}.jira.csv",
+            'sink'  => $outFile,
             'query' => $queryParams,
         ]);
 
@@ -69,7 +69,7 @@ class ExportRequests extends BaseRequest
     public function exportPdf($appId, $scanId, $outFile, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'pdfs'), [
-            'sink'  => "{$outFile}.pdf",
+            'sink'  => $outFile,
             'query' => $queryParams,
         ]);
 
