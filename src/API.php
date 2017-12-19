@@ -98,6 +98,7 @@ class API
      * @param string $username
      * @param string $password
      * @param array $clientConfig
+     * @throws Exception
      */
     public function __construct($username = null, $password = null, array $clientConfig = [])
     {
@@ -114,6 +115,7 @@ class API
      * @param string $username
      * @param string $password
      * @param array $clientConfig
+     * @throws Exception
      */
     public function initialize($username, $password, array $clientConfig = [])
     {
@@ -162,6 +164,7 @@ class API
      * @param array $clientConfig
      * @return array
      * @throws ClientException
+     * @throws Exception
      */
     private function getAuthHeaders($username, $password, $clientConfig)
     {
@@ -194,6 +197,7 @@ class API
      * @param $password
      * @param $clientConfig
      * @return string|null
+     * @throws Exception
      */
     private function getAccessToken($username, $password, $clientConfig)
     {
