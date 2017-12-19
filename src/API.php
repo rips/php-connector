@@ -10,6 +10,7 @@ use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
+use RIPS\Connector\Requests\OAuth2Requests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
 use RIPS\Connector\Requests\SettingsRequests;
@@ -76,6 +77,11 @@ class API
     public $users;
 
     /**
+     * @var OAuth2Requests
+     */
+    public $oauth2;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
@@ -135,6 +141,7 @@ class API
         $this->status = new StatusRequests($client);
         $this->teams = new TeamRequests($client);
         $this->users = new UserRequests($client);
+        $this->oauth2 = new OAuth2Requests($client);
     }
 
     /**
