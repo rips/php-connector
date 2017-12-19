@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Exceptions\ClientException;
@@ -195,7 +196,7 @@ class API
         // If there is a token file, try to read it and test the found token
         try {
             $filePath = array_key_exists('token_file_path', $oauth2Config) && !empty($oauth2Config['token_file_path'])
-                ? $oauth2Config['token_file_path'] : __DIR__ . '/../tokens.json';
+                ? $oauth2Config['token_file_path'] : '';
 
             if (file_exists($filePath)) {
                 $data = file_get_contents($filePath);
@@ -244,6 +245,7 @@ class API
      * @param $clientConfig
      * @return string
      * @throws ClientException
+     * @throws Exception
      */
     private function createAccessToken($username, $password, $clientConfig)
     {
@@ -268,8 +270,10 @@ class API
         $tokens = $request->getTokens();
 
         if (isset($oauth2Config['store_token']) && $oauth2Config['store_token'] === true) {
-            $filePath = array_key_exists('token_file_path', $oauth2Config) && !empty($oauth2Config['token_file_path'])
-                ? $oauth2Config['token_file_path'] : __DIR__ . '/../tokens.json';
+            if (!array_key_exists('token_file_path', $oauth2Config) || empty($oauth2Config['token_file_path'])) {
+                throw new Exception('Token path is needed to store token.');
+            }
+            $filePath = $oauth2Config['token_file_path'];
             file_put_contents($filePath, json_encode($tokens));
         }
 
