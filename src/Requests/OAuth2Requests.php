@@ -5,7 +5,7 @@ namespace RIPS\Connector\Requests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
 use RIPS\Connector\Requests\OAuth2\ClientRequests;
 
-class OAuthRequests extends BaseRequest
+class OAuth2Requests extends BaseRequest
 {
     /**
      * @var AccessTokenRequest
