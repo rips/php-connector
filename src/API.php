@@ -188,7 +188,7 @@ class API
             $accessToken = $this->getAccessToken($username, $password, $clientConfig);
         }
 
-        if (!$this->isAccessTokenValid($clientConfig, $accessToken)) {
+        if (!$accessToken) {
             throw new ClientException('Cannot find/create valid token');
         }
 
@@ -229,30 +229,6 @@ class API
         }
 
         return $this->createAccessToken($username, $password, $clientConfig);
-    }
-
-    /**
-     * Checks if the given access token is valid
-     *
-     * @param $clientConfig
-     * @param $accessToken
-     * @return bool
-     */
-    private function isAccessTokenValid($clientConfig, $accessToken)
-    {
-        if (is_null($accessToken)) {
-            return false;
-        }
-
-        $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
-            'headers' => [
-                'User-Agent' => "RIPS-API-Connector/{$this->version}",
-                'Authorization' => "Bearer {$accessToken}",
-            ],
-        ]);
-        $request = new StatusRequests(new Client($mergedConfig));
-
-        return $request->isLoggedIn();
     }
 
     /**
