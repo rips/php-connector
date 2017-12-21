@@ -2,11 +2,8 @@
 
 namespace RIPS\Test\Requests;
 
-use RIPS\Connector\API;
-use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
-use RIPS\Connector\Requests\OAuth2\LoginCheckRequest;
+use RIPS\Connector\Requests\StatusRequests;
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\LogRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
@@ -14,9 +11,9 @@ use GuzzleHttp\Middleware;
 class LoginCheckRequestTest extends TestCase
 {
     /**
-     * @var LoginCheckRequest
+     * @var StatusRequests
      */
-    protected $loginCheckRequest;
+    protected $statusRequest;
 
     protected function setUp()
     {
@@ -29,7 +26,7 @@ class LoginCheckRequestTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"user": {"id": 1}}'),
         ]));
 
-        $this->loginCheckRequest = new LoginCheckRequest($this->client);
+        $this->statusRequest = new StatusRequests($this->client);
     }
 
     /**
@@ -37,11 +34,8 @@ class LoginCheckRequestTest extends TestCase
      */
     public function loginWithoutOauth2()
     {
-        /** @var \stdClass $response */
-        $response = $this->loginCheckRequest->isLoggedIn();
-
-        /** @var \GuzzleHttp\Psr7\Request $request */
-        $request = $this->container[0]['request'];
+        $response = $this->statusRequest->isLoggedIn();
+        $this->container[0]['request'];
 
         $this->assertTrue($response);
     }
