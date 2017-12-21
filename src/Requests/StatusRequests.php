@@ -28,4 +28,21 @@ class StatusRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
+    /**
+     * Checks if the user is logged with the given credentials
+     *
+     * @return boolean
+     */
+    public function isLoggedIn()
+    {
+        $response = $this->client->get($this->uri());
+
+        $body = $this->handleResponse($response);
+
+        return property_exists(
+            $body,
+            'user'
+        );
+    }
 }

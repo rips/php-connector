@@ -53,6 +53,17 @@ The following config options are available:
 	'base_uri' (required, default: http://localhost:8080): API URL
 	'timeout' (optional, default: 100): Timeout of request in seconds
 	'connect_timeout' (optional, default: 10): Number of seconds to wait while trying to connect to server
+	'oauth2' (optional): OAuth2 configuration, see OAuth2 Config
+
+## OAuth2Config
+
+The following options are available as associative array under the oauth2 key:
+
+    'client_id' (required): Client id for the login client
+    'store_token' (optional, default: false): Flag if the OAuth2 tokens should be stored on disk
+    'token_file_path' (optional, default: ./tokens.json): The file location for the token file
+    'access_token' (optional, default: ""): If already present a accesstoken to use for login
+        
 
 # Testing
 
