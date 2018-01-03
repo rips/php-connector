@@ -25,7 +25,7 @@ class API
     /**
      * @var string
      */
-    protected $version = '2.9.0';
+    protected $version = '2.10.1';
 
     /**
      * @var ApplicationRequests
@@ -175,7 +175,7 @@ class API
      */
     private function getAuthHeaders($username, $password, $clientConfig)
     {
-        if (!array_key_exists('oauth2', $clientConfig)) {
+        if (!isset($clientConfig['oauth2']['enabled']) || !$clientConfig['oauth2']['enabled']) {
             return [
                 'X-API-Username' => $username,
                 'X-API-Password' => $password
