@@ -59,9 +59,10 @@ The following config options are available:
 
 The following options are available as associative array under the oauth2 key:
 
+    'enabled' (required): Use OAuth2 instead of legacy auth
     'client_id' (required): Client id for the login client
     'store_token' (optional, default: false): Flag if the OAuth2 tokens should be stored on disk
-    'token_file_path' (optional, default: ./tokens.json): The file location for the token file
+    'token_file_path' (optional): The file location for the token file
     'access_token' (optional, default: ""): If already present a accesstoken to use for login
         
 
