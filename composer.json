@@ -1,7 +1,7 @@
 {
     "name": "rips/connector",
     "description": "RIPS API connector package",
-    "version": "2.10.0",
+    "version": "2.10.1",
     "type": "library",
     "license": "BSD-3-Clause",
     "autoload": {
