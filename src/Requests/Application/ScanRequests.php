@@ -136,12 +136,19 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param array $input
      * @param array $queryParams
+     * @param boolean $defaultInput
      * @return \stdClass
      */
-    public function create($appId, array $input, array $queryParams = [])
+    public function create($appId, array $input, array $queryParams = [], $defaultInput = true)
     {
+        if ($defaultInput) {
+            $params = ['scan' => $input];
+        } else {
+            $params = $input;
+        }
+
         $response = $this->client->post("{$this->uri($appId)}", [
-            'form_params' => ['scan' => $input],
+            'form_params' => $params,
             'query' => $queryParams,
         ]);
 
@@ -155,12 +162,19 @@ class ScanRequests extends BaseRequest
      * @param int $scanId
      * @param array $input
      * @param array $queryParams
+     * @param boolean $defaultInput
      * @return \stdClass
      */
-    public function update($appId, $scanId, array $input, array $queryParams = [])
+    public function update($appId, $scanId, array $input, array $queryParams = [], $defaultInput = true)
     {
+        if ($defaultInput) {
+            $params = ['scan' => $input];
+        } else {
+            $params = $input;
+        }
+
         $response = $this->client->patch("{$this->uri($appId)}/{$scanId}", [
-            'form_params' => ['scan' => $input],
+            'form_params' => $params,
             'query' => $queryParams,
         ]);
 
