@@ -13,7 +13,7 @@ use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
 use RIPS\Connector\Requests\OAuth2Requests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
-use RIPS\Connector\Requests\SettingsRequests;
+use RIPS\Connector\Requests\SettingRequests;
 use RIPS\Connector\Requests\SourceRequests;
 use RIPS\Connector\Requests\StatusRequests;
 use RIPS\Connector\Requests\TeamRequests;
@@ -53,7 +53,7 @@ class API
     public $quotas;
 
     /**
-     * @var SettingsRequests
+     * @var SettingRequests
      */
     public $settings;
 
@@ -144,7 +144,7 @@ class API
         $this->logs = new LogRequests($client);
         $this->orgs = new OrgRequests($client);
         $this->quotas = new QuotaRequests($client);
-        $this->settings = new SettingsRequests($client);
+        $this->settings = new SettingRequests($client);
         $this->sources = new SourceRequests($client);
         $this->status = new StatusRequests($client);
         $this->teams = new TeamRequests($client);
