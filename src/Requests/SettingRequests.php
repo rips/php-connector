@@ -2,7 +2,7 @@
 
 namespace RIPS\Connector\Requests;
 
-class SettingsRequests extends BaseRequest
+class SettingRequests extends BaseRequest
 {
     /**
      * Build a uri for the request
