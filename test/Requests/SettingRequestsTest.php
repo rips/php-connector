@@ -3,15 +3,15 @@
 namespace RIPS\Test\Requests;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\SettingsRequests;
+use RIPS\Connector\Requests\SettingRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class SettingsRequestsTest extends TestCase
+class SettingRequestsTest extends TestCase
 {
-    /** @var SettingsRequests */
-    protected $settingsRequests;
+    /** @var SettingRequests */
+    protected $settingRequests;
 
     protected function setUp()
     {
@@ -24,7 +24,7 @@ class SettingsRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->settingsRequests = new SettingsRequests($this->client);
+        $this->settingRequests = new SettingRequests($this->client);
     }
 
     /**
@@ -33,7 +33,7 @@ class SettingsRequestsTest extends TestCase
     public function getAll()
     {
         /** @var \stdClass $response */
-        $response = $this->settingsRequests->getAll([
+        $response = $this->settingRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -56,7 +56,7 @@ class SettingsRequestsTest extends TestCase
      */
     public function getByKey()
     {
-        $response = $this->settingsRequests->getByKey('key');
+        $response = $this->settingRequests->getByKey('key');
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
@@ -70,7 +70,7 @@ class SettingsRequestsTest extends TestCase
      */
     public function createOrUpdate()
     {
-        $response = $this->settingsRequests->createOrUpdate('key', ['test' => 'input']);
+        $response = $this->settingRequests->createOrUpdate('key', ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
@@ -86,7 +86,7 @@ class SettingsRequestsTest extends TestCase
      */
     public function deleteAll()
     {
-        $this->settingsRequests->deleteAll([
+        $this->settingRequests->deleteAll([
             'notEqual' => [
                 'name' => 'test',
             ],
@@ -108,7 +108,7 @@ class SettingsRequestsTest extends TestCase
      */
     public function deleteByKey()
     {
-        $this->settingsRequests->deleteByKey('key');
+        $this->settingRequests->deleteByKey('key');
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
