@@ -25,7 +25,7 @@ class API
     /**
      * @var string
      */
-    protected $version = '2.10.1';
+    protected $version = '2.10.4';
 
     /**
      * @var ApplicationRequests
@@ -220,7 +220,8 @@ class API
                 $data = file_get_contents($filePath);
 
                 if (!empty($data)) {
-                    $accessToken = (json_decode($data))->access_token;
+                    $decodedData = json_decode($data);
+                    $accessToken = $decodedData->access_token;
 
                     return $accessToken;
                 }
