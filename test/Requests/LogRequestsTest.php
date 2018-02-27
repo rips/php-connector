@@ -75,7 +75,7 @@ class LogRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/logs', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
-        $this->assertEquals('log[test]=input', $body);
+        $this->assertEquals('{"log":{"test":"input"}}', $body);
     }
 
     /**

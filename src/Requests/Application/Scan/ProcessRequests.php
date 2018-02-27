@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ProcessRequests extends BaseRequest
@@ -68,7 +69,7 @@ class ProcessRequests extends BaseRequest
     public function create($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId), [
-            'form_params' => ['process' => $input],
+            RequestOptions::JSON => ['process' => $input],
             'query' => $queryParams,
         ]);
 
@@ -87,7 +88,7 @@ class ProcessRequests extends BaseRequest
     public function update($appId, $scanId, $processId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $scanId, $processId), [
-            'form_params' => ['process' => $input],
+            RequestOptions::JSON => ['process' => $input],
             'query' => $queryParams,
         ]);
 

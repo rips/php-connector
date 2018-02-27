@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use GuzzleHttp\RequestOptions;
+
 class SettingRequests extends BaseRequest
 {
     /**
@@ -57,7 +59,7 @@ class SettingRequests extends BaseRequest
     public function createOrUpdate($key, array $input, array $queryParams = [])
     {
         $response = $this->client->put($this->uri($key), [
-            'form_params' => ['setting' => $input],
+            RequestOptions::JSON => ['setting' => $input],
             'query' => $queryParams,
         ]);
 

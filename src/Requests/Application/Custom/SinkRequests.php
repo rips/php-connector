@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Custom;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class SinkRequests extends BaseRequest
@@ -68,7 +69,7 @@ class SinkRequests extends BaseRequest
     public function create($appId, $customId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $customId), [
-            'form_params' => ['sink' => $input],
+            RequestOptions::JSON => ['sink' => $input],
             'query' => $queryParams,
         ]);
 
@@ -88,7 +89,7 @@ class SinkRequests extends BaseRequest
     public function update($appId, $customId, $sinkId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $customId, $sinkId), [
-            'form_params' => ['sink' => $input],
+            RequestOptions::JSON => ['sink' => $input],
             'query' => $queryParams,
         ]);
 

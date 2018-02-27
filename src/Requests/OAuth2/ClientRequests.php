@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\OAuth2;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ClientRequests extends BaseRequest
@@ -58,7 +59,7 @@ class ClientRequests extends BaseRequest
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            'form_params' => ['client' => $input],
+            RequestOptions::JSON => ['client' => $input],
             'query' => $queryParams,
         ]);
 
@@ -76,7 +77,7 @@ class ClientRequests extends BaseRequest
     public function update($clientId, array $input, array $queryParams = [])
     {
         $response = $this->client->put($this->uri($clientId), [
-            'form_params' => ['client' => $input],
+            RequestOptions::JSON => ['client' => $input],
             'query' => $queryParams,
         ]);
 

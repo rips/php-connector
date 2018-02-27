@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\Application\Scan\ClassRequests;
 use RIPS\Connector\Requests\Application\Scan\ComparisonRequests;
 use RIPS\Connector\Requests\Application\Scan\ConcatRequests;
@@ -148,7 +149,7 @@ class ScanRequests extends BaseRequest
         }
 
         $response = $this->client->post("{$this->uri($appId)}", [
-            'form_params' => $params,
+            RequestOptions::JSON => $params,
             'query' => $queryParams,
         ]);
 
@@ -174,7 +175,7 @@ class ScanRequests extends BaseRequest
         }
 
         $response = $this->client->patch("{$this->uri($appId)}/{$scanId}", [
-            'form_params' => $params,
+            RequestOptions::JSON => $params,
             'query' => $queryParams,
         ]);
 

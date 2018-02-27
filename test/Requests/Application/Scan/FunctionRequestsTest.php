@@ -77,7 +77,7 @@ class FunctionRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/functions/batches', $request->getUri()->getPath());
-        $this->assertEquals('function[test]=input', $body);
+        $this->assertEquals('{"functions":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 }

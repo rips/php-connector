@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\Application\AclRequests;
 use RIPS\Connector\Requests\Application\CustomRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
@@ -81,7 +82,7 @@ class ApplicationRequests extends BaseRequest
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            'form_params' => ['application' => $input],
+            RequestOptions::JSON => ['application' => $input],
             'query' => $queryParams,
         ]);
 
@@ -99,7 +100,7 @@ class ApplicationRequests extends BaseRequest
     public function update($appId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId), [
-            'form_params' => ['application' => $input],
+            RequestOptions::JSON => ['application' => $input],
             'query' => $queryParams,
         ]);
 

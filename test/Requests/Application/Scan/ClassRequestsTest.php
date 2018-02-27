@@ -77,7 +77,7 @@ class ClassRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/classes/batches', $request->getUri()->getPath());
-        $this->assertEquals('class[test]=input', $body);
+        $this->assertEquals('{"classes":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 }

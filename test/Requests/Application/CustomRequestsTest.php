@@ -82,7 +82,7 @@ class CustomRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/customs', $request->getUri()->getPath());
-        $this->assertEquals('custom[test]=input', $body);
+        $this->assertEquals('{"custom":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -98,7 +98,7 @@ class CustomRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
-        $this->assertEquals('custom[test]=input', $body);
+        $this->assertEquals('{"custom":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
