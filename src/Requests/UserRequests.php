@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use GuzzleHttp\RequestOptions;
+
 class UserRequests extends BaseRequest
 {
     /**
@@ -56,7 +58,7 @@ class UserRequests extends BaseRequest
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            'form_params' => ['user' => $input],
+            RequestOptions::JSON => ['user' => $input],
             'query' => $queryParams,
         ]);
 
@@ -74,7 +76,7 @@ class UserRequests extends BaseRequest
     public function update($userId, $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($userId), [
-            'form_params' => ['user' => $input],
+            RequestOptions::JSON => ['user' => $input],
             'query' => $queryParams,
         ]);
 
@@ -122,7 +124,7 @@ class UserRequests extends BaseRequest
     public function invite(array $input, array $queryParams = [])
     {
         $response = $this->client->post("{$this->uri()}/invite/ui", [
-            'form_params' => ['user' => $input],
+            RequestOptions::JSON => ['user' => $input],
             'query' => $queryParams,
         ]);
 
@@ -139,7 +141,7 @@ class UserRequests extends BaseRequest
     public function reset(array $input, array $queryParams = [])
     {
         $response = $this->client->post("{$this->uri()}/reset/ui", [
-            'form_params' => ['reset' => $input],
+            RequestOptions::JSON => ['reset' => $input],
             'query' => $queryParams,
         ]);
 

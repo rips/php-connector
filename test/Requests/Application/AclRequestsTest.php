@@ -100,7 +100,7 @@ class AclRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/acls', $request->getUri()->getPath());
-        $this->assertEquals('acl[test]=input', $body);
+        $this->assertEquals('{"acl":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -116,7 +116,7 @@ class AclRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());
-        $this->assertEquals('acl[test]=input', $body);
+        $this->assertEquals('{"acl":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

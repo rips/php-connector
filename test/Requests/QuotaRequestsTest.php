@@ -75,7 +75,7 @@ class QuotaRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/quotas', $request->getUri()->getPath());
-        $this->assertEquals('quota[test]=input', $body);
+        $this->assertEquals('{"quota":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -91,7 +91,7 @@ class QuotaRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/quotas/1', $request->getUri()->getPath());
-        $this->assertEquals('quota[test]=input', $body);
+        $this->assertEquals('{"quota":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

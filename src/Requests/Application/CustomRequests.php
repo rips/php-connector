@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Custom\IgnoreRequests;
 use RIPS\Connector\Requests\Application\Custom\SanitiserRequests;
@@ -98,7 +99,7 @@ class CustomRequests extends BaseRequest
     public function create($appId, $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId), [
-            'form_params' => ['custom' => $input],
+            RequestOptions::JSON => ['custom' => $input],
             'query' => $queryParams,
         ]);
 
@@ -117,7 +118,7 @@ class CustomRequests extends BaseRequest
     public function update($appId, $customId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $customId), [
-            'form_params' => ['custom' => $input],
+            RequestOptions::JSON => ['custom' => $input],
             'query' => $queryParams,
         ]);
 

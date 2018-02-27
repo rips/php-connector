@@ -77,7 +77,7 @@ class SettingRequestsTest extends TestCase
 
         $this->assertEquals('PUT', $request->getMethod());
         $this->assertEquals('/settings/key', $request->getUri()->getPath());
-        $this->assertEquals('setting[test]=input', $body);
+        $this->assertEquals('{"setting":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

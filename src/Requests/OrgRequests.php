@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use GuzzleHttp\RequestOptions;
+
 class OrgRequests extends BaseRequest
 {
 
@@ -57,7 +59,7 @@ class OrgRequests extends BaseRequest
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            'form_params' => ['organisation' => $input],
+            RequestOptions::JSON => ['organisation' => $input],
             'query' => $queryParams,
         ]);
 
@@ -75,7 +77,7 @@ class OrgRequests extends BaseRequest
     public function update($orgId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($orgId), [
-            'form_params' => ['organisation' => $input],
+            RequestOptions::JSON => ['organisation' => $input],
             'query' => $queryParams,
         ]);
 

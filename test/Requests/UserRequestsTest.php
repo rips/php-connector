@@ -77,7 +77,7 @@ class UserRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users', $request->getUri()->getPath());
-        $this->assertEquals('user[test]=input', $body);
+        $this->assertEquals('{"user":{"test":"input"}}', $body);
     }
 
     /**
@@ -92,7 +92,7 @@ class UserRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/users/1', $request->getUri()->getPath());
-        $this->assertEquals('user[test]=input', $body);
+        $this->assertEquals('{"user":{"test":"input"}}', $body);
     }
 
     /**
@@ -142,7 +142,7 @@ class UserRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/invite/ui', $request->getUri()->getPath());
-        $this->assertEquals('user[test]=input', $body);
+        $this->assertEquals('{"user":{"test":"input"}}', $body);
     }
 
     /**
@@ -157,7 +157,7 @@ class UserRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/reset/ui', $request->getUri()->getPath());
-        $this->assertEquals('reset[test]=input', $body);
+        $this->assertEquals('{"reset":{"test":"input"}}', $body);
     }
 
     /**

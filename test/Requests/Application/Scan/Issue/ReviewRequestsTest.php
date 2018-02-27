@@ -77,7 +77,7 @@ class ReviewRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/issues/3/reviews', $request->getUri()->getPath());
-        $this->assertEquals('review[test]=input', $body);
+        $this->assertEquals('{"review":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 }

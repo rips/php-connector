@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Quota;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class AclRequests extends BaseRequest
@@ -64,7 +65,7 @@ class AclRequests extends BaseRequest
     public function create($quotaId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($quotaId), [
-            'form_params' => ['acl' => $input],
+            RequestOptions::JSON => ['acl' => $input],
             'query' => $queryParams,
         ]);
 
@@ -83,7 +84,7 @@ class AclRequests extends BaseRequest
     public function update($quotaId, $aclId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($quotaId, $aclId), [
-            'form_params' => ['acl' => $input],
+            RequestOptions::JSON => ['acl' => $input],
             'query' => $queryParams,
         ]);
 

@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Custom;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ValidatorRequests extends BaseRequest
@@ -68,7 +69,7 @@ class ValidatorRequests extends BaseRequest
     public function create($appId, $customId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $customId), [
-            'form_params' => ['validator' => $input],
+            RequestOptions::JSON => ['validator' => $input],
             'query' => $queryParams,
         ]);
 
@@ -88,7 +89,7 @@ class ValidatorRequests extends BaseRequest
     public function update($appId, $customId, $validatorId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $customId, $validatorId), [
-            'form_params' => ['validator' => $input],
+            RequestOptions::JSON => ['validator' => $input],
             'query' => $queryParams,
         ]);
 

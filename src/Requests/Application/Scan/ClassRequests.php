@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ClassRequests extends BaseRequest
@@ -57,7 +58,7 @@ class ClassRequests extends BaseRequest
     }
 
     /**
-     * Create class for scan
+     * Create a batch of classes for a scan
      *
      * @param int $appId
      * @param int $scanId
@@ -69,7 +70,7 @@ class ClassRequests extends BaseRequest
     {
         $uri = "{$this->uri($appId, $scanId)}/batches";
         $response = $this->client->post($uri, [
-            'form_params' => ['class' => $input],
+            RequestOptions::JSON => ['classes' => $input],
             'query' => $queryParams,
         ]);
 

@@ -81,7 +81,7 @@ class ApplicationRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1', $request->getUri()->getPath());
-        $this->assertEquals('application[test]=input', $body);
+        $this->assertEquals('{"application":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

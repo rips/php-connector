@@ -77,7 +77,7 @@ class LicenseRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/licenses', $request->getUri()->getPath());
-        $this->assertEquals('license[test]=input', $body);
+        $this->assertEquals('{"license":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 }

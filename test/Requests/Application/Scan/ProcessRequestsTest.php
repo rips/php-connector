@@ -77,7 +77,7 @@ class ProcessRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/processes', $request->getUri()->getPath());
-        $this->assertEquals('process[test]=input', $body);
+        $this->assertEquals('{"process":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -93,7 +93,7 @@ class ProcessRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/processes/3', $request->getUri()->getPath());
-        $this->assertEquals('process[test]=input', $body);
+        $this->assertEquals('{"process":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 }

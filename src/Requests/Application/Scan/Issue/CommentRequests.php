@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class CommentRequests extends BaseRequest
@@ -75,7 +76,7 @@ class CommentRequests extends BaseRequest
     public function create($appId, $scanId, $issueId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId, $issueId), [
-            'form_params' => ['comment' => $input],
+            RequestOptions::JSON => ['comment' => $input],
             'query' => $queryParams,
         ]);
 

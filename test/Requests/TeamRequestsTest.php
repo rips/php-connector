@@ -77,7 +77,7 @@ class TeamRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/teams', $request->getUri()->getPath());
-        $this->assertEquals('team[test]=input', $body);
+        $this->assertEquals('{"team":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -93,7 +93,7 @@ class TeamRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/teams/1', $request->getUri()->getPath());
-        $this->assertEquals('team[test]=input', $body);
+        $this->assertEquals('{"team":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

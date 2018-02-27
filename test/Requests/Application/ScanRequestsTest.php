@@ -119,7 +119,7 @@ class ScanRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
-        $this->assertEquals('scan[test]=input', $body);
+        $this->assertEquals('{"scan":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -135,7 +135,7 @@ class ScanRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
-        $this->assertEquals('scan[test]=input', $body);
+        $this->assertEquals('{"scan":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
