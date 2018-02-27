@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Custom;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class SanitiserRequests extends BaseRequest
@@ -68,7 +69,7 @@ class SanitiserRequests extends BaseRequest
     public function create($appId, $customId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $customId), [
-            'form_params' => ['sanitiser' => $input],
+            RequestOptions::JSON => ['sanitiser' => $input],
             'query' => $queryParams,
         ]);
 
@@ -88,7 +89,7 @@ class SanitiserRequests extends BaseRequest
     public function update($appId, $customId, $sanitiserId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $customId, $sanitiserId), [
-            'form_params' => ['sanitiser' => $input],
+            RequestOptions::JSON => ['sanitiser' => $input],
             'query' => $queryParams,
         ]);
 

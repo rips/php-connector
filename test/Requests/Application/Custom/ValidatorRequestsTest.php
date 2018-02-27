@@ -78,7 +78,7 @@ class ValidatorRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/validators', $request->getUri()->getPath());
-        $this->assertEquals('validator[test]=input', $body);
+        $this->assertEquals('{"validator":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -94,7 +94,7 @@ class ValidatorRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/validators/3', $request->getUri()->getPath());
-        $this->assertEquals('validator[test]=input', $body);
+        $this->assertEquals('{"validator":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

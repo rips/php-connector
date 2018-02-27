@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
 class FunctionRequests extends BaseRequest
@@ -57,7 +58,7 @@ class FunctionRequests extends BaseRequest
     }
 
     /**
-     * Create a function for a scan
+     * Create a batch of functions for a scan
      *
      * @param int $appId
      * @param int $scanId
@@ -68,7 +69,7 @@ class FunctionRequests extends BaseRequest
     public function create($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->post("{$this->uri($appId, $scanId)}/batches", [
-            'form_params' => ['function' => $input],
+            RequestOptions::JSON => ['functions' => $input],
             'query' => $queryParams,
         ]);
 

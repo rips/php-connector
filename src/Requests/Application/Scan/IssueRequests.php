@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
@@ -121,7 +122,7 @@ class IssueRequests extends BaseRequest
     public function create($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId), [
-            'form_params' => ['issue' => $input],
+            RequestOptions::JSON => ['issue' => $input],
             'query' => $queryParams,
         ]);
 

@@ -69,7 +69,7 @@ class ClientRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/oauth/v2/clients', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
-        $this->assertEquals('client[name]=test', $body);
+        $this->assertEquals('{"client":{"name":"test"}}', $body);
     }
 
     /**

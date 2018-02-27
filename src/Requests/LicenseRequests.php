@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use GuzzleHttp\RequestOptions;
+
 class LicenseRequests extends BaseRequest
 {
     /**
@@ -56,7 +58,7 @@ class LicenseRequests extends BaseRequest
     public function activate(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            'form_params' => ['license' => $input],
+            RequestOptions::JSON => ['license' => $input],
             'query' => $queryParams,
         ]);
 

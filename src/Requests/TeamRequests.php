@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use GuzzleHttp\RequestOptions;
+
 class TeamRequests extends BaseRequest
 {
     /**
@@ -56,7 +58,7 @@ class TeamRequests extends BaseRequest
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            'form_params' => ['team' => $input],
+            RequestOptions::JSON => ['team' => $input],
             'query' => $queryParams,
         ]);
 
@@ -74,7 +76,7 @@ class TeamRequests extends BaseRequest
     public function update($teamId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($teamId), [
-            'form_params' => ['team' => $input],
+            RequestOptions::JSON => ['team' => $input],
             'query' => $queryParams,
         ]);
 

@@ -115,7 +115,7 @@ class IssueRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/issues', $request->getUri()->getPath());
-        $this->assertEquals('issue[test]=input', $body);
+        $this->assertEquals('{"issue":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

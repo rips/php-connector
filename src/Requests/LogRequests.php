@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use GuzzleHttp\RequestOptions;
+
 class LogRequests extends BaseRequest
 {
     /**
@@ -56,7 +58,7 @@ class LogRequests extends BaseRequest
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            'form_params' => ['log' => $input],
+            RequestOptions::JSON => ['log' => $input],
             'query' => $queryParams,
         ]);
 

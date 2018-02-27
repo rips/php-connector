@@ -78,7 +78,7 @@ class SourceRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/sources', $request->getUri()->getPath());
-        $this->assertEquals('source[test]=input', $body);
+        $this->assertEquals('{"source":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -94,7 +94,7 @@ class SourceRequestsTest extends TestCase
 
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/sources/3', $request->getUri()->getPath());
-        $this->assertEquals('source[test]=input', $body);
+        $this->assertEquals('{"source":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 

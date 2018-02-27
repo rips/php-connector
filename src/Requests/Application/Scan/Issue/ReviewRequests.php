@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
+use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\Application\Scan\Issue\Review\TypeRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
@@ -78,7 +79,7 @@ class ReviewRequests extends BaseRequest
     public function create($appId, $scanId, $issueId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId, $issueId), [
-            'form_params' => ['review' => $input],
+            RequestOptions::JSON => ['review' => $input],
             'query' => $queryParams,
         ]);
 
