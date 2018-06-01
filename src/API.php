@@ -19,13 +19,14 @@ use RIPS\Connector\Requests\StatusRequests;
 use RIPS\Connector\Requests\TeamRequests;
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Connector\Requests\ActivityRequests;
+use RIPS\Connector\Requests\MaintenanceRequests;
 
 class API
 {
     /**
      * @var string
      */
-    protected $version = '2.10.4';
+    protected $version = '2.15.2';
 
     /**
      * @var ApplicationRequests
@@ -86,6 +87,11 @@ class API
      * @var ActivityRequests
      */
     public $activities;
+
+    /**
+     * @var MaintenanceRequests
+     */
+    public $maintenance;
 
     /**
      * @var array - Config values for GuzzleClient
@@ -151,6 +157,7 @@ class API
         $this->users = new UserRequests($client);
         $this->oauth2 = new OAuth2Requests($client);
         $this->activities = new ActivityRequests($client);
+        $this->maintenance = new MaintenanceRequests($client);
     }
 
     /**
