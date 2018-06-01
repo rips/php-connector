@@ -10,6 +10,7 @@ use RIPS\Connector\Requests\Application\Custom\SettingRequests;
 use RIPS\Connector\Requests\Application\Custom\SinkRequests;
 use RIPS\Connector\Requests\Application\Custom\SourceRequests;
 use RIPS\Connector\Requests\Application\Custom\ValidatorRequests;
+use RIPS\Connector\Requests\Application\Custom\ControllerRequests;
 
 class CustomRequests extends BaseRequest
 {
@@ -42,6 +43,11 @@ class CustomRequests extends BaseRequest
      * @var ValidatorRequests
      */
     protected $validatorRequests;
+
+    /**
+     * @var ControllerRequests
+     */
+    protected $controllerRequests;
 
     /**
      * Build the URI for the requests
@@ -246,5 +252,19 @@ class CustomRequests extends BaseRequest
         }
 
         return $this->validatorRequests;
+    }
+
+    /**
+     * Accessor to controller requests
+     *
+     * @return ControllerRequests
+     */
+    public function controllers()
+    {
+        if (is_null($this->controllerRequests)) {
+            $this->controllerRequests = new ControllerRequests($this->client);
+        }
+
+        return $this->controllerRequests;
     }
 }
