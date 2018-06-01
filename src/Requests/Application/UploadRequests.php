@@ -13,8 +13,12 @@ class UploadRequests extends BaseRequest
      * @param int $uploadId
      * @return string
      */
-    private function uri($appId, $uploadId = null)
+    private function uri($appId = null, $uploadId = null)
     {
+        if (is_null($appId)) {
+            return "/applications/uploads/all";
+        }
+
         return is_null($uploadId)
             ? "/applications/{$appId}/uploads"
             : "/applications/{$appId}/uploads/{$uploadId}";
@@ -23,11 +27,11 @@ class UploadRequests extends BaseRequest
     /**
      * Get all uploads for an application
      *
-     * @param int $appId
+     * @param int|null $appId
      * @param array $queryParams
      * @return \stdClass[]
      */
-    public function getAll($appId, array $queryParams = [])
+    public function getAll($appId = null, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId), [
             'query' => $queryParams,
