@@ -117,12 +117,19 @@ class IssueRequests extends BaseRequest
      * @param int $scanId
      * @param array $input
      * @param array $queryParams
+     * @param boolean $defaultInput
      * @return \stdClass
      */
-    public function create($appId, $scanId, array $input, array $queryParams = [])
+    public function create($appId, $scanId, array $input, array $queryParams = [], $defaultInput = true)
     {
+        if ($defaultInput) {
+            $params = ['issue' => $input];
+        } else {
+            $params = $input;
+        }
+
         $response = $this->client->post($this->uri($appId, $scanId), [
-            RequestOptions::JSON => ['issue' => $input],
+            RequestOptions::JSON => $params,
             'query' => $queryParams,
         ]);
 
