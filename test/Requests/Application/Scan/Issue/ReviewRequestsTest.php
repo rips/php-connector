@@ -80,4 +80,20 @@ class ReviewRequestsTest extends TestCase
         $this->assertEquals('{"review":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
+
+    /**
+     * @test
+     */
+    public function createBatch()
+    {
+        $response = $this->reviewRequests->createBatch(1, 2, ['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/issues/reviews/batches', $request->getUri()->getPath());
+        $this->assertEquals('{"review":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->key);
+    }
 }

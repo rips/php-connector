@@ -22,8 +22,12 @@ class ReviewRequests extends BaseRequest
      * @param int $reviewId
      * @return string
      */
-    protected function uri($appId, $scanId, $issueId, $reviewId = null)
+    protected function uri($appId, $scanId, $issueId = null, $reviewId = null)
     {
+        if (is_null($issueId)) {
+            return "/applications/{$appId}/scans/{$scanId}/issues/reviews/batches";
+        }
+
         return is_null($reviewId)
             ? "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/reviews"
             : "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/reviews/{$reviewId}";
@@ -79,6 +83,25 @@ class ReviewRequests extends BaseRequest
     public function create($appId, $scanId, $issueId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId, $issueId), [
+            RequestOptions::JSON => ['review' => $input],
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Create a new review for multiple issues
+     *
+     * @param int $appId
+     * @param int $scanId
+     * @param array $input
+     * @param array $queryParams
+     * @return \stdClass
+     */
+    public function createBatch($appId, $scanId, array $input, array $queryParams = [])
+    {
+        $response = $this->client->post($this->uri($appId, $scanId), [
             RequestOptions::JSON => ['review' => $input],
             'query' => $queryParams,
         ]);
