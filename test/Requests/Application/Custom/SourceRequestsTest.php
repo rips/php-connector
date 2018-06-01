@@ -51,7 +51,6 @@ class SourceRequestsTest extends TestCase
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
-
     /**
      * @test
      */
