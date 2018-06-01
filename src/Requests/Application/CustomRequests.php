@@ -6,6 +6,7 @@ use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Custom\IgnoreRequests;
 use RIPS\Connector\Requests\Application\Custom\SanitiserRequests;
+use RIPS\Connector\Requests\Application\Custom\SettingRequests;
 use RIPS\Connector\Requests\Application\Custom\SinkRequests;
 use RIPS\Connector\Requests\Application\Custom\SourceRequests;
 use RIPS\Connector\Requests\Application\Custom\ValidatorRequests;
@@ -21,6 +22,11 @@ class CustomRequests extends BaseRequest
      * @var SanitiserRequests
      */
     protected $sanitiserRequests;
+
+    /**
+     * @var SettingRequests
+     */
+    protected $settingRequests;
 
     /**
      * @var SinkRequests
@@ -184,6 +190,20 @@ class CustomRequests extends BaseRequest
         }
 
         return $this->sanitiserRequests;
+    }
+
+    /**
+     * Accessor to setting requests
+     *
+     * @return SettingRequests
+     */
+    public function settings()
+    {
+        if (is_null($this->settingRequests)) {
+            $this->settingRequests = new SettingRequests($this->client);
+        }
+
+        return $this->settingRequests;
     }
 
     /**
