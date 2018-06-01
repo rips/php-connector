@@ -13,6 +13,7 @@ use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
 use RIPS\Connector\Requests\Application\Scan\SinkRequests;
 use RIPS\Connector\Requests\Application\Scan\SourceRequests;
+use RIPS\Connector\Requests\Application\Scan\EntrypointRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ScanRequests extends BaseRequest
@@ -66,6 +67,11 @@ class ScanRequests extends BaseRequest
      * @var SourceRequests
      */
     protected $sourceRequests;
+
+    /**
+     * @var EntrypointRequests
+     */
+    protected $entrypointRequests;
 
     /**
      * Build the uri for the request
@@ -386,5 +392,19 @@ class ScanRequests extends BaseRequest
         }
 
         return $this->sourceRequests;
+    }
+
+    /**
+     * Entrypoint requests accessor
+     *
+     * @return EntrypointRequests
+     */
+    public function entrypoints()
+    {
+        if (is_null($this->entrypointRequests)) {
+            $this->entrypointRequests = new EntrypointRequests($this->client);
+        }
+
+        return $this->entrypointRequests;
     }
 }
