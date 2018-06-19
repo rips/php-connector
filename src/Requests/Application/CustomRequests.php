@@ -137,7 +137,7 @@ class CustomRequests extends BaseRequest
     public function cloneById($appId, $customId, $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $customId, true), [
-            RequestOptions::JSON => $input,
+            RequestOptions::JSON => ['custom' => $input],
             'query' => $queryParams,
         ]);
 
