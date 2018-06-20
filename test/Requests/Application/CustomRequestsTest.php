@@ -140,6 +140,21 @@ class CustomRequestsTest extends TestCase
     /**
      * @test
      */
+    public function cloneById()
+    {
+        $response = $this->customRequests->cloneById(1, 2, ['name' => 'clone', 'targetApplication' => 3]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('/applications/1/customs/2/clone', $request->getUri()->getPath());
+        $this->assertEquals('{"custom":{"name":"clone","targetApplication":3}}', $body);
+        $this->assertEquals('value', $response->key);
+    }
+
+    /**
+     * @test
+     */
     public function ignores()
     {
         $ignoreRequests = $this->customRequests->ignores();
