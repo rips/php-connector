@@ -5,8 +5,10 @@ namespace RIPS\Test\Requests\Application;
 use RIPS\Connector\Requests\Application\Scan\ClassRequests;
 use RIPS\Connector\Requests\Application\Scan\ComparisonRequests;
 use RIPS\Connector\Requests\Application\Scan\ConcatRequests;
+use RIPS\Connector\Requests\Application\Scan\EntrypointRequests;
 use RIPS\Connector\Requests\Application\Scan\ExportRequests;
 use RIPS\Connector\Requests\Application\Scan\FileRequests;
+use RIPS\Connector\Requests\Application\Scan\FrameworkRequests;
 use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
@@ -289,5 +291,25 @@ class ScanRequestsTest extends TestCase
         $sourceRequests = $this->scanRequests->sources();
 
         $this->assertInstanceOf(SourceRequests::class, $sourceRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function entrypoints()
+    {
+        $entrypointRequests = $this->scanRequests->entrypoints();
+
+        $this->assertInstanceOf(EntrypointRequests::class, $entrypointRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function frameworks()
+    {
+        $frameworkRequests = $this->scanRequests->frameworks();
+
+        $this->assertInstanceOf(FrameworkRequests::class, $frameworkRequests);
     }
 }
