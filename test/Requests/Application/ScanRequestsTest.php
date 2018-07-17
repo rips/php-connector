@@ -8,7 +8,7 @@ use RIPS\Connector\Requests\Application\Scan\ConcatRequests;
 use RIPS\Connector\Requests\Application\Scan\EntrypointRequests;
 use RIPS\Connector\Requests\Application\Scan\ExportRequests;
 use RIPS\Connector\Requests\Application\Scan\FileRequests;
-use RIPS\Connector\Requests\Application\Scan\FrameworkRequests;
+use RIPS\Connector\Requests\Application\Scan\LibraryRequests;
 use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
@@ -306,10 +306,10 @@ class ScanRequestsTest extends TestCase
     /**
      * @test
      */
-    public function frameworks()
+    public function libraries()
     {
-        $frameworkRequests = $this->scanRequests->frameworks();
+        $libraryRequests = $this->scanRequests->libraries();
 
-        $this->assertInstanceOf(FrameworkRequests::class, $frameworkRequests);
+        $this->assertInstanceOf(LibraryRequests::class, $libraryRequests);
     }
 }

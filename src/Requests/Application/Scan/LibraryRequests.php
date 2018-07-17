@@ -5,25 +5,25 @@ namespace RIPS\Connector\Requests\Application\Scan;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
 
-class FrameworkRequests extends BaseRequest
+class LibraryRequests extends BaseRequest
 {
     /**
      * Build the uri for the request
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $frameworkId
+     * @param int $libraryId
      * @return string
      */
-    protected function uri($appId, $scanId, $frameworkId = null)
+    protected function uri($appId, $scanId, $libraryId = null)
     {
-        return is_null($frameworkId)
-            ? "/applications/{$appId}/scans/{$scanId}/frameworks"
-            : "/applications/{$appId}/scans/{$scanId}/frameworks/{$frameworkId}";
+        return is_null($libraryId)
+            ? "/applications/{$appId}/scans/{$scanId}/libraries"
+            : "/applications/{$appId}/scans/{$scanId}/libraries/{$libraryId}";
     }
 
     /**
-     * Get all frameworks for a scan
+     * Get all libraries for a scan
      *
      * @param int $appId
      * @param int $scanId
@@ -40,17 +40,17 @@ class FrameworkRequests extends BaseRequest
     }
 
     /**
-     * Get framework for scan by id
+     * Get library for scan by id
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $frameworkId
+     * @param int $libraryId
      * @param array $queryParams
      * @return \stdClass
      */
-    public function getById($appId, $scanId, $frameworkId, array $queryParams = [])
+    public function getById($appId, $scanId, $libraryId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $frameworkId), [
+        $response = $this->client->get($this->uri($appId, $scanId, $libraryId), [
             'query' => $queryParams,
         ]);
 
@@ -58,7 +58,7 @@ class FrameworkRequests extends BaseRequest
     }
 
     /**
-     * Create a framework for a scan
+     * Create a library for a scan
      *
      * @param int $appId
      * @param int $scanId
@@ -69,26 +69,26 @@ class FrameworkRequests extends BaseRequest
     public function create($appId, $scanId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $scanId), [
-            RequestOptions::JSON => ['framework' => $input],
+            RequestOptions::JSON => ['library' => $input],
             'query' => $queryParams,
         ]);
 
         return $this->handleResponse($response);
     }
     /**
-     * Update a framework for a scan by id
+     * Update a library for a scan by id
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $frameworkId
+     * @param int $libraryId
      * @param array $input
      * @param array $queryParams
      * @return \stdClass
      */
-    public function update($appId, $scanId, $frameworkId, array $input, array $queryParams = [])
+    public function update($appId, $scanId, $libraryId, array $input, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($appId, $scanId, $frameworkId), [
-            RequestOptions::JSON => ['framework' => $input],
+        $response = $this->client->patch($this->uri($appId, $scanId, $libraryId), [
+            RequestOptions::JSON => ['library' => $input],
             'query' => $queryParams,
         ]);
 
@@ -96,7 +96,7 @@ class FrameworkRequests extends BaseRequest
     }
 
     /**
-     * Delete all frameworks
+     * Delete all libraries
      *
      * @param int $appId
      * @param int $scanId
@@ -113,17 +113,17 @@ class FrameworkRequests extends BaseRequest
     }
 
     /**
-     * Delete a framework by id
+     * Delete a library by id
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $frameworkId
+     * @param int $libraryId
      * @param array $queryParams
      * @return void
      */
-    public function deleteById($appId, $scanId, $frameworkId, array $queryParams = [])
+    public function deleteById($appId, $scanId, $libraryId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $scanId, $frameworkId), [
+        $response = $this->client->delete($this->uri($appId, $scanId, $libraryId), [
             'query' => $queryParams,
         ]);
 
