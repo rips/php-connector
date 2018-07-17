@@ -2,15 +2,15 @@
 
 namespace RIPS\Test\Requests\Application\Scan;
 
-use RIPS\Connector\Requests\Application\Scan\FrameworkRequests;
+use RIPS\Connector\Requests\Application\Scan\LibraryRequests;
 use RIPS\Test\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class FrameworkRequestsTest extends TestCase
+class LibraryRequestsTest extends TestCase
 {
-    /** @var FrameworkRequests */
+    /** @var LibraryRequests */
     protected $frameworkRequests;
 
     protected function setUp()
@@ -24,7 +24,7 @@ class FrameworkRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->frameworkRequests = new FrameworkRequests($this->client);
+        $this->frameworkRequests = new LibraryRequests($this->client);
     }
 
     /**

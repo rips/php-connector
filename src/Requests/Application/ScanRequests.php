@@ -14,7 +14,7 @@ use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
 use RIPS\Connector\Requests\Application\Scan\SinkRequests;
 use RIPS\Connector\Requests\Application\Scan\SourceRequests;
 use RIPS\Connector\Requests\Application\Scan\EntrypointRequests;
-use RIPS\Connector\Requests\Application\Scan\FrameworkRequests;
+use RIPS\Connector\Requests\Application\Scan\LibraryRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ScanRequests extends BaseRequest
@@ -75,9 +75,9 @@ class ScanRequests extends BaseRequest
     protected $entrypointRequests;
 
     /**
-     * @var FrameworkRequests
+     * @var LibraryRequests
      */
-    protected $frameworkRequests;
+    protected $libraryRequests;
 
     /**
      * Build the uri for the request
@@ -415,16 +415,16 @@ class ScanRequests extends BaseRequest
     }
 
     /**
-     * Frameworks requests accessor
+     * Libraries requests accessor
      *
-     * @return FrameworkRequests
+     * @return LibraryRequests
      */
-    public function frameworks()
+    public function libraries()
     {
-        if (is_null($this->frameworkRequests)) {
-            $this->frameworkRequests = new FrameworkRequests($this->client);
+        if (is_null($this->libraryRequests)) {
+            $this->libraryRequests = new LibraryRequests($this->client);
         }
 
-        return $this->frameworkRequests;
+        return $this->libraryRequests;
     }
 }
