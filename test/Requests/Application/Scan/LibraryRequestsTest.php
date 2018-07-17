@@ -11,7 +11,7 @@ use GuzzleHttp\Middleware;
 class LibraryRequestsTest extends TestCase
 {
     /** @var LibraryRequests */
-    protected $frameworkRequests;
+    protected $libraryRequests;
 
     protected function setUp()
     {
@@ -24,7 +24,7 @@ class LibraryRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->frameworkRequests = new LibraryRequests($this->client);
+        $this->libraryRequests = new LibraryRequests($this->client);
     }
 
     /**
@@ -33,7 +33,7 @@ class LibraryRequestsTest extends TestCase
     public function getAll()
     {
         /** @var \stdClass $response */
-        $response = $this->frameworkRequests->getAll(1, 2, [
+        $response = $this->libraryRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -46,7 +46,7 @@ class LibraryRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/frameworks', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/2/libraries', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
@@ -56,12 +56,12 @@ class LibraryRequestsTest extends TestCase
      */
     public function getById()
     {
-        $response = $this->frameworkRequests->getById(1, 2, 3);
+        $response = $this->libraryRequests->getById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/frameworks/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/2/libraries/3', $request->getUri()->getPath());
         $this->assertEquals('value', $response->key);
     }
 
@@ -70,14 +70,14 @@ class LibraryRequestsTest extends TestCase
      */
     public function create()
     {
-        $response = $this->frameworkRequests->create(1, 2, ['test' => 'input']);
+        $response = $this->libraryRequests->create(1, 2, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/frameworks', $request->getUri()->getPath());
-        $this->assertEquals('{"framework":{"test":"input"}}', $body);
+        $this->assertEquals('/applications/1/scans/2/libraries', $request->getUri()->getPath());
+        $this->assertEquals('{"library":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -86,14 +86,14 @@ class LibraryRequestsTest extends TestCase
      */
     public function update()
     {
-        $response = $this->frameworkRequests->update(1, 2, 3, ['test' => 'input']);
+        $response = $this->libraryRequests->update(1, 2, 3, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/frameworks/3', $request->getUri()->getPath());
-        $this->assertEquals('{"framework":{"test":"input"}}', $body);
+        $this->assertEquals('/applications/1/scans/2/libraries/3', $request->getUri()->getPath());
+        $this->assertEquals('{"library":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->key);
     }
 
@@ -102,12 +102,12 @@ class LibraryRequestsTest extends TestCase
      */
     public function deleteAll()
     {
-        $this->frameworkRequests->deleteAll(1, 2);
+        $this->libraryRequests->deleteAll(1, 2);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/frameworks', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/2/libraries', $request->getUri()->getPath());
     }
 
     /**
@@ -115,11 +115,11 @@ class LibraryRequestsTest extends TestCase
      */
     public function deleteById()
     {
-        $this->frameworkRequests->deleteById(1, 2, 3);
+        $this->libraryRequests->deleteById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/frameworks/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/scans/2/libraries/3', $request->getUri()->getPath());
     }
 }
