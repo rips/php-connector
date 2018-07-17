@@ -26,7 +26,7 @@ class API
     /**
      * @var string
      */
-    protected $version = '2.15.2';
+    protected $version = '2.16.0';
 
     /**
      * @var ApplicationRequests
