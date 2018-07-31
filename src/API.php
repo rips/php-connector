@@ -180,7 +180,7 @@ class API
      */
     private function getAuthHeaders($username, $password, $clientConfig)
     {
-        if (!$username && $password) {
+        if (!$username || !$password) {
             return [];
         }
 
