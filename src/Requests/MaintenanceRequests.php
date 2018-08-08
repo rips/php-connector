@@ -5,7 +5,7 @@ namespace RIPS\Connector\Requests;
 class MaintenanceRequests extends BaseRequest
 {
     /**
-     * Get status info for the current session and API env.
+     * Remove old and unused code from cloud.
      *
      * @param array $queryParams
      * @return \stdClass

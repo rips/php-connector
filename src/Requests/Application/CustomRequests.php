@@ -54,17 +54,24 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $customId
+     * @param bool $clone
      * @return string
      */
-    protected function uri($appId = null, $customId = null)
+    protected function uri($appId = null, $customId = null, $clone = false)
     {
         if (is_null($appId)) {
             return '/applications/customs/all';
         }
 
-        return is_null($customId)
-            ? "/applications/{$appId}/customs"
-            : "/applications/{$appId}/customs/{$customId}";
+        if (is_null($customId)) {
+            return "/applications/{$appId}/customs";
+        }
+
+        if (!$clone) {
+            return "/applications/{$appId}/customs/{$customId}";
+        }
+
+        return "/applications/{$appId}/customs/{$customId}/clone";
     }
 
     /**
@@ -111,6 +118,25 @@ class CustomRequests extends BaseRequest
     public function create($appId, $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId), [
+            RequestOptions::JSON => ['custom' => $input],
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Clone a existing custom profile
+     *
+     * @param int $appId
+     * @param int $customId
+     * @param array $input
+     * @param array $queryParams
+     * @return \stdClass
+     */
+    public function cloneById($appId, $customId, $input, array $queryParams = [])
+    {
+        $response = $this->client->post($this->uri($appId, $customId, true), [
             RequestOptions::JSON => ['custom' => $input],
             'query' => $queryParams,
         ]);

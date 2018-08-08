@@ -26,7 +26,7 @@ class API
     /**
      * @var string
      */
-    protected $version = '2.15.2';
+    protected $version = '2.16.0';
 
     /**
      * @var ApplicationRequests
@@ -114,9 +114,7 @@ class API
      */
     public function __construct($username = null, $password = null, array $clientConfig = [])
     {
-        if ($username && $password) {
-            $this->initialize($username, $password, $clientConfig);
-        }
+        $this->initialize($username, $password, $clientConfig);
     }
 
     /**
@@ -182,6 +180,10 @@ class API
      */
     private function getAuthHeaders($username, $password, $clientConfig)
     {
+        if (!$username || !$password) {
+            return [];
+        }
+
         if (!isset($clientConfig['oauth2']['enabled']) || !$clientConfig['oauth2']['enabled']) {
             return [
                 'X-API-Username' => $username,
