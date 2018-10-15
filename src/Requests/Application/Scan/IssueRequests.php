@@ -4,6 +4,8 @@ namespace RIPS\Connector\Requests\Application\Scan;
 
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\BaseRequest;
+use RIPS\Connector\Requests\Application\Scan\Issue\SinkRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\SourceRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
@@ -42,6 +44,16 @@ class IssueRequests extends BaseRequest
      * @var TypeRequests
      */
     protected $typeRequests;
+
+    /**
+     * @var SinkRequests
+     */
+    private $sinkRequests;
+
+    /**
+     * @var SourceRequests
+     */
+    private $sourceRequests;
 
     /**
      * Build a uri for the request
@@ -218,5 +230,33 @@ class IssueRequests extends BaseRequest
         }
 
         return $this->typeRequests;
+    }
+
+    /**
+     * Sink request accessor
+     *
+     * @return SinkRequests
+     */
+    public function sinks()
+    {
+        if (is_null($this->sinkRequests)) {
+            $this->sinkRequests = new SinkRequests($this->client);
+        }
+
+        return $this->sinkRequests;
+    }
+
+    /**
+     * Source request accessor
+     *
+     * @return SourceRequests
+     */
+    public function sources()
+    {
+        if (is_null($this->sourceRequests)) {
+            $this->sourceRequests = new SourceRequests($this->client);
+        }
+
+        return $this->sourceRequests;
     }
 }
