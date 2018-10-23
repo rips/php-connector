@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\Connector\Requests\Application\Scan\Issue\Sink;
+namespace RIPS\Connector\Requests\Application\Scan\Sink;
 
 use RIPS\Connector\Requests\BaseRequest;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\Connector\Requests\Application\Scan\Issue\Source;
+namespace RIPS\Connector\Requests\Application\Scan\Source;
 
 use RIPS\Connector\Requests\BaseRequest;
 
