@@ -22,5 +22,11 @@
         "psy/psysh": "@stable",
         "phpunit/phpunit": "~6.0",
         "symfony/stopwatch": "^3.3"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.0.8"
+        }
     }
 }
