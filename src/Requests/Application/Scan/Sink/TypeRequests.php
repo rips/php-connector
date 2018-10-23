@@ -15,8 +15,8 @@ class TypeRequests extends BaseRequest
     protected function uri($typeId = null)
     {
         return is_null($typeId)
-            ? '/applications/scans/issues/sinks/types'
-            : "/applications/scans/issues/sinks/types/{$typeId}";
+            ? '/applications/scans/sinks/types'
+            : "/applications/scans/sinks/types/{$typeId}";
     }
 
     /**
