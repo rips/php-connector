@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
+use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
@@ -94,6 +95,11 @@ class API
     public $maintenance;
 
     /**
+     * @var LanguageRequests
+     */
+    public $languages;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
@@ -156,6 +162,7 @@ class API
         $this->oauth2 = new OAuth2Requests($client);
         $this->activities = new ActivityRequests($client);
         $this->maintenance = new MaintenanceRequests($client);
+        $this->languages = new LanguageRequests($client);
     }
 
     /**
