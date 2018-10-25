@@ -10,6 +10,7 @@ use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\MarkupRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\ReviewRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\SummaryRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\PatchRequests;
 
 class IssueRequests extends BaseRequest
 {
@@ -37,6 +38,11 @@ class IssueRequests extends BaseRequest
      * @var SummaryRequests
      */
     protected $summaryRequests;
+
+    /**
+     * @var PatchRequests
+     */
+    protected $patchRequests;
 
     /**
      * @var TypeRequests
@@ -204,6 +210,20 @@ class IssueRequests extends BaseRequest
         }
 
         return $this->summaryRequests;
+    }
+
+    /**
+     * Accessor for patch requests
+     *
+     * @return PatchRequests
+     */
+    public function patches()
+    {
+        if (is_null($this->patchRequests)) {
+            $this->patchRequests = new PatchRequests($this->client);
+        }
+
+        return $this->patchRequests;
     }
 
     /**
