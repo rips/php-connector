@@ -38,7 +38,7 @@ class SettingRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/settings', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -54,6 +54,6 @@ class SettingRequestsTest extends TestCase
         $this->assertEquals('PUT', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2/settings', $request->getUri()->getPath());
         $this->assertEquals('{"setting":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

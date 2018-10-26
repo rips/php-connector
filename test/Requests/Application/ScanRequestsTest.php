@@ -45,7 +45,6 @@ class ScanRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->scanRequests->getAll(null, [
             'notEqual' => [
                 'phase' => 1,
@@ -60,7 +59,7 @@ class ScanRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/scans/all', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -69,14 +68,13 @@ class ScanRequestsTest extends TestCase
      */
     public function getAllWithAppId()
     {
-        /** @var \stdClass $response */
         $response = $this->scanRequests->getAll(1);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -90,7 +88,7 @@ class ScanRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -106,7 +104,7 @@ class ScanRequestsTest extends TestCase
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/stats', $request->getUri()->getPath());
         $this->assertEquals('equal[id]=2', $queryString);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -122,7 +120,7 @@ class ScanRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans', $request->getUri()->getPath());
         $this->assertEquals('{"scan":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -138,7 +136,7 @@ class ScanRequestsTest extends TestCase
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2', $request->getUri()->getPath());
         $this->assertEquals('{"scan":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**

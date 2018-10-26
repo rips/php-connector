@@ -32,7 +32,6 @@ class ActivityRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->activityRequests->getAll([
             'equal' => [
                 'id' => 1,
@@ -47,7 +46,7 @@ class ActivityRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/activities', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('equal[id]=1&greaterThan[id]=2', $queryString);
     }
 
@@ -62,6 +61,6 @@ class ActivityRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/activities/1', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

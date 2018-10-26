@@ -34,7 +34,7 @@ class BaseRequestTest extends TestCase
         $response = new Response(200, [], '{"key": "value"}');
         $result = $this->handleResponse->invokeArgs($this->baseRequest, [$response]);
 
-        $this->assertEquals('value', $result->key);
+        $this->assertEquals('value', $result->getDecodedData()->key);
     }
 
     /**
