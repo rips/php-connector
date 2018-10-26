@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ExportRequests extends BaseRequest
@@ -26,7 +27,7 @@ class ExportRequests extends BaseRequest
      * @param int $scanId
      * @param string $outFile - File path that CSV contents will be stored to
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function exportCsv($appId, $scanId, $outFile, array $queryParams = [])
     {
@@ -35,7 +36,7 @@ class ExportRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -45,7 +46,7 @@ class ExportRequests extends BaseRequest
      * @param int $scanId
      * @param string $outFile - File path that CSV contents will be stored to
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function exportJiraCsv($appId, $scanId, $outFile, array $queryParams = [])
     {
@@ -54,7 +55,7 @@ class ExportRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -64,7 +65,7 @@ class ExportRequests extends BaseRequest
      * @param int $scanId
      * @param string $outFile - File path that PDF contents will be stored to
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function exportPdf($appId, $scanId, $outFile, array $queryParams = [])
     {
@@ -73,6 +74,6 @@ class ExportRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response);
+        return $this->handleResponse($response);
     }
 }

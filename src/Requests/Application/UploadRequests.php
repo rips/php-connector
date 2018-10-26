@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
@@ -30,7 +31,7 @@ class UploadRequests extends BaseRequest
      *
      * @param int|null $appId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId = null, array $queryParams = [])
     {
@@ -47,7 +48,7 @@ class UploadRequests extends BaseRequest
      * @param int $appId
      * @param int $uploadId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $uploadId, array $queryParams = [])
     {
@@ -65,7 +66,7 @@ class UploadRequests extends BaseRequest
      * @param string $filename
      * @param string $filepath
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $filename, $filepath, array $queryParams = [])
     {
@@ -88,7 +89,7 @@ class UploadRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($appId, array $queryParams = [])
     {
@@ -96,7 +97,7 @@ class UploadRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -105,7 +106,7 @@ class UploadRequests extends BaseRequest
      * @param int $appId
      * @param int $uploadId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($appId, $uploadId, array $queryParams = [])
     {
@@ -117,6 +118,6 @@ class UploadRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

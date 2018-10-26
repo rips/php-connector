@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\Application\Scan\ClassRequests;
 use RIPS\Connector\Requests\Application\Scan\ComparisonRequests;
@@ -96,7 +97,7 @@ class ScanRequests extends BaseRequest
      *
      * @param int|null $appId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId = null, array $queryParams = [])
     {
@@ -114,7 +115,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, array $queryParams = [])
     {
@@ -131,7 +132,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getStats($appId, $scanId, array $queryParams = [])
     {
@@ -151,7 +152,7 @@ class ScanRequests extends BaseRequest
      * @param array $input
      * @param array $queryParams
      * @param boolean $defaultInput
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, array $input, array $queryParams = [], $defaultInput = true)
     {
@@ -177,7 +178,7 @@ class ScanRequests extends BaseRequest
      * @param array $input
      * @param array $queryParams
      * @param boolean $defaultInput
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, $scanId, array $input, array $queryParams = [], $defaultInput = true)
     {
@@ -200,7 +201,7 @@ class ScanRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($appId, array $queryParams = [])
     {
@@ -208,7 +209,7 @@ class ScanRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -217,7 +218,7 @@ class ScanRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($appId, $scanId, array $queryParams = [])
     {
@@ -229,7 +230,7 @@ class ScanRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -240,7 +241,7 @@ class ScanRequests extends BaseRequest
      * @param int $waitTime - Optional time to wait, will wait indefinitely if 0 (default: 0)
      * @param int $sleepTime - Time to wait between scan completion checks (default: 5)
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      * @throws \Exception if scan does not finish in time
      */
     public function blockUntilDone(
@@ -251,10 +252,11 @@ class ScanRequests extends BaseRequest
         array $queryParams = []
     ) {
         for ($iteration = 0;; $iteration++) {
-            $scan = $this->getById($appId, $scanId, $queryParams);
+            $scanResponse = $this->getById($appId, $scanId, $queryParams);
+            $scan = $scanResponse->getDecodedData();
 
             if ((int) $scan->phase === 0 && (int) $scan->percent === 100) {
-                return $scan;
+                return $scanResponse;
             } else if ($waitTime > 0 && $iteration > ($waitTime / $sleepTime)) {
                 throw new \Exception('Scan did not finish before the defined wait time.');
             }

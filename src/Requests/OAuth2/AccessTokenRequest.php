@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\OAuth2;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class AccessTokenRequest extends BaseRequest
@@ -19,7 +20,7 @@ class AccessTokenRequest extends BaseRequest
     /**
      * Get status info for the current session and API env
      *
-     * @return \stdClass
+     * @return Response
      */
     public function getTokens()
     {

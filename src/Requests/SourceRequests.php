@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Entities\Response;
+
 class SourceRequests extends BaseRequest
 {
     /**
@@ -18,7 +20,7 @@ class SourceRequests extends BaseRequest
      * Get all directories from the root source directory
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {

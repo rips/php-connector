@@ -2,6 +2,6 @@
 
 namespace RIPS\Connector\Exceptions;
 
-class ClientException extends \RuntimeException
+class ClientException extends HttpException
 {
 }

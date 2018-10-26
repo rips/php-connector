@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Custom\IgnoreRequests;
@@ -80,7 +81,7 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId = null, array $queryParams = [])
     {
@@ -97,7 +98,7 @@ class CustomRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $customId, array $queryParams = [])
     {
@@ -114,7 +115,7 @@ class CustomRequests extends BaseRequest
      * @param int $appId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $input, array $queryParams = [])
     {
@@ -133,7 +134,7 @@ class CustomRequests extends BaseRequest
      * @param int $customId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function cloneById($appId, $customId, $input, array $queryParams = [])
     {
@@ -152,7 +153,7 @@ class CustomRequests extends BaseRequest
      * @param int $customId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, $customId, array $input, array $queryParams = [])
     {
@@ -169,17 +170,15 @@ class CustomRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($appId, array $queryParams = [])
     {
-
-
         $response = $this->client->delete($this->uri($appId), [
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -188,7 +187,7 @@ class CustomRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($appId, $customId, array $queryParams = [])
     {
@@ -200,7 +199,7 @@ class CustomRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Exceptions\ServerException;
 
@@ -26,25 +27,21 @@ abstract class BaseRequest
      * Handle response returned by Guzzle
      *
      * @param ResponseInterface $response
-     * @param bool $raw
-     * @return \stdClass[]|\stdClass|string
+     * @return Response
      * @throws ClientException if status code starts with 4
      * @throws ServerException if status code starts with 5
      */
-    protected function handleResponse(ResponseInterface $response, $raw = false)
+    protected function handleResponse(ResponseInterface $response)
     {
+        $responseWrapper = new Response($response);
         $statusCode = (int) floor($response->getStatusCode() / 100);
 
         if ($statusCode === 4) {
-            throw new ClientException($response->getBody(), $response->getStatusCode());
+            throw new ClientException($responseWrapper);
         } elseif ($statusCode === 5) {
-            throw new ServerException($response->getBody(), $response->getStatusCode());
+            throw new ServerException($responseWrapper);
         }
 
-        if ($raw) {
-            return $response->getBody();
-        }
-
-        return json_decode($response->getBody());
+        return $responseWrapper;
     }
 }

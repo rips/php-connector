@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class MarkupRequests extends BaseRequest
@@ -29,7 +30,7 @@ class MarkupRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -48,7 +49,7 @@ class MarkupRequests extends BaseRequest
      * @param int $issueId
      * @param int $markupId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $issueId, $markupId, array $queryParams = [])
     {

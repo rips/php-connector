@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ComparisonRequests extends BaseRequest
@@ -24,7 +25,7 @@ class ComparisonRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getComparison($appId, $scanId, array $queryParams = [])
     {

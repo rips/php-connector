@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class FunctionRequests extends BaseRequest
@@ -28,7 +29,7 @@ class FunctionRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -46,7 +47,7 @@ class FunctionRequests extends BaseRequest
      * @param int $scanId
      * @param int $functionId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $functionId, array $queryParams = [])
     {
@@ -64,7 +65,7 @@ class FunctionRequests extends BaseRequest
      * @param int $scanId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $scanId, array $input, array $queryParams = [])
     {

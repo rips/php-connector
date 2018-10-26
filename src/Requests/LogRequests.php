@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 
 class LogRequests extends BaseRequest
 {
@@ -21,7 +22,7 @@ class LogRequests extends BaseRequest
      * Get all logs
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -37,7 +38,7 @@ class LogRequests extends BaseRequest
      *
      * @param int $logId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($logId, array $queryParams = [])
     {
@@ -53,7 +54,7 @@ class LogRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
@@ -69,7 +70,7 @@ class LogRequests extends BaseRequest
      * Delete logs older than a week
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function delete(array $queryParams = [])
     {
@@ -77,6 +78,6 @@ class LogRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

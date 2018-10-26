@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Custom;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
@@ -29,7 +30,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $customId, array $queryParams = [])
     {
@@ -47,7 +48,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $customId
      * @param int $sanitiserId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $customId, $sanitiserId, array $queryParams = [])
     {
@@ -65,7 +66,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $customId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $customId, array $input, array $queryParams = [])
     {
@@ -85,7 +86,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $sanitiserId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, $customId, $sanitiserId, array $input, array $queryParams = [])
     {
@@ -103,7 +104,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($appId, $customId, array $queryParams = [])
     {
@@ -111,7 +112,7 @@ class SanitiserRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -121,7 +122,7 @@ class SanitiserRequests extends BaseRequest
      * @param int $customId
      * @param int $sanitiserId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($appId, $customId, $sanitiserId, array $queryParams = [])
     {
@@ -133,6 +134,6 @@ class SanitiserRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

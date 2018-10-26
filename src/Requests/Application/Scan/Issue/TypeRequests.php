@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class TypeRequests extends BaseRequest
@@ -23,7 +24,7 @@ class TypeRequests extends BaseRequest
      * Get all types
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -39,7 +40,7 @@ class TypeRequests extends BaseRequest
      *
      * @param int $typeId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($typeId, array $queryParams = [])
     {

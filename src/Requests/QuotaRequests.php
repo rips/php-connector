@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\Quota\AclRequests;
 
@@ -28,7 +29,7 @@ class QuotaRequests extends BaseRequest
      * Get all quotas
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -44,7 +45,7 @@ class QuotaRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($quotaId, array $queryParams = [])
     {
@@ -60,7 +61,7 @@ class QuotaRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
@@ -78,7 +79,7 @@ class QuotaRequests extends BaseRequest
      * @param int $quotaId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($quotaId, array $input, array $queryParams = [])
     {
@@ -94,7 +95,7 @@ class QuotaRequests extends BaseRequest
      * Delete all quotas
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll(array $queryParams = [])
     {
@@ -102,7 +103,7 @@ class QuotaRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -110,7 +111,7 @@ class QuotaRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($quotaId, array $queryParams = [])
     {
@@ -122,7 +123,7 @@ class QuotaRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**

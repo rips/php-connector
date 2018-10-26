@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class SummaryRequests extends BaseRequest
@@ -29,7 +30,7 @@ class SummaryRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -48,7 +49,7 @@ class SummaryRequests extends BaseRequest
      * @param int $issueId
      * @param int $summaryId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $issueId, $summaryId, array $queryParams = [])
     {

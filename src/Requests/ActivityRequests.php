@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Entities\Response;
+
 class ActivityRequests extends BaseRequest
 {
     /**
@@ -19,7 +21,7 @@ class ActivityRequests extends BaseRequest
      * Get all activities
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -35,7 +37,7 @@ class ActivityRequests extends BaseRequest
      *
      * @param int $activityId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($activityId, array $queryParams = [])
     {

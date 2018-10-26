@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\Application\Scan\Issue\Review\TypeRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
@@ -40,7 +41,7 @@ class ReviewRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -59,7 +60,7 @@ class ReviewRequests extends BaseRequest
      * @param int $issueId
      * @param int $reviewId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $issueId, $reviewId, array $queryParams = [])
     {
@@ -78,7 +79,7 @@ class ReviewRequests extends BaseRequest
      * @param int $issueId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $scanId, $issueId, array $input, array $queryParams = [])
     {
@@ -97,7 +98,7 @@ class ReviewRequests extends BaseRequest
      * @param int $scanId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function createBatch($appId, $scanId, array $input, array $queryParams = [])
     {
