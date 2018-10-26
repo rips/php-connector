@@ -33,7 +33,6 @@ class QuotaRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->quotaRequests->getAll([
             'greaterThan' => [
                 'id' => 1,
@@ -45,7 +44,7 @@ class QuotaRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/quotas', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('greaterThan[id]=1', $queryString);
     }
 
@@ -60,7 +59,7 @@ class QuotaRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/quotas/1', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -76,7 +75,7 @@ class QuotaRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/quotas', $request->getUri()->getPath());
         $this->assertEquals('{"quota":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -92,7 +91,7 @@ class QuotaRequestsTest extends TestCase
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/quotas/1', $request->getUri()->getPath());
         $this->assertEquals('{"quota":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**

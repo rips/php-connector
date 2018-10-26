@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Custom;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class SettingRequests extends BaseRequest
@@ -25,7 +26,7 @@ class SettingRequests extends BaseRequest
      * @param int $appId
      * @param int $customId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function get($appId, $customId, array $queryParams = [])
     {
@@ -43,7 +44,7 @@ class SettingRequests extends BaseRequest
      * @param int $customId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, $customId, array $input, array $queryParams = [])
     {

@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class FileRequests extends BaseRequest
@@ -27,7 +28,7 @@ class FileRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -45,7 +46,7 @@ class FileRequests extends BaseRequest
      * @param int $scanId
      * @param int $fileId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $fileId, array $queryParams = [])
     {
@@ -62,7 +63,7 @@ class FileRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function delete($appId, $scanId, array $queryParams = [])
     {
@@ -70,6 +71,6 @@ class FileRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

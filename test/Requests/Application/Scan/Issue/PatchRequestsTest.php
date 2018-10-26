@@ -32,7 +32,6 @@ class PatchRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->patchRequests->getAll(1, 2, 3, [
             'notEqual' => [
                 'type' => 1,
@@ -46,7 +45,7 @@ class PatchRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('/applications/1/scans/2/issues/3/patches', $request->getUri()->getPath());
         $this->assertEquals('notEqual[type]=1&greaterThan[type]=2', $queryString);
     }
@@ -61,7 +60,7 @@ class PatchRequestsTest extends TestCase
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('/applications/1/scans/2/issues/3/patches/4', $request->getUri()->getPath());
     }
 
@@ -78,6 +77,6 @@ class PatchRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/issues/3/patches', $request->getUri()->getPath());
         $this->assertEquals('{"patch":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

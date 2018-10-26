@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\Application\Scan\Issue\Patch\TypeRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
@@ -36,7 +37,7 @@ class PatchRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -55,7 +56,7 @@ class PatchRequests extends BaseRequest
      * @param int $issueId
      * @param int $patchId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $issueId, $patchId, array $queryParams = [])
     {
@@ -75,7 +76,7 @@ class PatchRequests extends BaseRequest
      * @param array $input
      * @param array $queryParams
      * @param boolean $defaultInput
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $scanId, $issueId, array $input, array $queryParams = [], $defaultInput = true)
     {

@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Quota;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
@@ -27,7 +28,7 @@ class AclRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($quotaId, array $queryParams = [])
     {
@@ -44,7 +45,7 @@ class AclRequests extends BaseRequest
      * @param int $quotaId
      * @param int $aclId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($quotaId, $aclId, array $queryParams = [])
     {
@@ -61,7 +62,7 @@ class AclRequests extends BaseRequest
      * @param int $quotaId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($quotaId, array $input, array $queryParams = [])
     {
@@ -80,7 +81,7 @@ class AclRequests extends BaseRequest
      * @param int $aclId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($quotaId, $aclId, array $input, array $queryParams = [])
     {

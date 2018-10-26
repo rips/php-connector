@@ -278,7 +278,7 @@ class API
         ]);
 
         $request = new AccessTokenRequest(new Client($mergedConfig));
-        $tokens = $request->getTokens();
+        $tokens = $request->getTokens()->getDecodedData();
 
         if (isset($oauth2Config['store_token']) && $oauth2Config['store_token'] === true) {
             if (!array_key_exists('token_file_path', $oauth2Config) || empty($oauth2Config['token_file_path'])) {

@@ -31,7 +31,6 @@ class AclRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->aclRequests->getAll(1, [
             'notEqual' => [
                 'phase' => 1,
@@ -46,7 +45,7 @@ class AclRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/acls', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -55,7 +54,6 @@ class AclRequestsTest extends TestCase
      */
     public function getAllNoAppId()
     {
-        /** @var \stdClass $response */
         $response = $this->aclRequests->getAll(null, [
             'notEqual' => [
                 'phase' => 1,
@@ -70,7 +68,7 @@ class AclRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/acls/own', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -85,7 +83,7 @@ class AclRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -101,7 +99,7 @@ class AclRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/acls', $request->getUri()->getPath());
         $this->assertEquals('{"acl":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -117,7 +115,7 @@ class AclRequestsTest extends TestCase
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/acls/2', $request->getUri()->getPath());
         $this->assertEquals('{"acl":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\Application\Scan\Sink\TypeRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
@@ -33,7 +34,7 @@ class SinkRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -51,7 +52,7 @@ class SinkRequests extends BaseRequest
      * @param int $scanId
      * @param int $sinkId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $sinkId, array $queryParams = [])
     {

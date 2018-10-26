@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Entities\Response;
+
 class LanguageRequests extends BaseRequest
 {
     /**
@@ -19,7 +21,7 @@ class LanguageRequests extends BaseRequest
      * Get all languages
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -38,7 +40,7 @@ class LanguageRequests extends BaseRequest
      *
      * @param int $languageId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($languageId, array $queryParams = [])
     {

@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 
 class OrgRequests extends BaseRequest
@@ -23,7 +24,7 @@ class OrgRequests extends BaseRequest
      * Get all organisations
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -39,7 +40,7 @@ class OrgRequests extends BaseRequest
      *
      * @param int $orgId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($orgId, array $queryParams = [])
     {
@@ -55,7 +56,7 @@ class OrgRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
@@ -73,7 +74,7 @@ class OrgRequests extends BaseRequest
      * @param int $orgId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($orgId, array $input, array $queryParams = [])
     {
@@ -89,7 +90,7 @@ class OrgRequests extends BaseRequest
      * Delete all organisations
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll(array $queryParams = [])
     {
@@ -97,7 +98,7 @@ class OrgRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -105,7 +106,7 @@ class OrgRequests extends BaseRequest
      *
      * @param int $orgId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($orgId, array $queryParams = [])
     {
@@ -117,6 +118,6 @@ class OrgRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

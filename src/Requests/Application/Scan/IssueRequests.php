@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
@@ -70,7 +71,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -88,7 +89,7 @@ class IssueRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -105,7 +106,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getStats($appId, $scanId, array $queryParams = [])
     {
@@ -124,7 +125,7 @@ class IssueRequests extends BaseRequest
      * @param array $input
      * @param array $queryParams
      * @param boolean $defaultInput
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $scanId, array $input, array $queryParams = [], $defaultInput = true)
     {

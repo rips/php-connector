@@ -32,7 +32,6 @@ class TeamRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->teamRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -47,7 +46,7 @@ class TeamRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/teams', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -62,7 +61,7 @@ class TeamRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/teams/1', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -78,7 +77,7 @@ class TeamRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/teams', $request->getUri()->getPath());
         $this->assertEquals('{"team":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -94,7 +93,7 @@ class TeamRequestsTest extends TestCase
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/teams/1', $request->getUri()->getPath());
         $this->assertEquals('{"team":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\ClientException;
+
 class StatusRequests extends BaseRequest
 {
     /**
@@ -18,7 +21,7 @@ class StatusRequests extends BaseRequest
      * Get status info for the current session and API env.
      *
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getStatus(array $queryParams = [])
     {
@@ -38,7 +41,11 @@ class StatusRequests extends BaseRequest
     {
         $response = $this->client->get($this->uri());
 
-        $body = $this->handleResponse($response);
+        try {
+            $body = $this->handleResponse($response)->getDecodedData();
+        } catch (ClientException $exception) {
+            return false;
+        }
 
         return property_exists(
             $body,

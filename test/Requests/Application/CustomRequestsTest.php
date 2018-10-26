@@ -37,7 +37,6 @@ class CustomRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->customRequests->getAll(1, [
             'notEqual' => [
                 'phase' => 1,
@@ -52,7 +51,7 @@ class CustomRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/customs', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -67,7 +66,7 @@ class CustomRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -83,7 +82,7 @@ class CustomRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/customs', $request->getUri()->getPath());
         $this->assertEquals('{"custom":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -99,7 +98,7 @@ class CustomRequestsTest extends TestCase
         $this->assertEquals('PATCH', $request->getMethod());
         $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
         $this->assertEquals('{"custom":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -149,7 +148,7 @@ class CustomRequestsTest extends TestCase
 
         $this->assertEquals('/applications/1/customs/2/clone', $request->getUri()->getPath());
         $this->assertEquals('{"custom":{"name":"clone","targetApplication":3}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
