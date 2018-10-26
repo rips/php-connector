@@ -129,7 +129,7 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return response
+     * @return Response
      */
     public function deleteById($appId, array $queryParams = [])
     {
