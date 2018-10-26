@@ -17,8 +17,8 @@ class HttpException extends \RuntimeException
         $this->response = $response;
         $data = $response->getDecodedData();
         parent::__construct(
-            property_exists($data, 'message') ?? $data->message,
-            property_exists($data, 'code') ?? $data->code
+            property_exists($data, 'message') ? $data->message : '',
+            property_exists($data, 'code') ? $data->code : 0
         );
     }
 
