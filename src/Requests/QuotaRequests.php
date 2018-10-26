@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\Quota\AclRequests;
 
 class QuotaRequests extends BaseRequest
@@ -113,6 +114,10 @@ class QuotaRequests extends BaseRequest
      */
     public function deleteById($quotaId, array $queryParams = [])
     {
+        if (is_null($quotaId)) {
+            throw new LibException('quotaId is null');
+        }
+
         $response = $this->client->delete($this->uri($quotaId), [
             'query' => $queryParams,
         ]);

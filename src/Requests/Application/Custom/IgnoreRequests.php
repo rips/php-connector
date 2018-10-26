@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Custom;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class IgnoreRequests extends BaseRequest
@@ -124,6 +125,10 @@ class IgnoreRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $ignoreId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($customId) || is_null($ignoreId)) {
+            throw new LibException('appId, customId, or ignoreId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $customId, $ignoreId), [
             'query' => $queryParams,
         ]);

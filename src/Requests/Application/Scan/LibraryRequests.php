@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class LibraryRequests extends BaseRequest
@@ -123,6 +124,10 @@ class LibraryRequests extends BaseRequest
      */
     public function deleteById($appId, $scanId, $libraryId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($scanId) || is_null($libraryId)) {
+            throw new LibException('appId, scanId, or libraryId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $scanId, $libraryId), [
             'query' => $queryParams,
         ]);

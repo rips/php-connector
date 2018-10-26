@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\Application\AclRequests;
 use RIPS\Connector\Requests\Application\CustomRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
@@ -131,6 +132,10 @@ class ApplicationRequests extends BaseRequest
      */
     public function deleteById($appId, array $queryParams = [])
     {
+        if (is_null($appId)) {
+            throw new LibException('appId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId), [
             'query' => $queryParams,
         ]);

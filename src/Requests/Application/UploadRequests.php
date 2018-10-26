@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application;
 
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class UploadRequests extends BaseRequest
@@ -108,6 +109,10 @@ class UploadRequests extends BaseRequest
      */
     public function deleteById($appId, $uploadId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($uploadId)) {
+            throw new LibException('appId or uploadId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $uploadId), [
             'query' => $queryParams,
         ]);

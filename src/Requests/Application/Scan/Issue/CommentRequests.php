@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class CommentRequests extends BaseRequest
@@ -113,6 +114,10 @@ class CommentRequests extends BaseRequest
      */
     public function deleteById($appId, $scanId, $issueId, $commentId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($scanId) || is_null($issueId)) {
+            throw new LibException('appId, scanId, or issueId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $scanId, $issueId, $commentId), [
             'query' => $queryParams,
         ]);

@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Custom;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ValidatorRequests extends BaseRequest
@@ -124,6 +125,10 @@ class ValidatorRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $validatorId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($customId) || is_null($validatorId)) {
+            throw new LibException('appId, customId, or validatorId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $customId, $validatorId), [
             'query' => $queryParams,
         ]);

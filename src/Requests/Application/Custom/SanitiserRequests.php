@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Custom;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class SanitiserRequests extends BaseRequest
@@ -124,6 +125,10 @@ class SanitiserRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $sanitiserId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($customId) || is_null($sanitiserId)) {
+            throw new LibException('appId, customId, or sanitiserId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $customId, $sanitiserId), [
             'query' => $queryParams,
         ]);
