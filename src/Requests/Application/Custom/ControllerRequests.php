@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Custom;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ControllerRequests extends BaseRequest
@@ -124,6 +125,10 @@ class ControllerRequests extends BaseRequest
      */
     public function deleteById($appId, $customId, $controllerId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($customId) || is_null($controllerId)) {
+            throw new LibException('appId, customId, or controllerId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $customId, $controllerId), [
             'query' => $queryParams,
         ]);

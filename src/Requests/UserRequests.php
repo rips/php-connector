@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Exceptions\LibException;
 
 class UserRequests extends BaseRequest
 {
@@ -107,6 +108,10 @@ class UserRequests extends BaseRequest
      */
     public function deleteById($userId, array $queryParams = [])
     {
+        if (is_null($userId)) {
+            throw new LibException('userId is null');
+        }
+
         $response = $this->client->delete($this->uri($userId), [
             'query' => $queryParams,
         ]);
