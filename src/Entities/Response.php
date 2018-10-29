@@ -35,7 +35,7 @@ class Response
     }
 
     /**
-     * @return \stdClass[]|\stdClass
+     * @return mixed
      */
     public function getDecodedData()
     {
