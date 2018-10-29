@@ -98,13 +98,19 @@ class AclRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($quotaId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($quotaId), [
+        if (is_null($quotaId)) {
+            throw new LibException('quotaId is null');
+        }
+
+        $response = $this->client->delete($this->uri($quotaId), [
             'query' => $queryParams,
         ]);
+
+        return $this->handleResponse($response);
     }
 
     /**
@@ -113,7 +119,7 @@ class AclRequests extends BaseRequest
      * @param int $quotaId
      * @param int $aclId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($quotaId, $aclId, array $queryParams = [])
     {
@@ -121,8 +127,10 @@ class AclRequests extends BaseRequest
             throw new LibException('quotaId or aclId is null');
         }
 
-        $this->client->delete($this->uri($quotaId, $aclId), [
+        $response = $this->client->delete($this->uri($quotaId, $aclId), [
             'query' => $queryParams,
         ]);
+
+        return $this->handleResponse($response);
     }
 }
