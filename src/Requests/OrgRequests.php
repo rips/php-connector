@@ -17,11 +17,11 @@ class OrgRequests extends BaseRequest
      */
     protected function uri($orgId = null)
     {
-        return is_null($orgId) ? '/organisations' : "/organisations/{$orgId}";
+        return is_null($orgId) ? '/organizations' : "/organizations/{$orgId}";
     }
 
     /**
-     * Get all organisations
+     * Get all organizations
      *
      * @param array $queryParams
      * @return Response
@@ -36,7 +36,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Get an organisation by id
+     * Get an organization by id
      *
      * @param int $orgId
      * @param array $queryParams
@@ -52,7 +52,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Create a new organisation
+     * Create a new organization
      *
      * @param array $input
      * @param array $queryParams
@@ -61,7 +61,7 @@ class OrgRequests extends BaseRequest
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            RequestOptions::JSON => ['organisation' => $input],
+            RequestOptions::JSON => ['organization' => $input],
             'query' => $queryParams,
         ]);
 
@@ -69,7 +69,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Update an existing organisation
+     * Update an existing organization
      *
      * @param int $orgId
      * @param array $input
@@ -79,7 +79,7 @@ class OrgRequests extends BaseRequest
     public function update($orgId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($orgId), [
-            RequestOptions::JSON => ['organisation' => $input],
+            RequestOptions::JSON => ['organization' => $input],
             'query' => $queryParams,
         ]);
 
@@ -87,7 +87,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Delete all organisations
+     * Delete all organizations
      *
      * @param array $queryParams
      * @return Response
@@ -102,7 +102,7 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Delete an organisation by id
+     * Delete an organization by id
      *
      * @param int $orgId
      * @param array $queryParams
