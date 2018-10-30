@@ -40,25 +40,6 @@ class ExportRequests extends BaseRequest
     }
 
     /**
-     * Export info for scan in JIRA CSV format
-     *
-     * @param int $appId
-     * @param int $scanId
-     * @param string $outFile - File path that CSV contents will be stored to
-     * @param array $queryParams
-     * @return Response
-     */
-    public function exportJiraCsv($appId, $scanId, $outFile, array $queryParams = [])
-    {
-        $response = $this->client->get($this->uri($appId, $scanId, 'jiracsvs'), [
-            'sink'  => $outFile,
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
      * Export info for scan in PDF format
      *
      * @param int $appId
