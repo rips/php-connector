@@ -34,12 +34,9 @@ class CommentRequests extends BaseRequest
      * @param array $queryParams
      * @return Response
      */
-    public function getAll($appId = null, $scanId = null, $issueId = null, array $queryParams = [])
+    public function getAll($appId, $scanId, $issueId, array $queryParams = [])
     {
-        $uri = is_null($appId)
-            ? "/applications/scans/issues/comments/all"
-            : $this->uri($appId, $scanId, $issueId);
-        $response = $this->client->get($uri, [
+        $response = $this->client->get($this->uri($appId, $scanId, $issueId), [
             'query' => $queryParams,
         ]);
 
