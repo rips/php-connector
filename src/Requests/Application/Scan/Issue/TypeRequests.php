@@ -4,9 +4,15 @@ namespace RIPS\Connector\Requests\Application\Scan\Issue;
 
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
+use RIPS\Connector\Requests\Application\Scan\Issue\Type\PatchRequests;
 
 class TypeRequests extends BaseRequest
 {
+    /**
+     * @var PatchRequests
+     */
+    protected $patchRequests;
+
     /**
      * Build a URI for the request
      *
@@ -49,5 +55,19 @@ class TypeRequests extends BaseRequest
         ]);
 
         return $this->handleResponse($response);
+    }
+
+    /**
+     * Patch requests accessor
+     *
+     * @return PatchRequests
+     */
+    public function patches()
+    {
+        if (is_null($this->patchRequests)) {
+            $this->patchRequests = new PatchRequests($this->client);
+        }
+
+        return $this->patchRequests;
     }
 }
