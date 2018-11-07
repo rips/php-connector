@@ -44,7 +44,7 @@ class PatchRequests extends BaseRequest
      */
     public function getById($patchId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($typeId), [
+        $response = $this->client->get($this->uri($patchId), [
             'query' => $queryParams,
         ]);
 
