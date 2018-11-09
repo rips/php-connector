@@ -19,7 +19,7 @@ class HttpException extends \RuntimeException
         $data = $response->getDecodedData();
 
         if (!is_object($data)) {
-            throw new \Exception('Unexpected response in exception: ' . $data);
+            throw new \Exception('Unexpected response in exception: ' . $response->getRawData());
         }
 
         parent::__construct(
