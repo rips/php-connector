@@ -6,15 +6,15 @@ use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
-use RIPS\Connector\Requests\Application\Custom\IgnoreRequests;
-use RIPS\Connector\Requests\Application\Custom\SanitiserRequests;
-use RIPS\Connector\Requests\Application\Custom\SettingRequests;
-use RIPS\Connector\Requests\Application\Custom\SinkRequests;
-use RIPS\Connector\Requests\Application\Custom\SourceRequests;
-use RIPS\Connector\Requests\Application\Custom\ValidatorRequests;
-use RIPS\Connector\Requests\Application\Custom\ControllerRequests;
+use RIPS\Connector\Requests\Application\Profile\IgnoreRequests;
+use RIPS\Connector\Requests\Application\Profile\SanitiserRequests;
+use RIPS\Connector\Requests\Application\Profile\SettingRequests;
+use RIPS\Connector\Requests\Application\Profile\SinkRequests;
+use RIPS\Connector\Requests\Application\Profile\SourceRequests;
+use RIPS\Connector\Requests\Application\Profile\ValidatorRequests;
+use RIPS\Connector\Requests\Application\Profile\ControllerRequests;
 
-class CustomRequests extends BaseRequest
+class ProfileRequests extends BaseRequest
 {
     /**
      * @var IgnoreRequests
@@ -55,29 +55,29 @@ class CustomRequests extends BaseRequest
      * Build the URI for the requests
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param bool $clone
      * @return string
      */
-    protected function uri($appId = null, $customId = null, $clone = false)
+    protected function uri($appId = null, $profileId = null, $clone = false)
     {
         if (is_null($appId)) {
-            return '/applications/customs/all';
+            return '/applications/profiles/all';
         }
 
-        if (is_null($customId)) {
-            return "/applications/{$appId}/customs";
+        if (is_null($profileId)) {
+            return "/applications/{$appId}/profiles";
         }
 
         if (!$clone) {
-            return "/applications/{$appId}/customs/{$customId}";
+            return "/applications/{$appId}/profiles/{$profileId}";
         }
 
-        return "/applications/{$appId}/customs/{$customId}/clone";
+        return "/applications/{$appId}/profiles/{$profileId}/clone";
     }
 
     /**
-     * Get all custom profiles for the application
+     * Get all profiles for the application
      *
      * @param int $appId
      * @param array $queryParams
@@ -93,16 +93,16 @@ class CustomRequests extends BaseRequest
     }
 
     /**
-     * Get a custom profile for an app by id
+     * Get a profile for an app by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $queryParams
      * @return Response
      */
-    public function getById($appId, $customId, array $queryParams = [])
+    public function getById($appId, $profileId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $customId), [
+        $response = $this->client->get($this->uri($appId, $profileId), [
             'query' => $queryParams,
         ]);
 
@@ -110,7 +110,7 @@ class CustomRequests extends BaseRequest
     }
 
     /**
-     * Create a new custom profile
+     * Create a new profile
      *
      * @param int $appId
      * @param array $input
@@ -120,7 +120,7 @@ class CustomRequests extends BaseRequest
     public function create($appId, $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId), [
-            RequestOptions::JSON => ['custom' => $input],
+            RequestOptions::JSON => ['profile' => $input],
             'query' => $queryParams,
         ]);
 
@@ -128,18 +128,18 @@ class CustomRequests extends BaseRequest
     }
 
     /**
-     * Clone a existing custom profile
+     * Clone a existing profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function cloneById($appId, $customId, $input, array $queryParams = [])
+    public function cloneById($appId, $profileId, $input, array $queryParams = [])
     {
-        $response = $this->client->post($this->uri($appId, $customId, true), [
-            RequestOptions::JSON => ['custom' => $input],
+        $response = $this->client->post($this->uri($appId, $profileId, true), [
+            RequestOptions::JSON => ['profile' => $input],
             'query' => $queryParams,
         ]);
 
@@ -147,18 +147,18 @@ class CustomRequests extends BaseRequest
     }
 
     /**
-     * Update an existing custom profile
+     * Update an existing profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function update($appId, $customId, array $input, array $queryParams = [])
+    public function update($appId, $profileId, array $input, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($appId, $customId), [
-            RequestOptions::JSON => ['custom' => $input],
+        $response = $this->client->patch($this->uri($appId, $profileId), [
+            RequestOptions::JSON => ['profile' => $input],
             'query' => $queryParams,
         ]);
 
@@ -166,7 +166,7 @@ class CustomRequests extends BaseRequest
     }
 
     /**
-     * Delete all custom profiles for application
+     * Delete all profiles for application
      *
      * @param int $appId
      * @param array $queryParams
@@ -182,20 +182,20 @@ class CustomRequests extends BaseRequest
     }
 
     /**
-     * Delete a custom profile for an application by id
+     * Delete a profile for an application by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $queryParams
      * @return Response
      */
-    public function deleteById($appId, $customId, array $queryParams = [])
+    public function deleteById($appId, $profileId, array $queryParams = [])
     {
         if (is_null($appId)) {
             throw new LibException('appId is null');
         }
 
-        $response = $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $profileId), [
             'query' => $queryParams,
         ]);
 

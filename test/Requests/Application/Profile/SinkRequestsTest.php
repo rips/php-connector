@@ -3,15 +3,15 @@
 namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\Custom\ControllerRequests;
+use RIPS\Connector\Requests\Application\Profile\SinkRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class ControllerRequestsTest extends TestCase
+class SinkRequestsTest extends TestCase
 {
-    /** @var ControllerRequests */
-    protected $controllerRequests;
+    /** @var SinkRequests */
+    protected $sinkRequests;
 
     protected function setUp()
     {
@@ -24,7 +24,7 @@ class ControllerRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->controllerRequests = new ControllerRequests($this->client);
+        $this->sinkRequests = new SinkRequests($this->client);
     }
 
     /**
@@ -32,7 +32,7 @@ class ControllerRequestsTest extends TestCase
      */
     public function getAll()
     {
-        $response = $this->controllerRequests->getAll(1, 2, [
+        $response = $this->sinkRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -45,7 +45,7 @@ class ControllerRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sinks', $request->getUri()->getPath());
         $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
@@ -55,12 +55,12 @@ class ControllerRequestsTest extends TestCase
      */
     public function getById()
     {
-        $response = $this->controllerRequests->getById(1, 2, 3);
+        $response = $this->sinkRequests->getById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sinks/3', $request->getUri()->getPath());
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -69,14 +69,14 @@ class ControllerRequestsTest extends TestCase
      */
     public function create()
     {
-        $response = $this->controllerRequests->create(1, 2, ['test' => 'input']);
+        $response = $this->sinkRequests->create(1, 2, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers', $request->getUri()->getPath());
-        $this->assertEquals('{"controller":{"test":"input"}}', $body);
+        $this->assertEquals('/applications/1/profiles/2/sinks', $request->getUri()->getPath());
+        $this->assertEquals('{"sink":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -85,14 +85,14 @@ class ControllerRequestsTest extends TestCase
      */
     public function update()
     {
-        $response = $this->controllerRequests->update(1, 2, 3, ['test' => 'input']);
+        $response = $this->sinkRequests->update(1, 2, 3, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers/3', $request->getUri()->getPath());
-        $this->assertEquals('{"controller":{"test":"input"}}', $body);
+        $this->assertEquals('/applications/1/profiles/2/sinks/3', $request->getUri()->getPath());
+        $this->assertEquals('{"sink":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -101,7 +101,7 @@ class ControllerRequestsTest extends TestCase
      */
     public function deleteAll()
     {
-        $this->controllerRequests->deleteAll(1, 2, [
+        $this->sinkRequests->deleteAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -114,7 +114,7 @@ class ControllerRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sinks', $request->getUri()->getPath());
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -123,11 +123,11 @@ class ControllerRequestsTest extends TestCase
      */
     public function deleteById()
     {
-        $this->controllerRequests->deleteById(1, 2, 3);
+        $this->sinkRequests->deleteById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sinks/3', $request->getUri()->getPath());
     }
 }

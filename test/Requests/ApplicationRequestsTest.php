@@ -3,7 +3,7 @@
 namespace RIPS\Test\Requests;
 
 use RIPS\Connector\Requests\Application\AclRequests;
-use RIPS\Connector\Requests\Application\CustomRequests;
+use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
 use RIPS\Connector\Requests\ApplicationRequests;
@@ -132,11 +132,11 @@ class ApplicationRequestsTest extends TestCase
     /**
      * @test
      */
-    public function customs()
+    public function profiles()
     {
-        $customRequests = $this->applicationRequests->customs();
+        $profileRequests = $this->applicationRequests->profiles();
 
-        $this->assertInstanceOf(CustomRequests::class, $customRequests);
+        $this->assertInstanceOf(ProfileRequests::class, $profileRequests);
     }
 
     /**

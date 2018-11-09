@@ -3,15 +3,15 @@
 namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\Custom\IgnoreRequests;
+use RIPS\Connector\Requests\Application\Profile\SanitiserRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class IgnoreRequestsTest extends TestCase
+class SanitiserRequestsTest extends TestCase
 {
-    /** @var IgnoreRequests */
-    protected $ignoreRequests;
+    /** @var SanitiserRequests */
+    protected $sanitiserRequests;
 
     protected function setUp()
     {
@@ -24,7 +24,7 @@ class IgnoreRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->ignoreRequests = new IgnoreRequests($this->client);
+        $this->sanitiserRequests = new SanitiserRequests($this->client);
     }
 
     /**
@@ -32,7 +32,7 @@ class IgnoreRequestsTest extends TestCase
      */
     public function getAll()
     {
-        $response = $this->ignoreRequests->getAll(1, 2, [
+        $response = $this->sanitiserRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -45,7 +45,7 @@ class IgnoreRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sanitisers', $request->getUri()->getPath());
         $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
@@ -55,12 +55,12 @@ class IgnoreRequestsTest extends TestCase
      */
     public function getById()
     {
-        $response = $this->ignoreRequests->getById(1, 2, 3);
+        $response = $this->sanitiserRequests->getById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sanitisers/3', $request->getUri()->getPath());
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -69,14 +69,14 @@ class IgnoreRequestsTest extends TestCase
      */
     public function create()
     {
-        $response = $this->ignoreRequests->create(1, 2, ['test' => 'input']);
+        $response = $this->sanitiserRequests->create(1, 2, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores', $request->getUri()->getPath());
-        $this->assertEquals('{"ignore":{"test":"input"}}', $body);
+        $this->assertEquals('/applications/1/profiles/2/sanitisers', $request->getUri()->getPath());
+        $this->assertEquals('{"sanitiser":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -85,14 +85,14 @@ class IgnoreRequestsTest extends TestCase
      */
     public function update()
     {
-        $response = $this->ignoreRequests->update(1, 2, 3, ['test' => 'input']);
+        $response = $this->sanitiserRequests->update(1, 2, 3, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
-        $this->assertEquals('{"ignore":{"test":"input"}}', $body);
+        $this->assertEquals('/applications/1/profiles/2/sanitisers/3', $request->getUri()->getPath());
+        $this->assertEquals('{"sanitiser":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -101,7 +101,7 @@ class IgnoreRequestsTest extends TestCase
      */
     public function deleteAll()
     {
-        $this->ignoreRequests->deleteAll(1, 2, [
+        $this->sanitiserRequests->deleteAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -114,7 +114,7 @@ class IgnoreRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sanitisers', $request->getUri()->getPath());
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -123,11 +123,11 @@ class IgnoreRequestsTest extends TestCase
      */
     public function deleteById()
     {
-        $this->ignoreRequests->deleteById(1, 2, 3);
+        $this->sanitiserRequests->deleteById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/ignores/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sanitisers/3', $request->getUri()->getPath());
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\Connector\Requests\Application\Custom;
+namespace RIPS\Connector\Requests\Application\Profile;
 
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Entities\Response;
@@ -13,28 +13,28 @@ class ControllerRequests extends BaseRequest
      * Build the URI for the requests
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $controllerId
      * @return string
      */
-    protected function uri($appId, $customId, $controllerId = null)
+    protected function uri($appId, $profileId, $controllerId = null)
     {
         return is_null($controllerId)
-            ? "/applications/{$appId}/customs/{$customId}/controllers"
-            : "/applications/{$appId}/customs/{$customId}/controllers/{$controllerId}";
+            ? "/applications/{$appId}/profiles/{$profileId}/controllers"
+            : "/applications/{$appId}/profiles/{$profileId}/controllers/{$controllerId}";
     }
 
     /**
-     * Get all controllers for custom profile
+     * Get all controllers for profile profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $queryParams
      * @return Response
      */
-    public function getAll($appId, $customId, array $queryParams = [])
+    public function getAll($appId, $profileId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $customId), [
+        $response = $this->client->get($this->uri($appId, $profileId), [
             'query' => $queryParams,
         ]);
 
@@ -42,17 +42,17 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Get specific controller for custom profile by id
+     * Get specific controller for profile profile by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $controllerId
      * @param array $queryParams
      * @return Response
      */
-    public function getById($appId, $customId, $controllerId, array $queryParams = [])
+    public function getById($appId, $profileId, $controllerId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $customId, $controllerId), [
+        $response = $this->client->get($this->uri($appId, $profileId, $controllerId), [
             'query' => $queryParams,
         ]);
 
@@ -60,17 +60,17 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Create a new controller for a custom profile
+     * Create a new controller for a profile profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function create($appId, $customId, array $input, array $queryParams = [])
+    public function create($appId, $profileId, array $input, array $queryParams = [])
     {
-        $response = $this->client->post($this->uri($appId, $customId), [
+        $response = $this->client->post($this->uri($appId, $profileId), [
             RequestOptions::JSON => ['controller' => $input],
             'query' => $queryParams,
         ]);
@@ -79,18 +79,18 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Update a controller rule for a custom profile by id
+     * Update a controller rule for a profile profile by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $controllerId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function update($appId, $customId, $controllerId, array $input, array $queryParams = [])
+    public function update($appId, $profileId, $controllerId, array $input, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($appId, $customId, $controllerId), [
+        $response = $this->client->patch($this->uri($appId, $profileId, $controllerId), [
             RequestOptions::JSON => ['controller' => $input],
             'query' => $queryParams,
         ]);
@@ -99,16 +99,16 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Delete all controllers for a custom profile
+     * Delete all controllers for a profile profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $queryParams
      * @return Response
      */
-    public function deleteAll($appId, $customId, array $queryParams = [])
+    public function deleteAll($appId, $profileId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $profileId), [
             'query' => $queryParams,
         ]);
 
@@ -116,21 +116,21 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Delete a controller for a custom profile by id
+     * Delete a controller for a profile profile by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $controllerId
      * @param array $queryParams
      * @return Response
      */
-    public function deleteById($appId, $customId, $controllerId, array $queryParams = [])
+    public function deleteById($appId, $profileId, $controllerId, array $queryParams = [])
     {
-        if (is_null($appId) || is_null($customId) || is_null($controllerId)) {
-            throw new LibException('appId, customId, or controllerId is null');
+        if (is_null($appId) || is_null($profileId) || is_null($controllerId)) {
+            throw new LibException('appId, profileId, or controllerId is null');
         }
 
-        $response = $this->client->delete($this->uri($appId, $customId, $controllerId), [
+        $response = $this->client->delete($this->uri($appId, $profileId, $controllerId), [
             'query' => $queryParams,
         ]);
 
