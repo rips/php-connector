@@ -27,11 +27,11 @@ class Response
     }
 
     /**
-     * @return \Psr\Http\Message\StreamInterface
+     * @return string
      */
     public function getRawData()
     {
-        return $this->response->getBody();
+        return (string)$this->response->getBody();
     }
 
     /**
@@ -39,6 +39,6 @@ class Response
      */
     public function getDecodedData()
     {
-        return json_decode($this->response->getBody());
+        return json_decode($this->getRawData());
     }
 }

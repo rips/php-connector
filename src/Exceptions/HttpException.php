@@ -11,11 +11,17 @@ class HttpException extends \RuntimeException
 
     /**
      * @param Response $response
+     * @throws \Exception if no proper error is found
      */
     public function __construct(Response $response)
     {
         $this->response = $response;
         $data = $response->getDecodedData();
+
+        if (!is_object($data)) {
+            throw new \Exception('Unexpected response in exception: ' . $data);
+        }
+
         parent::__construct(
             property_exists($data, 'message') ? $data->message : '',
             property_exists($data, 'code') ? $data->code : 0
