@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
+use RIPS\Connector\Requests\CallbackRequests;
 use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
@@ -28,6 +29,11 @@ class API
      * @var string
      */
     protected $version = '2.16.0';
+
+    /**
+     * @var CallbackRequests
+     */
+    public $callbacks;
 
     /**
      * @var ApplicationRequests
@@ -149,6 +155,7 @@ class API
         );
 
         $client = new Client($mergedConfig);
+        $this->callbacks = new CallbackRequests($client);
         $this->applications = new ApplicationRequests($client);
         $this->licenses = new LicenseRequests($client);
         $this->logs = new LogRequests($client);
@@ -182,7 +189,6 @@ class API
      * @param string $password
      * @param array $clientConfig
      * @return array
-     * @throws ClientException
      * @throws Exception
      */
     private function getAuthHeaders($username, $password, $clientConfig)
@@ -205,7 +211,7 @@ class API
         }
 
         if (!$accessToken) {
-            throw new ClientException('Cannot find/create valid token');
+            throw new Exception('Cannot find/create valid token');
         }
 
         return [
@@ -255,14 +261,13 @@ class API
      * @param $password
      * @param $clientConfig
      * @return string
-     * @throws ClientException
      * @throws Exception
      */
     private function createAccessToken($username, $password, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         if (!array_key_exists('client_id', $oauth2Config)) {
-            throw new ClientException('Cannot create new oauth token without client id');
+            throw new Exception('Cannot create new oauth token without client id');
         }
 
         $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
@@ -282,7 +287,7 @@ class API
 
         if (isset($oauth2Config['store_token']) && $oauth2Config['store_token'] === true) {
             if (!array_key_exists('token_file_path', $oauth2Config) || empty($oauth2Config['token_file_path'])) {
-                throw new Exception('Token path is needed to store token.');
+                throw new Exception('Token path is needed to store token');
             }
             $filePath = $oauth2Config['token_file_path'];
             file_put_contents($filePath, json_encode($tokens));
