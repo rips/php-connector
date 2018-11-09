@@ -212,7 +212,7 @@ class API
         }
 
         if (!$accessToken) {
-            throw new ClientException('Cannot find/create valid token');
+            throw new \Exception('Cannot find/create valid token');
         }
 
         return [
