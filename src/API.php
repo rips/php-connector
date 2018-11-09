@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
+use RIPS\Connector\Requests\CallbackRequests;
 use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
@@ -28,6 +29,11 @@ class API
      * @var string
      */
     protected $version = '2.16.0';
+
+    /**
+     * @var CallbackRequests
+     */
+    public $callbacks;
 
     /**
      * @var ApplicationRequests
@@ -149,6 +155,7 @@ class API
         );
 
         $client = new Client($mergedConfig);
+        $this->callbacks = new CallbackRequests($client);
         $this->applications = new ApplicationRequests($client);
         $this->licenses = new LicenseRequests($client);
         $this->logs = new LogRequests($client);
