@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\Connector\Requests\Application\Custom;
+namespace RIPS\Connector\Requests\Application\Profile;
 
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Entities\Response;
@@ -13,28 +13,28 @@ class SourceRequests extends BaseRequest
      * Build the URI for the requests
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $sourceId
      * @return string
      */
-    protected function uri($appId, $customId, $sourceId = null)
+    protected function uri($appId, $profileId, $sourceId = null)
     {
         return is_null($sourceId)
-            ? "/applications/{$appId}/customs/{$customId}/sources"
-            : "/applications/{$appId}/customs/{$customId}/sources/{$sourceId}";
+            ? "/applications/{$appId}/profiles/{$profileId}/sources"
+            : "/applications/{$appId}/profiles/{$profileId}/sources/{$sourceId}";
     }
 
     /**
-     * Get all sources for custom profile
+     * Get all sources for profile profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $queryParams
      * @return Response
      */
-    public function getAll($appId, $customId, array $queryParams = [])
+    public function getAll($appId, $profileId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $customId), [
+        $response = $this->client->get($this->uri($appId, $profileId), [
             'query' => $queryParams,
         ]);
 
@@ -42,17 +42,17 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Get specific source for custom profile by id
+     * Get specific source for profile profile by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $sourceId
      * @param array $queryParams
      * @return Response
      */
-    public function getById($appId, $customId, $sourceId, array $queryParams = [])
+    public function getById($appId, $profileId, $sourceId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $customId, $sourceId), [
+        $response = $this->client->get($this->uri($appId, $profileId, $sourceId), [
             'query' => $queryParams,
         ]);
 
@@ -60,17 +60,17 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Create a new source for a custom profile
+     * Create a new source for a profile profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function create($appId, $customId, array $input, array $queryParams = [])
+    public function create($appId, $profileId, array $input, array $queryParams = [])
     {
-        $response = $this->client->post($this->uri($appId, $customId), [
+        $response = $this->client->post($this->uri($appId, $profileId), [
             RequestOptions::JSON => ['source' => $input],
             'query' => $queryParams,
         ]);
@@ -79,18 +79,18 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Update an source rule for a custom profile by id
+     * Update an source rule for a profile profile by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $sourceId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function update($appId, $customId, $sourceId, array $input, array $queryParams = [])
+    public function update($appId, $profileId, $sourceId, array $input, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($appId, $customId, $sourceId), [
+        $response = $this->client->patch($this->uri($appId, $profileId, $sourceId), [
             RequestOptions::JSON => ['source' => $input],
             'query' => $queryParams,
         ]);
@@ -99,16 +99,16 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Delete all sources for a custom profile
+     * Delete all sources for a profile profile
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param array $queryParams
      * @return Response
      */
-    public function deleteAll($appId, $customId, array $queryParams = [])
+    public function deleteAll($appId, $profileId, array $queryParams = [])
     {
-        $response = $this->client->delete($this->uri($appId, $customId), [
+        $response = $this->client->delete($this->uri($appId, $profileId), [
             'query' => $queryParams,
         ]);
 
@@ -116,21 +116,21 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Delete an source for a custom profile by id
+     * Delete an source for a profile profile by id
      *
      * @param int $appId
-     * @param int $customId
+     * @param int $profileId
      * @param int $sourceId
      * @param array $queryParams
      * @return Response
      */
-    public function deleteById($appId, $customId, $sourceId, array $queryParams = [])
+    public function deleteById($appId, $profileId, $sourceId, array $queryParams = [])
     {
-        if (is_null($appId) || is_null($customId) || is_null($sourceId)) {
-            throw new LibException('appId, customId, or sourceId is null');
+        if (is_null($appId) || is_null($profileId) || is_null($sourceId)) {
+            throw new LibException('appId, profileId, or sourceId is null');
         }
 
-        $response = $this->client->delete($this->uri($appId, $customId, $sourceId), [
+        $response = $this->client->delete($this->uri($appId, $profileId, $sourceId), [
             'query' => $queryParams,
         ]);
 

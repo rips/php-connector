@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\Application\AclRequests;
-use RIPS\Connector\Requests\Application\CustomRequests;
+use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
 
@@ -18,9 +18,9 @@ class ApplicationRequests extends BaseRequest
     protected $aclRequests;
 
     /**
-     * @var CustomRequests
+     * @var ProfileRequests
      */
-    protected $customRequests;
+    protected $profileRequests;
 
     /**
      * @var ScanRequests
@@ -159,17 +159,17 @@ class ApplicationRequests extends BaseRequest
     }
 
     /**
-     * Custom requests accessor
+     * Profile requests accessor
      *
-     * @return CustomRequests
+     * @return ProfileRequests
      */
-    public function customs()
+    public function profiles()
     {
-        if (is_null($this->customRequests)) {
-            $this->customRequests = new CustomRequests($this->client);
+        if (is_null($this->profileRequests)) {
+            $this->profileRequests = new ProfileRequests($this->client);
         }
 
-        return $this->customRequests;
+        return $this->profileRequests;
     }
 
     /**
