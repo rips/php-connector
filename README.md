@@ -23,11 +23,11 @@ OR add the following to composer.json and run `composer update`
 	$config = ['base_uri' => 'http://localhost:8000'];
 
     // Initialize with config in constructor
-    $api = new API('username', 'password', $config);
+    $api = new API('email', 'password', $config);
 
     // Or initialize manually
     $api = new API();
-    $api->initialize('username', 'password', $config);
+    $api->initialize('email', 'password', $config);
 
 	try {
 		// Get all users
