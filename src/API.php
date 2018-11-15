@@ -117,16 +117,16 @@ class API
 
     /**
      * Construct and optionally initialize new API
-     * Initialization is only done if both username and password are specified.
+     * Initialization is only done if both email and password are specified.
      *
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param array $clientConfig
      * @throws Exception
      */
-    public function __construct($username = null, $password = null, array $clientConfig = [])
+    public function __construct($email = null, $password = null, array $clientConfig = [])
     {
-        $this->initialize($username, $password, $clientConfig);
+        $this->initialize($email, $password, $clientConfig);
     }
 
     /**
@@ -134,12 +134,12 @@ class API
      * Separation from the constructor is required because in some cases the information are not yet known when
      * the object is constructed.
      *
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param array $clientConfig
      * @throws Exception
      */
-    public function initialize($username, $password, array $clientConfig = [])
+    public function initialize($email, $password, array $clientConfig = [])
     {
         $mergedConfig = array_merge(
             $this->clientConfig,
@@ -150,7 +150,7 @@ class API
                 ],
             ],
             [
-                'headers' => $this->getAuthHeaders($username, $password, $clientConfig)
+                'headers' => $this->getAuthHeaders($email, $password, $clientConfig)
             ]
         );
 
@@ -185,21 +185,21 @@ class API
     /**
      * Get the authentication headers
      *
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param array $clientConfig
      * @return array
      * @throws Exception
      */
-    private function getAuthHeaders($username, $password, $clientConfig)
+    private function getAuthHeaders($email, $password, $clientConfig)
     {
-        if (!$username || !$password) {
+        if (!$email || !$password) {
             return [];
         }
 
         if (!isset($clientConfig['oauth2']['enabled']) || !$clientConfig['oauth2']['enabled']) {
             return [
-                'X-API-Username' => $username,
+                'X-API-Email'    => $email,
                 'X-API-Password' => $password
             ];
         }
@@ -207,7 +207,7 @@ class API
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = array_key_exists('access_token', $oauth2Config) ? $oauth2Config["access_token"] : "";
         if (empty($accessToken)) {
-            $accessToken = $this->getAccessToken($username, $password, $clientConfig);
+            $accessToken = $this->getAccessToken($email, $password, $clientConfig);
         }
 
         if (!$accessToken) {
@@ -222,13 +222,13 @@ class API
     /**
      * Gets an access token either from config, from disk or by requesting a new one
      *
-     * @param $username
+     * @param $email
      * @param $password
      * @param $clientConfig
      * @return string|null
      * @throws Exception
      */
-    private function getAccessToken($username, $password, $clientConfig)
+    private function getAccessToken($email, $password, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = null;
@@ -251,19 +251,19 @@ class API
         } catch (\Exception $e) {
         }
 
-        return $this->createAccessToken($username, $password, $clientConfig);
+        return $this->createAccessToken($email, $password, $clientConfig);
     }
 
     /**
      * Creates an access token by requesting it from the server
      *
-     * @param $username
+     * @param $email
      * @param $password
      * @param $clientConfig
      * @return string
      * @throws Exception
      */
-    private function createAccessToken($username, $password, $clientConfig)
+    private function createAccessToken($email, $password, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         if (!array_key_exists('client_id', $oauth2Config)) {
@@ -277,7 +277,7 @@ class API
             RequestOptions::JSON => [
                 'grant_type' => 'password',
                 'client_id' => $oauth2Config['client_id'],
-                'username' => $username,
+                'username' => $email,
                 'password' => $password
             ]
         ]);
