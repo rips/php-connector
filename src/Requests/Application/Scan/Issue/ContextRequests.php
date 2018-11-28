@@ -5,7 +5,7 @@ namespace RIPS\Connector\Requests\Application\Scan\Issue;
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
-class MarkupRequests extends BaseRequest
+class ContextRequests extends BaseRequest
 {
     /**
      * Build a uri for the request
@@ -13,18 +13,18 @@ class MarkupRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param int $issueId
-     * @param int $markupId
+     * @param int $contextId
      * @return string
      */
-    protected function uri($appId, $scanId, $issueId, $markupId = null)
+    protected function uri($appId, $scanId, $issueId, $contextId = null)
     {
-        return is_null($markupId)
-            ? "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/markups"
-            : "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/markups/{$markupId}";
+        return is_null($contextId)
+            ? "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/contexts"
+            : "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/contexts/{$contextId}";
     }
 
     /**
-     * Get all markups for an issue
+     * Get all contexts for an issue
      *
      * @param int $appId
      * @param int $scanId
@@ -42,18 +42,18 @@ class MarkupRequests extends BaseRequest
     }
 
     /**
-     * Get markup for an issue by id
+     * Get context for an issue by id
      *
      * @param int $appId
      * @param int $scanId
      * @param int $issueId
-     * @param int $markupId
+     * @param int $contextId
      * @param array $queryParams
      * @return Response
      */
-    public function getById($appId, $scanId, $issueId, $markupId, array $queryParams = [])
+    public function getById($appId, $scanId, $issueId, $contextId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $markupId), [
+        $response = $this->client->get($this->uri($appId, $scanId, $issueId, $contextId), [
             'query' => $queryParams,
         ]);
 
