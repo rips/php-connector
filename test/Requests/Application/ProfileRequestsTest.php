@@ -5,7 +5,7 @@ namespace RIPS\Test\Requests\Application;
 use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\Profile\IgnoreRequests;
-use RIPS\Connector\Requests\Application\Profile\SanitiserRequests;
+use RIPS\Connector\Requests\Application\Profile\SanitizerRequests;
 use RIPS\Connector\Requests\Application\Profile\SinkRequests;
 use RIPS\Connector\Requests\Application\Profile\SourceRequests;
 use RIPS\Connector\Requests\Application\Profile\ValidatorRequests;
@@ -164,11 +164,11 @@ class ProfileRequestsTest extends TestCase
     /**
      * @test
      */
-    public function sanitisers()
+    public function sanitizers()
     {
-        $sanitiserRequests = $this->profileRequests->sanitisers();
+        $sanitizerRequests = $this->profileRequests->sanitizers();
 
-        $this->assertInstanceOf(SanitiserRequests::class, $sanitiserRequests);
+        $this->assertInstanceOf(SanitizerRequests::class, $sanitizerRequests);
     }
 
     /**
