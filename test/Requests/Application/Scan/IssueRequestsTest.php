@@ -7,7 +7,7 @@ use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
 use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
-use RIPS\Connector\Requests\Application\Scan\Issue\MarkupRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\ContextRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\ReviewRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\SummaryRequests;
 use GuzzleHttp\Handler\MockHandler;
@@ -131,11 +131,11 @@ class IssueRequestsTest extends TestCase
     /**
      * @test
      */
-    public function markups()
+    public function contexts()
     {
-        $markupRequests = $this->issueRequests->markups();
+        $contextRequests = $this->issueRequests->contexts();
 
-        $this->assertInstanceOf(MarkupRequests::class, $markupRequests);
+        $this->assertInstanceOf(ContextRequests::class, $contextRequests);
     }
 
     /**

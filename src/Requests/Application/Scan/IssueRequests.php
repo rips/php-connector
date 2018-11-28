@@ -8,7 +8,7 @@ use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
-use RIPS\Connector\Requests\Application\Scan\Issue\MarkupRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\ContextRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\ReviewRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\SummaryRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\PatchRequests;
@@ -21,9 +21,9 @@ class IssueRequests extends BaseRequest
     protected $commentRequests;
 
     /**
-     * @var MarkupRequests
+     * @var ContextRequests
      */
-    protected $markupRequests;
+    protected $contextRequests;
 
     /**
      * @var OriginRequests
@@ -158,17 +158,17 @@ class IssueRequests extends BaseRequest
     }
 
     /**
-     * Accessor for markup requests
+     * Accessor for context requests
      *
-     * @return MarkupRequests
+     * @return ContextRequests
      */
-    public function markups()
+    public function contexts()
     {
-        if (is_null($this->markupRequests)) {
-            $this->markupRequests = new MarkupRequests($this->client);
+        if (is_null($this->contextRequests)) {
+            $this->contextRequests = new ContextRequests($this->client);
         }
 
-        return $this->markupRequests;
+        return $this->contextRequests;
     }
 
     /**
