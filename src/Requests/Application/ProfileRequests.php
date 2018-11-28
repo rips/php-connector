@@ -7,7 +7,7 @@ use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Profile\IgnoreRequests;
-use RIPS\Connector\Requests\Application\Profile\SanitiserRequests;
+use RIPS\Connector\Requests\Application\Profile\SanitizerRequests;
 use RIPS\Connector\Requests\Application\Profile\SettingRequests;
 use RIPS\Connector\Requests\Application\Profile\SinkRequests;
 use RIPS\Connector\Requests\Application\Profile\SourceRequests;
@@ -22,9 +22,9 @@ class ProfileRequests extends BaseRequest
     protected $ignoreRequests;
 
     /**
-     * @var SanitiserRequests
+     * @var SanitizerRequests
      */
-    protected $sanitiserRequests;
+    protected $sanitizerRequests;
 
     /**
      * @var SettingRequests
@@ -217,17 +217,17 @@ class ProfileRequests extends BaseRequest
     }
 
     /**
-     * Accessor to sanitiser requests
+     * Accessor to sanitizer requests
      *
-     * @return SanitiserRequests
+     * @return SanitizerRequests
      */
-    public function sanitisers()
+    public function sanitizers()
     {
-        if (is_null($this->sanitiserRequests)) {
-            $this->sanitiserRequests = new SanitiserRequests($this->client);
+        if (is_null($this->sanitizerRequests)) {
+            $this->sanitizerRequests = new SanitizerRequests($this->client);
         }
 
-        return $this->sanitiserRequests;
+        return $this->sanitizerRequests;
     }
 
     /**

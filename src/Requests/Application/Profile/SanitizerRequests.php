@@ -7,25 +7,25 @@ use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
-class SanitiserRequests extends BaseRequest
+class SanitizerRequests extends BaseRequest
 {
     /**
      * Build the URI for the requests
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $sanitiserId
+     * @param int $sanitizerId
      * @return string
      */
-    protected function uri($appId, $profileId, $sanitiserId = null)
+    protected function uri($appId, $profileId, $sanitizerId = null)
     {
-        return is_null($sanitiserId)
-            ? "/applications/{$appId}/profiles/{$profileId}/sanitisers"
-            : "/applications/{$appId}/profiles/{$profileId}/sanitisers/{$sanitiserId}";
+        return is_null($sanitizerId)
+            ? "/applications/{$appId}/profiles/{$profileId}/sanitizers"
+            : "/applications/{$appId}/profiles/{$profileId}/sanitizers/{$sanitizerId}";
     }
 
     /**
-     * Get all sanitisers for profile profile
+     * Get all sanitizers for profile profile
      *
      * @param int $appId
      * @param int $profileId
@@ -42,17 +42,17 @@ class SanitiserRequests extends BaseRequest
     }
 
     /**
-     * Get specific sanitiser for profile profile by id
+     * Get specific sanitizer for profile profile by id
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $sanitiserId
+     * @param int $sanitizerId
      * @param array $queryParams
      * @return Response
      */
-    public function getById($appId, $profileId, $sanitiserId, array $queryParams = [])
+    public function getById($appId, $profileId, $sanitizerId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $profileId, $sanitiserId), [
+        $response = $this->client->get($this->uri($appId, $profileId, $sanitizerId), [
             'query' => $queryParams,
         ]);
 
@@ -60,7 +60,7 @@ class SanitiserRequests extends BaseRequest
     }
 
     /**
-     * Create a new sanitiser for a profile profile
+     * Create a new sanitizer for a profile profile
      *
      * @param int $appId
      * @param int $profileId
@@ -71,7 +71,7 @@ class SanitiserRequests extends BaseRequest
     public function create($appId, $profileId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $profileId), [
-            RequestOptions::JSON => ['sanitiser' => $input],
+            RequestOptions::JSON => ['sanitizer' => $input],
             'query' => $queryParams,
         ]);
 
@@ -79,19 +79,19 @@ class SanitiserRequests extends BaseRequest
     }
 
     /**
-     * Update an sanitiser rule for a profile profile by id
+     * Update an sanitizer rule for a profile profile by id
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $sanitiserId
+     * @param int $sanitizerId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function update($appId, $profileId, $sanitiserId, array $input, array $queryParams = [])
+    public function update($appId, $profileId, $sanitizerId, array $input, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($appId, $profileId, $sanitiserId), [
-            RequestOptions::JSON => ['sanitiser' => $input],
+        $response = $this->client->patch($this->uri($appId, $profileId, $sanitizerId), [
+            RequestOptions::JSON => ['sanitizer' => $input],
             'query' => $queryParams,
         ]);
 
@@ -99,7 +99,7 @@ class SanitiserRequests extends BaseRequest
     }
 
     /**
-     * Delete all sanitisers for a profile profile
+     * Delete all sanitizers for a profile profile
      *
      * @param int $appId
      * @param int $profileId
@@ -116,21 +116,21 @@ class SanitiserRequests extends BaseRequest
     }
 
     /**
-     * Delete an sanitiser for a profile profile by id
+     * Delete an sanitizer for a profile profile by id
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $sanitiserId
+     * @param int $sanitizerId
      * @param array $queryParams
      * @return Response
      */
-    public function deleteById($appId, $profileId, $sanitiserId, array $queryParams = [])
+    public function deleteById($appId, $profileId, $sanitizerId, array $queryParams = [])
     {
-        if (is_null($appId) || is_null($profileId) || is_null($sanitiserId)) {
-            throw new LibException('appId, profileId, or sanitiserId is null');
+        if (is_null($appId) || is_null($profileId) || is_null($sanitizerId)) {
+            throw new LibException('appId, profileId, or sanitizerId is null');
         }
 
-        $response = $this->client->delete($this->uri($appId, $profileId, $sanitiserId), [
+        $response = $this->client->delete($this->uri($appId, $profileId, $sanitizerId), [
             'query' => $queryParams,
         ]);
 
