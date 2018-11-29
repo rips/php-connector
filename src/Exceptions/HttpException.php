@@ -9,6 +9,9 @@ class HttpException extends \RuntimeException
     /** @var Response */
     private $response;
 
+    /** @var array|null */
+    private $errors;
+
     /**
      * @param Response $response
      * @throws \Exception if no proper error is found
@@ -26,6 +29,10 @@ class HttpException extends \RuntimeException
             property_exists($data, 'message') ? $data->message : '',
             property_exists($data, 'code') ? $data->code : 0
         );
+
+        if (property_exists($data, 'errors')) {
+            $this->errors = $data->errors;
+        }
     }
 
     /**
@@ -34,5 +41,13 @@ class HttpException extends \RuntimeException
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }
