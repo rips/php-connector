@@ -25,7 +25,7 @@ class SinkRequests extends BaseRequest
     }
 
     /**
-     * Get all sinks for profile profile
+     * Get all sinks for profile
      *
      * @param int $appId
      * @param int $profileId
@@ -42,7 +42,7 @@ class SinkRequests extends BaseRequest
     }
 
     /**
-     * Get specific sink for profile profile by id
+     * Get specific sink for profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -60,7 +60,7 @@ class SinkRequests extends BaseRequest
     }
 
     /**
-     * Create a new sink for a profile profile
+     * Create a new sink for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -79,7 +79,7 @@ class SinkRequests extends BaseRequest
     }
 
     /**
-     * Update an sink rule for a profile profile by id
+     * Update an sink rule for a profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -99,7 +99,7 @@ class SinkRequests extends BaseRequest
     }
 
     /**
-     * Delete all sinks for a profile profile
+     * Delete all sinks for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -116,7 +116,7 @@ class SinkRequests extends BaseRequest
     }
 
     /**
-     * Delete an sink for a profile profile by id
+     * Delete an sink for a profile by id
      *
      * @param int $appId
      * @param int $profileId

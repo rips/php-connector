@@ -7,7 +7,7 @@ use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
-class IgnoreRequests extends BaseRequest
+class IgnoredLocationRequests extends BaseRequest
 {
     /**
      * Build the URI for the requests
@@ -20,12 +20,12 @@ class IgnoreRequests extends BaseRequest
     protected function uri($appId, $profileId, $ignoreId = null)
     {
         return is_null($ignoreId)
-            ? "/applications/{$appId}/profiles/{$profileId}/ignores"
-            : "/applications/{$appId}/profiles/{$profileId}/ignores/{$ignoreId}";
+            ? "/applications/{$appId}/profiles/{$profileId}/ignoredlocations"
+            : "/applications/{$appId}/profiles/{$profileId}/ignoredlocations/{$ignoreId}";
     }
 
     /**
-     * Get all ignores for profile profile
+     * Get all ignored locations for profile
      *
      * @param int $appId
      * @param int $profileId
@@ -42,7 +42,7 @@ class IgnoreRequests extends BaseRequest
     }
 
     /**
-     * Get specific ignore for profile profile by id
+     * Get specific ignored location for profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -60,7 +60,7 @@ class IgnoreRequests extends BaseRequest
     }
 
     /**
-     * Create a new ignore for a profile profile
+     * Create a new ignored location for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -71,7 +71,7 @@ class IgnoreRequests extends BaseRequest
     public function create($appId, $profileId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $profileId), [
-            RequestOptions::JSON => ['ignore' => $input],
+            RequestOptions::JSON => ['ignored_location' => $input],
             'query' => $queryParams,
         ]);
 
@@ -79,7 +79,7 @@ class IgnoreRequests extends BaseRequest
     }
 
     /**
-     * Update an ignore rule for a profile profile by id
+     * Update ignored location rule for a profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -91,7 +91,7 @@ class IgnoreRequests extends BaseRequest
     public function update($appId, $profileId, $ignoreId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($appId, $profileId, $ignoreId), [
-            RequestOptions::JSON => ['ignore' => $input],
+            RequestOptions::JSON => ['ignored_location' => $input],
             'query' => $queryParams,
         ]);
 
@@ -99,7 +99,7 @@ class IgnoreRequests extends BaseRequest
     }
 
     /**
-     * Delete all ignores for a profile profile
+     * Delete all ignored locations for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -116,7 +116,7 @@ class IgnoreRequests extends BaseRequest
     }
 
     /**
-     * Delete an ignore for a profile profile by id
+     * Delete ignored location for a profile by id
      *
      * @param int $appId
      * @param int $profileId

@@ -25,7 +25,7 @@ class SanitizerRequests extends BaseRequest
     }
 
     /**
-     * Get all sanitizers for profile profile
+     * Get all sanitizers for profile
      *
      * @param int $appId
      * @param int $profileId
@@ -42,7 +42,7 @@ class SanitizerRequests extends BaseRequest
     }
 
     /**
-     * Get specific sanitizer for profile profile by id
+     * Get specific sanitizer for profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -60,7 +60,7 @@ class SanitizerRequests extends BaseRequest
     }
 
     /**
-     * Create a new sanitizer for a profile profile
+     * Create a new sanitizer for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -79,7 +79,7 @@ class SanitizerRequests extends BaseRequest
     }
 
     /**
-     * Update an sanitizer rule for a profile profile by id
+     * Update an sanitizer rule for a profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -99,7 +99,7 @@ class SanitizerRequests extends BaseRequest
     }
 
     /**
-     * Delete all sanitizers for a profile profile
+     * Delete all sanitizers for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -116,7 +116,7 @@ class SanitizerRequests extends BaseRequest
     }
 
     /**
-     * Delete an sanitizer for a profile profile by id
+     * Delete an sanitizer for a profile by id
      *
      * @param int $appId
      * @param int $profileId

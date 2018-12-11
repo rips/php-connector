@@ -25,7 +25,7 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Get all controllers for profile profile
+     * Get all controllers for profile
      *
      * @param int $appId
      * @param int $profileId
@@ -42,7 +42,7 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Get specific controller for profile profile by id
+     * Get specific controller for profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -60,7 +60,7 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Create a new controller for a profile profile
+     * Create a new controller for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -79,7 +79,7 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Update a controller rule for a profile profile by id
+     * Update a controller rule for a profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -99,7 +99,7 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Delete all controllers for a profile profile
+     * Delete all controllers for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -116,7 +116,7 @@ class ControllerRequests extends BaseRequest
     }
 
     /**
-     * Delete a controller for a profile profile by id
+     * Delete a controller for a profile by id
      *
      * @param int $appId
      * @param int $profileId
