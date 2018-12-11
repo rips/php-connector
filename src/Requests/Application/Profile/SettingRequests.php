@@ -21,7 +21,7 @@ class SettingRequests extends BaseRequest
     }
 
     /**
-     * Get settings for profile profile
+     * Get settings for profile
      *
      * @param int $appId
      * @param int $profileId
@@ -38,7 +38,7 @@ class SettingRequests extends BaseRequest
     }
 
     /**
-     * Create or update settings for a profile profile
+     * Create or update settings for a profile
      *
      * @param int $appId
      * @param int $profileId

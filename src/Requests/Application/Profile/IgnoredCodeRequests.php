@@ -7,25 +7,25 @@ use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
-class ValidatorRequests extends BaseRequest
+class IgnoredCodeRequests extends BaseRequest
 {
     /**
      * Build the URI for the requests
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $validatorId
+     * @param int $ignoreId
      * @return string
      */
-    protected function uri($appId, $profileId, $validatorId = null)
+    protected function uri($appId, $profileId, $ignoreId = null)
     {
-        return is_null($validatorId)
-            ? "/applications/{$appId}/profiles/{$profileId}/validators"
-            : "/applications/{$appId}/profiles/{$profileId}/validators/{$validatorId}";
+        return is_null($ignoreId)
+            ? "/applications/{$appId}/profiles/{$profileId}/ignoredcodes"
+            : "/applications/{$appId}/profiles/{$profileId}/ignoredcodes/{$ignoreId}";
     }
 
     /**
-     * Get all validators for profile
+     * Get all ignored codes for profile
      *
      * @param int $appId
      * @param int $profileId
@@ -42,17 +42,17 @@ class ValidatorRequests extends BaseRequest
     }
 
     /**
-     * Get specific validator for profile by id
+     * Get specific ignored code for profile by id
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $validatorId
+     * @param int $ignoreId
      * @param array $queryParams
      * @return Response
      */
-    public function getById($appId, $profileId, $validatorId, array $queryParams = [])
+    public function getById($appId, $profileId, $ignoreId, array $queryParams = [])
     {
-        $response = $this->client->get($this->uri($appId, $profileId, $validatorId), [
+        $response = $this->client->get($this->uri($appId, $profileId, $ignoreId), [
             'query' => $queryParams,
         ]);
 
@@ -60,7 +60,7 @@ class ValidatorRequests extends BaseRequest
     }
 
     /**
-     * Create a new validator for a profile
+     * Create a new ignored code for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -71,7 +71,7 @@ class ValidatorRequests extends BaseRequest
     public function create($appId, $profileId, array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri($appId, $profileId), [
-            RequestOptions::JSON => ['validator' => $input],
+            RequestOptions::JSON => ['ignored_code' => $input],
             'query' => $queryParams,
         ]);
 
@@ -79,19 +79,19 @@ class ValidatorRequests extends BaseRequest
     }
 
     /**
-     * Update an validator rule for a profile by id
+     * Update ignored code for a profile by id
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $validatorId
+     * @param int $ignoreId
      * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function update($appId, $profileId, $validatorId, array $input, array $queryParams = [])
+    public function update($appId, $profileId, $ignoreId, array $input, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($appId, $profileId, $validatorId), [
-            RequestOptions::JSON => ['validator' => $input],
+        $response = $this->client->patch($this->uri($appId, $profileId, $ignoreId), [
+            RequestOptions::JSON => ['ignored_code' => $input],
             'query' => $queryParams,
         ]);
 
@@ -99,7 +99,7 @@ class ValidatorRequests extends BaseRequest
     }
 
     /**
-     * Delete all validators for a profile
+     * Delete all ignored codes for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -116,21 +116,21 @@ class ValidatorRequests extends BaseRequest
     }
 
     /**
-     * Delete an validator for a profile by id
+     * Delete ignored code for a profile by id
      *
      * @param int $appId
      * @param int $profileId
-     * @param int $validatorId
+     * @param int $ignoreId
      * @param array $queryParams
      * @return Response
      */
-    public function deleteById($appId, $profileId, $validatorId, array $queryParams = [])
+    public function deleteById($appId, $profileId, $ignoreId, array $queryParams = [])
     {
-        if (is_null($appId) || is_null($profileId) || is_null($validatorId)) {
-            throw new LibException('appId, profileId, or validatorId is null');
+        if (is_null($appId) || is_null($profileId) || is_null($ignoreId)) {
+            throw new LibException('appId, profileId, or ignoreId is null');
         }
 
-        $response = $this->client->delete($this->uri($appId, $profileId, $validatorId), [
+        $response = $this->client->delete($this->uri($appId, $profileId, $ignoreId), [
             'query' => $queryParams,
         ]);
 

@@ -25,7 +25,7 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Get all sources for profile profile
+     * Get all sources for profile
      *
      * @param int $appId
      * @param int $profileId
@@ -42,7 +42,7 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Get specific source for profile profile by id
+     * Get specific source for profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -60,7 +60,7 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Create a new source for a profile profile
+     * Create a new source for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -79,7 +79,7 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Update an source rule for a profile profile by id
+     * Update an source rule for a profile by id
      *
      * @param int $appId
      * @param int $profileId
@@ -99,7 +99,7 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Delete all sources for a profile profile
+     * Delete all sources for a profile
      *
      * @param int $appId
      * @param int $profileId
@@ -116,7 +116,7 @@ class SourceRequests extends BaseRequest
     }
 
     /**
-     * Delete an source for a profile profile by id
+     * Delete an source for a profile by id
      *
      * @param int $appId
      * @param int $profileId

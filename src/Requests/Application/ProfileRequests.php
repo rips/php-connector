@@ -5,8 +5,9 @@ namespace RIPS\Connector\Requests\Application;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
+use RIPS\Connector\Requests\Application\Profile\IgnoredCodeRequests;
+use RIPS\Connector\Requests\Application\Profile\IgnoredLocationRequests;
 use RIPS\Connector\Requests\BaseRequest;
-use RIPS\Connector\Requests\Application\Profile\IgnoreRequests;
 use RIPS\Connector\Requests\Application\Profile\SanitizerRequests;
 use RIPS\Connector\Requests\Application\Profile\SettingRequests;
 use RIPS\Connector\Requests\Application\Profile\SinkRequests;
@@ -17,9 +18,14 @@ use RIPS\Connector\Requests\Application\Profile\ControllerRequests;
 class ProfileRequests extends BaseRequest
 {
     /**
-     * @var IgnoreRequests
+     * @var IgnoredCodeRequests
      */
-    protected $ignoreRequests;
+    protected $ignoredCodeRequests;
+
+    /**
+     * @var IgnoredLocationRequests
+     */
+    protected $ignoredLocationRequests;
 
     /**
      * @var SanitizerRequests
@@ -203,17 +209,31 @@ class ProfileRequests extends BaseRequest
     }
 
     /**
-     * Accessor to ignore requests
+     * Accessor to ignored code requests
      *
-     * @return IgnoreRequests
+     * @return IgnoredCodeRequests
      */
-    public function ignores()
+    public function ignoredCodes()
     {
-        if (is_null($this->ignoreRequests)) {
-            $this->ignoreRequests = new IgnoreRequests($this->client);
+        if (is_null($this->ignoredCodeRequests)) {
+            $this->ignoredCodeRequests = new IgnoredCodeRequests($this->client);
         }
 
-        return $this->ignoreRequests;
+        return $this->ignoredCodeRequests;
+    }
+
+    /**
+     * Accessor to ignored location requests
+     *
+     * @return IgnoredLocationRequests
+     */
+    public function ignoredLocations()
+    {
+        if (is_null($this->ignoredLocationRequests)) {
+            $this->ignoredLocationRequests = new IgnoredLocationRequests($this->client);
+        }
+
+        return $this->ignoredLocationRequests;
     }
 
     /**
