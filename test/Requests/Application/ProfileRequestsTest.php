@@ -2,6 +2,8 @@
 
 namespace RIPS\Test\Requests\Application;
 
+use RIPS\Connector\Requests\Application\Profile\IgnoredCodeRequests;
+use RIPS\Connector\Requests\Application\Profile\IgnoredLocationRequests;
 use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\Profile\IgnoreRequests;
@@ -154,11 +156,21 @@ class ProfileRequestsTest extends TestCase
     /**
      * @test
      */
-    public function ignores()
+    public function ignoredCodes()
     {
-        $ignoreRequests = $this->profileRequests->ignores();
+        $ignoredCodeRequests = $this->profileRequests->ignoredCodes();
 
-        $this->assertInstanceOf(IgnoreRequests::class, $ignoreRequests);
+        $this->assertInstanceOf(IgnoredCodeRequests::class, $ignoredCodeRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function ignoredLocations()
+    {
+        $ignoredLocationRequests = $this->profileRequests->ignoredLocations();
+
+        $this->assertInstanceOf(IgnoredLocationRequests::class, $ignoredLocationRequests);
     }
 
     /**
