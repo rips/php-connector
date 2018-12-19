@@ -1,6 +1,6 @@
 <?php
 
-namespace RIPS\Connector\Requests\Application\Scan\Sink;
+namespace RIPS\Connector\Requests\Application\Scan\Property;
 
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
@@ -16,8 +16,8 @@ class TypeRequests extends BaseRequest
     protected function uri($typeId = null)
     {
         return is_null($typeId)
-            ? '/applications/scans/sinks/types'
-            : "/applications/scans/sinks/types/{$typeId}";
+            ? '/applications/scans/properties/types'
+            : "/applications/scans/properties/types/{$typeId}";
     }
 
     /**

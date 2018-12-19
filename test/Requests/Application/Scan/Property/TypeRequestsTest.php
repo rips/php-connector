@@ -1,8 +1,8 @@
 <?php
 
-namespace RIPS\Test\Requests\Application\Scan\Sink;
+namespace RIPS\Test\Requests\Application\Scan\Property;
 
-use RIPS\Connector\Requests\Application\Scan\Sink\TypeRequests;
+use RIPS\Connector\Requests\Application\Scan\Property\TypeRequests;
 use RIPS\Test\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
@@ -45,7 +45,7 @@ class TypeRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/scans/sinks/types', $request->getUri()->getPath());
+        $this->assertEquals('/applications/scans/properties/types', $request->getUri()->getPath());
         $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[name]=test&greaterThan[id]=2', $queryString);
     }
@@ -60,7 +60,7 @@ class TypeRequestsTest extends TestCase
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/scans/sinks/types/1', $request->getUri()->getPath());
+        $this->assertEquals('/applications/scans/properties/types/1', $request->getUri()->getPath());
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

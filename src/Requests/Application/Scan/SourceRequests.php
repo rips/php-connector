@@ -3,7 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use RIPS\Connector\Entities\Response;
-use RIPS\Connector\Requests\Application\Scan\Source\TypeRequests;
+use RIPS\Connector\Requests\Application\Scan\Property\TypeRequests;
 use RIPS\Connector\Requests\BaseRequest;
 
 class SourceRequests extends BaseRequest
