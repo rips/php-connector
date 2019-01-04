@@ -3,6 +3,8 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\LibException;
 
 class UserRequests extends BaseRequest
 {
@@ -21,7 +23,7 @@ class UserRequests extends BaseRequest
      * Get all users
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -37,7 +39,7 @@ class UserRequests extends BaseRequest
      *
      * @param int $userId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($userId, array $queryParams = [])
     {
@@ -53,7 +55,7 @@ class UserRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
@@ -71,7 +73,7 @@ class UserRequests extends BaseRequest
      * @param int $userId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($userId, $input, array $queryParams = [])
     {
@@ -87,7 +89,7 @@ class UserRequests extends BaseRequest
      * Delete all users
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll(array $queryParams = [])
     {
@@ -95,7 +97,7 @@ class UserRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -103,15 +105,19 @@ class UserRequests extends BaseRequest
      *
      * @param int $userId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($userId, array $queryParams = [])
     {
+        if (is_null($userId)) {
+            throw new LibException('userId is null');
+        }
+
         $response = $this->client->delete($this->uri($userId), [
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -119,7 +125,7 @@ class UserRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function invite(array $input, array $queryParams = [])
     {
@@ -136,7 +142,7 @@ class UserRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function reset(array $input, array $queryParams = [])
     {
@@ -145,7 +151,7 @@ class UserRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -154,7 +160,7 @@ class UserRequests extends BaseRequest
      * @param int $userId
      * @param string $token
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function activate($userId, $token, array $queryParams = [])
     {
@@ -171,7 +177,7 @@ class UserRequests extends BaseRequest
      * @param int $userId
      * @param string $token
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function confirm($userId, $token, array $queryParams = [])
     {
@@ -188,7 +194,7 @@ class UserRequests extends BaseRequest
      * @param int $userId
      * @param string $token
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function confirmReset($userId, $token, array $queryParams = [])
     {

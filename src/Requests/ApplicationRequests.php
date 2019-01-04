@@ -3,8 +3,10 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\Application\AclRequests;
-use RIPS\Connector\Requests\Application\CustomRequests;
+use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
 
@@ -16,9 +18,9 @@ class ApplicationRequests extends BaseRequest
     protected $aclRequests;
 
     /**
-     * @var CustomRequests
+     * @var ProfileRequests
      */
-    protected $customRequests;
+    protected $profileRequests;
 
     /**
      * @var ScanRequests
@@ -45,7 +47,7 @@ class ApplicationRequests extends BaseRequest
      * Get all applications
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -61,7 +63,7 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, array $queryParams = [])
     {
@@ -77,7 +79,7 @@ class ApplicationRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
@@ -95,7 +97,7 @@ class ApplicationRequests extends BaseRequest
      * @param int $appId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, array $input, array $queryParams = [])
     {
@@ -111,7 +113,7 @@ class ApplicationRequests extends BaseRequest
      * Delete all applications for current user
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll(array $queryParams = [])
     {
@@ -119,7 +121,7 @@ class ApplicationRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -127,15 +129,19 @@ class ApplicationRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($appId, array $queryParams = [])
     {
+        if (is_null($appId)) {
+            throw new LibException('appId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId), [
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -153,17 +159,17 @@ class ApplicationRequests extends BaseRequest
     }
 
     /**
-     * Custom requests accessor
+     * Profile requests accessor
      *
-     * @return CustomRequests
+     * @return ProfileRequests
      */
-    public function customs()
+    public function profiles()
     {
-        if (is_null($this->customRequests)) {
-            $this->customRequests = new CustomRequests($this->client);
+        if (is_null($this->profileRequests)) {
+            $this->profileRequests = new ProfileRequests($this->client);
         }
 
-        return $this->customRequests;
+        return $this->profileRequests;
     }
 
     /**

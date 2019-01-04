@@ -3,6 +3,8 @@
 namespace RIPS\Connector\Requests\Application;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class AclRequests extends BaseRequest
@@ -26,7 +28,7 @@ class AclRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId = null, array $queryParams = [])
     {
@@ -45,7 +47,7 @@ class AclRequests extends BaseRequest
      * @param int $appId
      * @param int $aclId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $aclId, array $queryParams = [])
     {
@@ -62,7 +64,7 @@ class AclRequests extends BaseRequest
      * @param int $appId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, array $input, array $queryParams = [])
     {
@@ -81,7 +83,7 @@ class AclRequests extends BaseRequest
      * @param int $aclId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, $aclId, array $input, array $queryParams = [])
     {
@@ -98,7 +100,7 @@ class AclRequests extends BaseRequest
      *
      * @param int $appId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($appId = null, array $queryParams = [])
     {
@@ -106,7 +108,7 @@ class AclRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -115,14 +117,18 @@ class AclRequests extends BaseRequest
      * @param int $appId
      * @param int $aclId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($appId, $aclId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($aclId)) {
+            throw new LibException('appId or aclId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $aclId), [
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

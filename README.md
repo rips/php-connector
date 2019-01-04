@@ -7,11 +7,11 @@ A simple PHP interface for easy access to the RIPS API.
 
 Use composer to include the package:
 
-    composer require rips/connector:~2.16
+    composer require rips/connector:~3.0
 
 OR add the following to composer.json and run `composer update`
 	
-	"rips/connector": "~2.16"
+	"rips/connector": "~3.0"
 
 
 # Usage
@@ -23,11 +23,11 @@ OR add the following to composer.json and run `composer update`
 	$config = ['base_uri' => 'http://localhost:8000'];
 
     // Initialize with config in constructor
-    $api = new API('username', 'password', $config);
+    $api = new API('email', 'password', $config);
 
     // Or initialize manually
     $api = new API();
-    $api->initialize('username', 'password', $config);
+    $api->initialize('email', 'password', $config);
 
 	try {
 		// Get all users

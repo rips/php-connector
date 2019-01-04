@@ -1,17 +1,17 @@
 <?php
 
-namespace RIPS\Test\Requests\Application\Scan\Issue;
+namespace RIPS\Test\Requests\Application\Scan\Issue\Type;
 
+use RIPS\Connector\Requests\Application\Scan\Issue\Type\PatchRequests;
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\Scan\Issue\MarkupRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class MarkupRequestsTest extends TestCase
+class PatchRequestsTest extends TestCase
 {
-    /** @var MarkupRequests */
-    protected $markupRequests;
+    /** @var PatchRequests */
+    protected $patchRequests;
 
     protected function setUp()
     {
@@ -24,7 +24,7 @@ class MarkupRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->markupRequests = new MarkupRequests($this->client);
+        $this->patchRequests = new PatchRequests($this->client);
     }
 
     /**
@@ -32,8 +32,7 @@ class MarkupRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
-        $response = $this->markupRequests->getAll(1, 2, 3, [
+        $response = $this->patchRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -46,8 +45,8 @@ class MarkupRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('/applications/1/scans/2/issues/3/markups', $request->getUri()->getPath());
+        $this->assertEquals('/applications/scans/issues/types/patches', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -56,12 +55,12 @@ class MarkupRequestsTest extends TestCase
      */
     public function getById()
     {
-        $response = $this->markupRequests->getById(1, 2, 3, 4);
+        $response = $this->patchRequests->getById(1);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('value', $response->key);
-        $this->assertEquals('/applications/1/scans/2/issues/3/markups/4', $request->getUri()->getPath());
+        $this->assertEquals('/applications/scans/issues/types/patches/1', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

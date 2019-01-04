@@ -32,7 +32,6 @@ class TypeRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->typeRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -47,7 +46,7 @@ class TypeRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/scans/issues/types', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -62,6 +61,6 @@ class TypeRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/scans/issues/types/1', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

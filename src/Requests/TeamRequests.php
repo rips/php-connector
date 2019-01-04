@@ -3,6 +3,8 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\LibException;
 
 class TeamRequests extends BaseRequest
 {
@@ -21,7 +23,7 @@ class TeamRequests extends BaseRequest
      * Get all teams
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -37,7 +39,7 @@ class TeamRequests extends BaseRequest
      *
      * @param int $teamId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($teamId, array $queryParams = [])
     {
@@ -53,7 +55,7 @@ class TeamRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
@@ -71,7 +73,7 @@ class TeamRequests extends BaseRequest
      * @param int $teamId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($teamId, array $input, array $queryParams = [])
     {
@@ -87,7 +89,7 @@ class TeamRequests extends BaseRequest
      * Delete all teams
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll(array $queryParams = [])
     {
@@ -95,7 +97,7 @@ class TeamRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -103,14 +105,18 @@ class TeamRequests extends BaseRequest
      *
      * @param int $teamId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($teamId, array $queryParams = [])
     {
+        if (is_null($teamId)) {
+            throw new LibException('teamId is null');
+        }
+
         $response = $this->client->delete($this->uri($teamId), [
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

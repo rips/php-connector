@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\OAuth2;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ClientRequests extends BaseRequest
@@ -22,7 +23,7 @@ class ClientRequests extends BaseRequest
      * Get all clients
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -38,7 +39,7 @@ class ClientRequests extends BaseRequest
      *
      * @param int $clientId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($clientId, array $queryParams = [])
     {
@@ -54,7 +55,7 @@ class ClientRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
@@ -72,7 +73,7 @@ class ClientRequests extends BaseRequest
      * @param int $clientId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($clientId, array $input, array $queryParams = [])
     {
@@ -89,7 +90,7 @@ class ClientRequests extends BaseRequest
      *
      * @param int $clientId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function delete($clientId, array $queryParams = [])
     {
@@ -97,6 +98,6 @@ class ClientRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

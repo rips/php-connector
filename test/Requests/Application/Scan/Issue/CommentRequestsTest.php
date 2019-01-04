@@ -32,7 +32,6 @@ class CommentRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->commentRequests->getAll(1, 2, 3, [
             'notEqual' => [
                 'phase' => 1,
@@ -46,7 +45,7 @@ class CommentRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('/applications/1/scans/2/issues/3/comments', $request->getUri()->getPath());
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
@@ -61,7 +60,7 @@ class CommentRequestsTest extends TestCase
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('/applications/1/scans/2/issues/3/comments/4', $request->getUri()->getPath());
     }
 
@@ -78,7 +77,7 @@ class CommentRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/issues/3/comments', $request->getUri()->getPath());
         $this->assertEquals('{"comment":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**

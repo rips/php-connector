@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ProcessRequests extends BaseRequest
@@ -28,7 +29,7 @@ class ProcessRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -46,7 +47,7 @@ class ProcessRequests extends BaseRequest
      * @param int $scanId
      * @param int $processId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $processId, array $queryParams = [])
     {
@@ -64,7 +65,7 @@ class ProcessRequests extends BaseRequest
      * @param int $scanId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $scanId, array $input, array $queryParams = [])
     {
@@ -75,6 +76,7 @@ class ProcessRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
     /**
      * Update a process for a scan by id
      *
@@ -83,7 +85,7 @@ class ProcessRequests extends BaseRequest
      * @param int $processId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, $scanId, $processId, array $input, array $queryParams = [])
     {

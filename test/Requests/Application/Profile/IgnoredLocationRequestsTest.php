@@ -3,15 +3,15 @@
 namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\Custom\ValidatorRequests;
+use RIPS\Connector\Requests\Application\Profile\IgnoredLocationRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class ValidatorRequestsTest extends TestCase
+class IgnoredLocationRequestsTest extends TestCase
 {
-    /** @var ValidatorRequests */
-    protected $validatorRequests;
+    /** @var IgnoredLocationRequests */
+    protected $ignoredLocationRequests;
 
     protected function setUp()
     {
@@ -24,7 +24,7 @@ class ValidatorRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->validatorRequests = new ValidatorRequests($this->client);
+        $this->ignoredLocationRequests = new IgnoredLocationRequests($this->client);
     }
 
     /**
@@ -32,8 +32,7 @@ class ValidatorRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
-        $response = $this->validatorRequests->getAll(1, 2, [
+        $response = $this->ignoredLocationRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -46,8 +45,8 @@ class ValidatorRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/ignoredlocations', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -56,13 +55,13 @@ class ValidatorRequestsTest extends TestCase
      */
     public function getById()
     {
-        $response = $this->validatorRequests->getById(1, 2, 3);
+        $response = $this->ignoredLocationRequests->getById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/ignoredlocations/3', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -70,15 +69,15 @@ class ValidatorRequestsTest extends TestCase
      */
     public function create()
     {
-        $response = $this->validatorRequests->create(1, 2, ['test' => 'input']);
+        $response = $this->ignoredLocationRequests->create(1, 2, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators', $request->getUri()->getPath());
-        $this->assertEquals('{"validator":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/ignoredlocations', $request->getUri()->getPath());
+        $this->assertEquals('{"ignored_location":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -86,15 +85,15 @@ class ValidatorRequestsTest extends TestCase
      */
     public function update()
     {
-        $response = $this->validatorRequests->update(1, 2, 3, ['test' => 'input']);
+        $response = $this->ignoredLocationRequests->update(1, 2, 3, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators/3', $request->getUri()->getPath());
-        $this->assertEquals('{"validator":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/ignoredlocations/3', $request->getUri()->getPath());
+        $this->assertEquals('{"ignored_location":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -102,7 +101,7 @@ class ValidatorRequestsTest extends TestCase
      */
     public function deleteAll()
     {
-        $this->validatorRequests->deleteAll(1, 2, [
+        $this->ignoredLocationRequests->deleteAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -115,7 +114,7 @@ class ValidatorRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/ignoredlocations', $request->getUri()->getPath());
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -124,11 +123,11 @@ class ValidatorRequestsTest extends TestCase
      */
     public function deleteById()
     {
-        $this->validatorRequests->deleteById(1, 2, 3);
+        $this->ignoredLocationRequests->deleteById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/validators/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/ignoredlocations/3', $request->getUri()->getPath());
     }
 }

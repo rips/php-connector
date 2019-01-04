@@ -2,21 +2,23 @@
 
 namespace RIPS\Test\Requests\Application;
 
+use RIPS\Connector\Requests\Application\Profile\IgnoredCodeRequests;
+use RIPS\Connector\Requests\Application\Profile\IgnoredLocationRequests;
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\CustomRequests;
-use RIPS\Connector\Requests\Application\Custom\IgnoreRequests;
-use RIPS\Connector\Requests\Application\Custom\SanitiserRequests;
-use RIPS\Connector\Requests\Application\Custom\SinkRequests;
-use RIPS\Connector\Requests\Application\Custom\SourceRequests;
-use RIPS\Connector\Requests\Application\Custom\ValidatorRequests;
+use RIPS\Connector\Requests\Application\ProfileRequests;
+use RIPS\Connector\Requests\Application\Profile\IgnoreRequests;
+use RIPS\Connector\Requests\Application\Profile\SanitizerRequests;
+use RIPS\Connector\Requests\Application\Profile\SinkRequests;
+use RIPS\Connector\Requests\Application\Profile\SourceRequests;
+use RIPS\Connector\Requests\Application\Profile\ValidatorRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class CustomRequestsTest extends TestCase
+class ProfileRequestsTest extends TestCase
 {
-    /** @var CustomRequests */
-    protected $customRequests;
+    /** @var ProfileRequests */
+    protected $profileRequests;
 
     protected function setUp()
     {
@@ -29,7 +31,7 @@ class CustomRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->customRequests = new CustomRequests($this->client);
+        $this->profileRequests = new ProfileRequests($this->client);
     }
 
     /**
@@ -37,8 +39,7 @@ class CustomRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
-        $response = $this->customRequests->getAll(1, [
+        $response = $this->profileRequests->getAll(1, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -51,8 +52,8 @@ class CustomRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -61,13 +62,13 @@ class CustomRequestsTest extends TestCase
      */
     public function getById()
     {
-        $response = $this->customRequests->getById(1, 2);
+        $response = $this->profileRequests->getById(1, 2);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -75,15 +76,15 @@ class CustomRequestsTest extends TestCase
      */
     public function create()
     {
-        $response = $this->customRequests->create(1, ['test' => 'input']);
+        $response = $this->profileRequests->create(1, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs', $request->getUri()->getPath());
-        $this->assertEquals('{"custom":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles', $request->getUri()->getPath());
+        $this->assertEquals('{"profile":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -91,15 +92,15 @@ class CustomRequestsTest extends TestCase
      */
     public function update()
     {
-        $response = $this->customRequests->update(1, 2, ['test' => 'input']);
+        $response = $this->profileRequests->update(1, 2, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
-        $this->assertEquals('{"custom":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2', $request->getUri()->getPath());
+        $this->assertEquals('{"profile":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -107,7 +108,7 @@ class CustomRequestsTest extends TestCase
      */
     public function deleteAll()
     {
-        $this->customRequests->deleteAll(1, [
+        $this->profileRequests->deleteAll(1, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -120,7 +121,7 @@ class CustomRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles', $request->getUri()->getPath());
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -129,12 +130,12 @@ class CustomRequestsTest extends TestCase
      */
     public function deleteById()
     {
-        $this->customRequests->deleteById(1, 2);
+        $this->profileRequests->deleteById(1, 2);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2', $request->getUri()->getPath());
     }
 
     /**
@@ -142,34 +143,44 @@ class CustomRequestsTest extends TestCase
      */
     public function cloneById()
     {
-        $response = $this->customRequests->cloneById(1, 2, ['name' => 'clone', 'targetApplication' => 3]);
+        $response = $this->profileRequests->cloneById(1, 2, ['name' => 'clone', 'targetApplication' => 3]);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
-        $this->assertEquals('/applications/1/customs/2/clone', $request->getUri()->getPath());
-        $this->assertEquals('{"custom":{"name":"clone","targetApplication":3}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/clone', $request->getUri()->getPath());
+        $this->assertEquals('{"profile":{"name":"clone","targetApplication":3}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
      * @test
      */
-    public function ignores()
+    public function ignoredCodes()
     {
-        $ignoreRequests = $this->customRequests->ignores();
+        $ignoredCodeRequests = $this->profileRequests->ignoredCodes();
 
-        $this->assertInstanceOf(IgnoreRequests::class, $ignoreRequests);
+        $this->assertInstanceOf(IgnoredCodeRequests::class, $ignoredCodeRequests);
     }
 
     /**
      * @test
      */
-    public function sanitisers()
+    public function ignoredLocations()
     {
-        $sanitiserRequests = $this->customRequests->sanitisers();
+        $ignoredLocationRequests = $this->profileRequests->ignoredLocations();
 
-        $this->assertInstanceOf(SanitiserRequests::class, $sanitiserRequests);
+        $this->assertInstanceOf(IgnoredLocationRequests::class, $ignoredLocationRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function sanitizers()
+    {
+        $sanitizerRequests = $this->profileRequests->sanitizers();
+
+        $this->assertInstanceOf(SanitizerRequests::class, $sanitizerRequests);
     }
 
     /**
@@ -177,7 +188,7 @@ class CustomRequestsTest extends TestCase
      */
     public function sinks()
     {
-        $sinkRequests = $this->customRequests->sinks();
+        $sinkRequests = $this->profileRequests->sinks();
 
         $this->assertInstanceOf(SinkRequests::class, $sinkRequests);
     }
@@ -187,7 +198,7 @@ class CustomRequestsTest extends TestCase
      */
     public function sources()
     {
-        $sourceRequests = $this->customRequests->sources();
+        $sourceRequests = $this->profileRequests->sources();
 
         $this->assertInstanceOf(SourceRequests::class, $sourceRequests);
     }
@@ -197,7 +208,7 @@ class CustomRequestsTest extends TestCase
      */
     public function validators()
     {
-        $validatorRequests = $this->customRequests->validators();
+        $validatorRequests = $this->profileRequests->validators();
 
         $this->assertInstanceOf(ValidatorRequests::class, $validatorRequests);
     }

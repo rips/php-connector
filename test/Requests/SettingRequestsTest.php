@@ -32,7 +32,6 @@ class SettingRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->settingRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -47,7 +46,7 @@ class SettingRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/settings', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -62,7 +61,7 @@ class SettingRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/settings/key', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -78,7 +77,7 @@ class SettingRequestsTest extends TestCase
         $this->assertEquals('PUT', $request->getMethod());
         $this->assertEquals('/settings/key', $request->getUri()->getPath());
         $this->assertEquals('{"setting":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**

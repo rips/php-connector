@@ -2,6 +2,7 @@
 
 namespace RIPS\Connector\Requests\Application\Scan;
 
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
 class ConcatRequests extends BaseRequest
@@ -27,7 +28,7 @@ class ConcatRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -45,7 +46,7 @@ class ConcatRequests extends BaseRequest
      * @param int $scanId
      * @param int $concatId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $concatId, array $queryParams = [])
     {

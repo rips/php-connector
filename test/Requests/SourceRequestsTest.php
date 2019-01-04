@@ -32,7 +32,6 @@ class SourceRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->sourceRequests->getAll([
             'notEqual' => [
                 'phase' => 1,
@@ -47,7 +46,7 @@ class SourceRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/sources', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 }

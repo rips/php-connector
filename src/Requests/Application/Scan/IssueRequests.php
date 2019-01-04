@@ -3,13 +3,15 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 use RIPS\Connector\Requests\Application\Scan\Issue\TypeRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\OriginRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\CommentRequests;
-use RIPS\Connector\Requests\Application\Scan\Issue\MarkupRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\ContextRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\ReviewRequests;
 use RIPS\Connector\Requests\Application\Scan\Issue\SummaryRequests;
+use RIPS\Connector\Requests\Application\Scan\Issue\PatchRequests;
 
 class IssueRequests extends BaseRequest
 {
@@ -19,9 +21,9 @@ class IssueRequests extends BaseRequest
     protected $commentRequests;
 
     /**
-     * @var MarkupRequests
+     * @var ContextRequests
      */
-    protected $markupRequests;
+    protected $contextRequests;
 
     /**
      * @var OriginRequests
@@ -37,6 +39,11 @@ class IssueRequests extends BaseRequest
      * @var SummaryRequests
      */
     protected $summaryRequests;
+
+    /**
+     * @var PatchRequests
+     */
+    protected $patchRequests;
 
     /**
      * @var TypeRequests
@@ -64,7 +71,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -82,7 +89,7 @@ class IssueRequests extends BaseRequest
      * @param int $scanId
      * @param int $issueId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $issueId, array $queryParams = [])
     {
@@ -99,7 +106,7 @@ class IssueRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getStats($appId, $scanId, array $queryParams = [])
     {
@@ -118,7 +125,7 @@ class IssueRequests extends BaseRequest
      * @param array $input
      * @param array $queryParams
      * @param boolean $defaultInput
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $scanId, array $input, array $queryParams = [], $defaultInput = true)
     {
@@ -151,17 +158,17 @@ class IssueRequests extends BaseRequest
     }
 
     /**
-     * Accessor for markup requests
+     * Accessor for context requests
      *
-     * @return MarkupRequests
+     * @return ContextRequests
      */
-    public function markups()
+    public function contexts()
     {
-        if (is_null($this->markupRequests)) {
-            $this->markupRequests = new MarkupRequests($this->client);
+        if (is_null($this->contextRequests)) {
+            $this->contextRequests = new ContextRequests($this->client);
         }
 
-        return $this->markupRequests;
+        return $this->contextRequests;
     }
 
     /**
@@ -204,6 +211,20 @@ class IssueRequests extends BaseRequest
         }
 
         return $this->summaryRequests;
+    }
+
+    /**
+     * Accessor for patch requests
+     *
+     * @return PatchRequests
+     */
+    public function patches()
+    {
+        if (is_null($this->patchRequests)) {
+            $this->patchRequests = new PatchRequests($this->client);
+        }
+
+        return $this->patchRequests;
     }
 
     /**

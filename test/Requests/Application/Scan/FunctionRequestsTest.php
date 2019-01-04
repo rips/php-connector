@@ -32,7 +32,6 @@ class FunctionRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->functionRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
@@ -47,7 +46,7 @@ class FunctionRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/functions', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -62,7 +61,7 @@ class FunctionRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/functions/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -78,6 +77,6 @@ class FunctionRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/applications/1/scans/2/functions/batches', $request->getUri()->getPath());
         $this->assertEquals('{"functions":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

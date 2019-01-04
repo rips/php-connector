@@ -37,7 +37,6 @@ class AccessTokenRequestTest extends TestCase
      */
     public function getAccessTokens()
     {
-        /** @var \stdClass $response */
         $response = $this->accessTokenRequest->getTokens();
 
         /** @var \GuzzleHttp\Psr7\Request $request */
@@ -45,6 +44,6 @@ class AccessTokenRequestTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/oauth/v2/auth/tokens', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

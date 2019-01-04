@@ -47,23 +47,6 @@ class ExportRequestsTest extends TestCase
     /**
      * @test
      */
-    public function exportJiraCsv()
-    {
-        $file = __DIR__ . '\file';
-        $this->exportRequests->exportJiraCsv(1, 2, $file);
-        /** @var \GuzzleHttp\Psr7\Request $request */
-        $request = $this->container[0]['request'];
-
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/scans/2/exports/jiracsvs', $request->getUri()->getPath());
-        $this->assertTrue(file_exists($file));
-
-        unlink($file);
-    }
-
-    /**
-     * @test
-     */
     public function exportPdf()
     {
         $file = __DIR__ . '\file';

@@ -3,7 +3,7 @@
 namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\Custom\SettingRequests;
+use RIPS\Connector\Requests\Application\Profile\SettingRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
@@ -37,8 +37,8 @@ class SettingRequestsTest extends TestCase
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/settings', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/settings', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -52,8 +52,8 @@ class SettingRequestsTest extends TestCase
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PUT', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/settings', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/settings', $request->getUri()->getPath());
         $this->assertEquals('{"setting":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 }

@@ -32,7 +32,6 @@ class OrgRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->orgRequests->getAll([
             'notEqual' => [
                 'name' => 'test',
@@ -46,8 +45,8 @@ class OrgRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/organisations', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/organizations', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
     }
 
@@ -61,8 +60,8 @@ class OrgRequestsTest extends TestCase
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/organisations/1', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/organizations/1', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -76,9 +75,9 @@ class OrgRequestsTest extends TestCase
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/organisations', $request->getUri()->getPath());
-        $this->assertEquals('{"organisation":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/organizations', $request->getUri()->getPath());
+        $this->assertEquals('{"organization":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -92,9 +91,9 @@ class OrgRequestsTest extends TestCase
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/organisations/1', $request->getUri()->getPath());
-        $this->assertEquals('{"organisation":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/organizations/1', $request->getUri()->getPath());
+        $this->assertEquals('{"organization":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -115,7 +114,7 @@ class OrgRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/organisations', $request->getUri()->getPath());
+        $this->assertEquals('/organizations', $request->getUri()->getPath());
         $this->assertEquals('notEqual[name]=test&greaterThan[id]=1', $queryString);
     }
 
@@ -129,6 +128,6 @@ class OrgRequestsTest extends TestCase
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/organisations/1', $request->getUri()->getPath());
+        $this->assertEquals('/organizations/1', $request->getUri()->getPath());
     }
 }

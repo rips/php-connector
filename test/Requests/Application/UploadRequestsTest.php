@@ -32,7 +32,6 @@ class UploadRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->uploadRequests->getAll(1, [
             'notEqual' => [
                 'phase' => 1,
@@ -47,7 +46,7 @@ class UploadRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/uploads', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -62,7 +61,7 @@ class UploadRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/uploads/2', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**

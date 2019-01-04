@@ -3,6 +3,8 @@
 namespace RIPS\Connector\Requests\Application\Scan;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class LibraryRequests extends BaseRequest
@@ -28,7 +30,7 @@ class LibraryRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($appId, $scanId, array $queryParams = [])
     {
@@ -46,7 +48,7 @@ class LibraryRequests extends BaseRequest
      * @param int $scanId
      * @param int $libraryId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($appId, $scanId, $libraryId, array $queryParams = [])
     {
@@ -64,7 +66,7 @@ class LibraryRequests extends BaseRequest
      * @param int $scanId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($appId, $scanId, array $input, array $queryParams = [])
     {
@@ -83,7 +85,7 @@ class LibraryRequests extends BaseRequest
      * @param int $libraryId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($appId, $scanId, $libraryId, array $input, array $queryParams = [])
     {
@@ -101,7 +103,7 @@ class LibraryRequests extends BaseRequest
      * @param int $appId
      * @param int $scanId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($appId, $scanId, array $queryParams = [])
     {
@@ -109,7 +111,7 @@ class LibraryRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -119,14 +121,18 @@ class LibraryRequests extends BaseRequest
      * @param int $scanId
      * @param int $libraryId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($appId, $scanId, $libraryId, array $queryParams = [])
     {
+        if (is_null($appId) || is_null($scanId) || is_null($libraryId)) {
+            throw new LibException('appId, scanId, or libraryId is null');
+        }
+
         $response = $this->client->delete($this->uri($appId, $scanId, $libraryId), [
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

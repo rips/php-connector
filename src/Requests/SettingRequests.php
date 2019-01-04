@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 
 class SettingRequests extends BaseRequest
 {
@@ -21,7 +22,7 @@ class SettingRequests extends BaseRequest
      * Get all settings
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -37,7 +38,7 @@ class SettingRequests extends BaseRequest
      *
      * @param string $key
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getByKey($key, array $queryParams = [])
     {
@@ -54,7 +55,7 @@ class SettingRequests extends BaseRequest
      * @param string $key
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function createOrUpdate($key, array $input, array $queryParams = [])
     {
@@ -70,7 +71,7 @@ class SettingRequests extends BaseRequest
      * Delete all settings
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll(array $queryParams = [])
     {
@@ -78,7 +79,7 @@ class SettingRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
@@ -86,7 +87,7 @@ class SettingRequests extends BaseRequest
      *
      * @param string $key
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteByKey($key, array $queryParams = [])
     {
@@ -94,6 +95,6 @@ class SettingRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

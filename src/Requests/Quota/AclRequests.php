@@ -3,6 +3,8 @@
 namespace RIPS\Connector\Requests\Quota;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\BaseRequest;
 
 class AclRequests extends BaseRequest
@@ -26,7 +28,7 @@ class AclRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll($quotaId, array $queryParams = [])
     {
@@ -43,7 +45,7 @@ class AclRequests extends BaseRequest
      * @param int $quotaId
      * @param int $aclId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($quotaId, $aclId, array $queryParams = [])
     {
@@ -60,7 +62,7 @@ class AclRequests extends BaseRequest
      * @param int $quotaId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create($quotaId, array $input, array $queryParams = [])
     {
@@ -79,7 +81,7 @@ class AclRequests extends BaseRequest
      * @param int $aclId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($quotaId, $aclId, array $input, array $queryParams = [])
     {
@@ -96,13 +98,19 @@ class AclRequests extends BaseRequest
      *
      * @param int $quotaId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll($quotaId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($quotaId), [
+        if (is_null($quotaId)) {
+            throw new LibException('quotaId is null');
+        }
+
+        $response = $this->client->delete($this->uri($quotaId), [
             'query' => $queryParams,
         ]);
+
+        return $this->handleResponse($response);
     }
 
     /**
@@ -111,12 +119,18 @@ class AclRequests extends BaseRequest
      * @param int $quotaId
      * @param int $aclId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($quotaId, $aclId, array $queryParams = [])
     {
-        $this->client->delete($this->uri($quotaId, $aclId), [
+        if (is_null($quotaId) || is_null($aclId)) {
+            throw new LibException('quotaId or aclId is null');
+        }
+
+        $response = $this->client->delete($this->uri($quotaId, $aclId), [
             'query' => $queryParams,
         ]);
+
+        return $this->handleResponse($response);
     }
 }

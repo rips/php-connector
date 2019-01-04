@@ -7,6 +7,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
+use RIPS\Connector\Requests\CallbackRequests;
+use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
@@ -26,7 +28,12 @@ class API
     /**
      * @var string
      */
-    protected $version = '2.16.0';
+    protected $version = '3.0.0';
+
+    /**
+     * @var CallbackRequests
+     */
+    public $callbacks;
 
     /**
      * @var ApplicationRequests
@@ -94,6 +101,11 @@ class API
     public $maintenance;
 
     /**
+     * @var LanguageRequests
+     */
+    public $languages;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
@@ -105,16 +117,16 @@ class API
 
     /**
      * Construct and optionally initialize new API
-     * Initialization is only done if both username and password are specified.
+     * Initialization is only done if both email and password are specified.
      *
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param array $clientConfig
      * @throws Exception
      */
-    public function __construct($username = null, $password = null, array $clientConfig = [])
+    public function __construct($email = null, $password = null, array $clientConfig = [])
     {
-        $this->initialize($username, $password, $clientConfig);
+        $this->initialize($email, $password, $clientConfig);
     }
 
     /**
@@ -122,12 +134,12 @@ class API
      * Separation from the constructor is required because in some cases the information are not yet known when
      * the object is constructed.
      *
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param array $clientConfig
      * @throws Exception
      */
-    public function initialize($username, $password, array $clientConfig = [])
+    public function initialize($email, $password, array $clientConfig = [])
     {
         $mergedConfig = array_merge(
             $this->clientConfig,
@@ -138,11 +150,12 @@ class API
                 ],
             ],
             [
-                'headers' => $this->getAuthHeaders($username, $password, $clientConfig)
+                'headers' => $this->getAuthHeaders($email, $password, $clientConfig)
             ]
         );
 
         $client = new Client($mergedConfig);
+        $this->callbacks = new CallbackRequests($client);
         $this->applications = new ApplicationRequests($client);
         $this->licenses = new LicenseRequests($client);
         $this->logs = new LogRequests($client);
@@ -156,6 +169,7 @@ class API
         $this->oauth2 = new OAuth2Requests($client);
         $this->activities = new ActivityRequests($client);
         $this->maintenance = new MaintenanceRequests($client);
+        $this->languages = new LanguageRequests($client);
     }
 
     /**
@@ -171,22 +185,21 @@ class API
     /**
      * Get the authentication headers
      *
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param array $clientConfig
      * @return array
-     * @throws ClientException
      * @throws Exception
      */
-    private function getAuthHeaders($username, $password, $clientConfig)
+    private function getAuthHeaders($email, $password, $clientConfig)
     {
-        if (!$username || !$password) {
+        if (!$email || !$password) {
             return [];
         }
 
         if (!isset($clientConfig['oauth2']['enabled']) || !$clientConfig['oauth2']['enabled']) {
             return [
-                'X-API-Username' => $username,
+                'X-API-Email'    => $email,
                 'X-API-Password' => $password
             ];
         }
@@ -194,11 +207,11 @@ class API
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = array_key_exists('access_token', $oauth2Config) ? $oauth2Config["access_token"] : "";
         if (empty($accessToken)) {
-            $accessToken = $this->getAccessToken($username, $password, $clientConfig);
+            $accessToken = $this->getAccessToken($email, $password, $clientConfig);
         }
 
         if (!$accessToken) {
-            throw new ClientException('Cannot find/create valid token');
+            throw new Exception('Cannot find/create valid token');
         }
 
         return [
@@ -209,13 +222,13 @@ class API
     /**
      * Gets an access token either from config, from disk or by requesting a new one
      *
-     * @param $username
+     * @param $email
      * @param $password
      * @param $clientConfig
      * @return string|null
      * @throws Exception
      */
-    private function getAccessToken($username, $password, $clientConfig)
+    private function getAccessToken($email, $password, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = null;
@@ -238,24 +251,23 @@ class API
         } catch (\Exception $e) {
         }
 
-        return $this->createAccessToken($username, $password, $clientConfig);
+        return $this->createAccessToken($email, $password, $clientConfig);
     }
 
     /**
      * Creates an access token by requesting it from the server
      *
-     * @param $username
+     * @param $email
      * @param $password
      * @param $clientConfig
      * @return string
-     * @throws ClientException
      * @throws Exception
      */
-    private function createAccessToken($username, $password, $clientConfig)
+    private function createAccessToken($email, $password, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         if (!array_key_exists('client_id', $oauth2Config)) {
-            throw new ClientException('Cannot create new oauth token without client id');
+            throw new Exception('Cannot create new oauth token without client id');
         }
 
         $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
@@ -265,17 +277,17 @@ class API
             RequestOptions::JSON => [
                 'grant_type' => 'password',
                 'client_id' => $oauth2Config['client_id'],
-                'username' => $username,
+                'username' => $email,
                 'password' => $password
             ]
         ]);
 
         $request = new AccessTokenRequest(new Client($mergedConfig));
-        $tokens = $request->getTokens();
+        $tokens = $request->getTokens()->getDecodedData();
 
         if (isset($oauth2Config['store_token']) && $oauth2Config['store_token'] === true) {
             if (!array_key_exists('token_file_path', $oauth2Config) || empty($oauth2Config['token_file_path'])) {
-                throw new Exception('Token path is needed to store token.');
+                throw new Exception('Token path is needed to store token');
             }
             $filePath = $oauth2Config['token_file_path'];
             file_put_contents($filePath, json_encode($tokens));

@@ -3,6 +3,8 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
+use RIPS\Connector\Exceptions\LibException;
 
 class OrgRequests extends BaseRequest
 {
@@ -15,14 +17,14 @@ class OrgRequests extends BaseRequest
      */
     protected function uri($orgId = null)
     {
-        return is_null($orgId) ? '/organisations' : "/organisations/{$orgId}";
+        return is_null($orgId) ? '/organizations' : "/organizations/{$orgId}";
     }
 
     /**
-     * Get all organisations
+     * Get all organizations
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -34,11 +36,11 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Get an organisation by id
+     * Get an organization by id
      *
      * @param int $orgId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($orgId, array $queryParams = [])
     {
@@ -50,16 +52,16 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Create a new organisation
+     * Create a new organization
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function create(array $input, array $queryParams = [])
     {
         $response = $this->client->post($this->uri(), [
-            RequestOptions::JSON => ['organisation' => $input],
+            RequestOptions::JSON => ['organization' => $input],
             'query' => $queryParams,
         ]);
 
@@ -67,17 +69,17 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Update an existing organisation
+     * Update an existing organization
      *
      * @param int $orgId
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function update($orgId, array $input, array $queryParams = [])
     {
         $response = $this->client->patch($this->uri($orgId), [
-            RequestOptions::JSON => ['organisation' => $input],
+            RequestOptions::JSON => ['organization' => $input],
             'query' => $queryParams,
         ]);
 
@@ -85,10 +87,10 @@ class OrgRequests extends BaseRequest
     }
 
     /**
-     * Delete all organisations
+     * Delete all organizations
      *
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteAll(array $queryParams = [])
     {
@@ -96,22 +98,26 @@ class OrgRequests extends BaseRequest
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 
     /**
-     * Delete an organisation by id
+     * Delete an organization by id
      *
      * @param int $orgId
      * @param array $queryParams
-     * @return void
+     * @return Response
      */
     public function deleteById($orgId, array $queryParams = [])
     {
+        if (is_null($orgId)) {
+            throw new LibException('orgId is null');
+        }
+
         $response = $this->client->delete($this->uri($orgId), [
             'query' => $queryParams,
         ]);
 
-        $this->handleResponse($response, true);
+        return $this->handleResponse($response);
     }
 }

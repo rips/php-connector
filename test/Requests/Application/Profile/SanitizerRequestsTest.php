@@ -3,15 +3,15 @@
 namespace RIPS\Test\Requests\Application;
 
 use RIPS\Test\TestCase;
-use RIPS\Connector\Requests\Application\Custom\ControllerRequests;
+use RIPS\Connector\Requests\Application\Profile\SanitizerRequests;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Middleware;
 
-class ControllerRequestsTest extends TestCase
+class SanitizerRequestsTest extends TestCase
 {
-    /** @var ControllerRequests */
-    protected $controllerRequests;
+    /** @var SanitizerRequests */
+    protected $sanitizerRequests;
 
     protected function setUp()
     {
@@ -24,7 +24,7 @@ class ControllerRequestsTest extends TestCase
             new Response(200, ['x-header' => 'header-content'], '{"key": "value"}'),
         ]));
 
-        $this->controllerRequests = new ControllerRequests($this->client);
+        $this->sanitizerRequests = new SanitizerRequests($this->client);
     }
 
     /**
@@ -32,8 +32,7 @@ class ControllerRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
-        $response = $this->controllerRequests->getAll(1, 2, [
+        $response = $this->sanitizerRequests->getAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -46,8 +45,8 @@ class ControllerRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/sanitizers', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -56,13 +55,13 @@ class ControllerRequestsTest extends TestCase
      */
     public function getById()
     {
-        $response = $this->controllerRequests->getById(1, 2, 3);
+        $response = $this->sanitizerRequests->getById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers/3', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/sanitizers/3', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -70,15 +69,15 @@ class ControllerRequestsTest extends TestCase
      */
     public function create()
     {
-        $response = $this->controllerRequests->create(1, 2, ['test' => 'input']);
+        $response = $this->sanitizerRequests->create(1, 2, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('POST', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers', $request->getUri()->getPath());
-        $this->assertEquals('{"controller":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/sanitizers', $request->getUri()->getPath());
+        $this->assertEquals('{"sanitizer":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -86,15 +85,15 @@ class ControllerRequestsTest extends TestCase
      */
     public function update()
     {
-        $response = $this->controllerRequests->update(1, 2, 3, ['test' => 'input']);
+        $response = $this->sanitizerRequests->update(1, 2, 3, ['test' => 'input']);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $body = urldecode($request->getBody()->getContents());
 
         $this->assertEquals('PATCH', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers/3', $request->getUri()->getPath());
-        $this->assertEquals('{"controller":{"test":"input"}}', $body);
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('/applications/1/profiles/2/sanitizers/3', $request->getUri()->getPath());
+        $this->assertEquals('{"sanitizer":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -102,7 +101,7 @@ class ControllerRequestsTest extends TestCase
      */
     public function deleteAll()
     {
-        $this->controllerRequests->deleteAll(1, 2, [
+        $this->sanitizerRequests->deleteAll(1, 2, [
             'notEqual' => [
                 'phase' => 1,
             ],
@@ -115,7 +114,7 @@ class ControllerRequestsTest extends TestCase
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sanitizers', $request->getUri()->getPath());
         $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
     }
 
@@ -124,11 +123,11 @@ class ControllerRequestsTest extends TestCase
      */
     public function deleteById()
     {
-        $this->controllerRequests->deleteById(1, 2, 3);
+        $this->sanitizerRequests->deleteById(1, 2, 3);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertEquals('/applications/1/customs/2/controllers/3', $request->getUri()->getPath());
+        $this->assertEquals('/applications/1/profiles/2/sanitizers/3', $request->getUri()->getPath());
     }
 }

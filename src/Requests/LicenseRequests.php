@@ -3,6 +3,7 @@
 namespace RIPS\Connector\Requests;
 
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Entities\Response;
 
 class LicenseRequests extends BaseRequest
 {
@@ -21,7 +22,7 @@ class LicenseRequests extends BaseRequest
      * Get all licenses
      *
      * @param array $queryParams
-     * @return \stdClass[]
+     * @return Response
      */
     public function getAll(array $queryParams = [])
     {
@@ -37,7 +38,7 @@ class LicenseRequests extends BaseRequest
      *
      * @param int $licenseId
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function getById($licenseId, array $queryParams = [])
     {
@@ -53,7 +54,7 @@ class LicenseRequests extends BaseRequest
      *
      * @param array $input
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function activate(array $input, array $queryParams = [])
     {

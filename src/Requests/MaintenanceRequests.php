@@ -2,13 +2,15 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Entities\Response;
+
 class MaintenanceRequests extends BaseRequest
 {
     /**
      * Remove old and unused code from cloud.
      *
      * @param array $queryParams
-     * @return \stdClass
+     * @return Response
      */
     public function deleteCode(array $queryParams = [])
     {

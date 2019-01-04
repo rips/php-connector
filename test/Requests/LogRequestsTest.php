@@ -32,7 +32,6 @@ class LogRequestsTest extends TestCase
      */
     public function getAll()
     {
-        /** @var \stdClass $response */
         $response = $this->logRequests->getAll([
             'greaterThan' => [
                 'id' => 1,
@@ -44,7 +43,7 @@ class LogRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/logs', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('greaterThan[id]=1', $queryString);
     }
 
@@ -59,7 +58,7 @@ class LogRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/logs/1', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
     /**
@@ -74,7 +73,7 @@ class LogRequestsTest extends TestCase
 
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/logs', $request->getUri()->getPath());
-        $this->assertEquals('value', $response->key);
+        $this->assertEquals('value', $response->getDecodedData()->key);
         $this->assertEquals('{"log":{"test":"input"}}', $body);
     }
 
