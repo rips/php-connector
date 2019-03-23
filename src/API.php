@@ -198,8 +198,10 @@ class API
 
         if (!isset($clientConfig['oauth2']['enabled']) || !$clientConfig['oauth2']['enabled']) {
             return [
-                'X-API-Email'    => $email,
-                'X-API-Password' => $password
+                'X-API-Email-Enc'    => base64_encode($email),
+                'X-API-Password-Enc' => base64_encode($password),
+                'X-API-Email'        => $email,
+                'X-API-Password'     => $password
             ];
         }
 
