@@ -5,7 +5,6 @@ namespace RIPS\Connector;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\CallbackRequests;
 use RIPS\Connector\Requests\LanguageRequests;
@@ -28,7 +27,7 @@ class API
     /**
      * @var string
      */
-    protected $version = '3.0.0';
+    protected $version = '3.1.0';
 
     /**
      * @var CallbackRequests
@@ -199,8 +198,10 @@ class API
 
         if (!isset($clientConfig['oauth2']['enabled']) || !$clientConfig['oauth2']['enabled']) {
             return [
-                'X-API-Email'    => $email,
-                'X-API-Password' => $password
+                'X-API-Email-Enc'    => base64_encode($email),
+                'X-API-Password-Enc' => base64_encode($password),
+                'X-API-Email'        => $email,
+                'X-API-Password'     => $password
             ];
         }
 
