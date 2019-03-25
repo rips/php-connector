@@ -7,11 +7,11 @@ A simple PHP interface for easy access to the RIPS API.
 
 Use composer to include the package:
 
-    composer require rips/connector:~3.0
+    composer require rips/connector:~3.1
 
 OR add the following to composer.json and run `composer update`
 	
-	"rips/connector": "~3.0"
+	"rips/connector": "~3.1"
 
 
 # Usage

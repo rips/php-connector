@@ -5,7 +5,6 @@ namespace RIPS\Connector;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
-use RIPS\Connector\Exceptions\ClientException;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\CallbackRequests;
 use RIPS\Connector\Requests\LanguageRequests;
@@ -22,13 +21,14 @@ use RIPS\Connector\Requests\TeamRequests;
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Connector\Requests\ActivityRequests;
 use RIPS\Connector\Requests\MaintenanceRequests;
+use RIPS\Connector\Requests\SystemRequests;
 
 class API
 {
     /**
      * @var string
      */
-    protected $version = '3.0.0';
+    protected $version = '3.1.0';
 
     /**
      * @var CallbackRequests
@@ -106,6 +106,11 @@ class API
     public $languages;
 
     /**
+     * @var SystemRequests
+     */
+    public $systems;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
@@ -170,6 +175,7 @@ class API
         $this->activities = new ActivityRequests($client);
         $this->maintenance = new MaintenanceRequests($client);
         $this->languages = new LanguageRequests($client);
+        $this->systems = new SystemRequests($client);
     }
 
     /**
@@ -199,8 +205,10 @@ class API
 
         if (!isset($clientConfig['oauth2']['enabled']) || !$clientConfig['oauth2']['enabled']) {
             return [
-                'X-API-Email'    => $email,
-                'X-API-Password' => $password
+                'X-API-Email-Enc'    => base64_encode($email),
+                'X-API-Password-Enc' => base64_encode($password),
+                'X-API-Email'        => $email,
+                'X-API-Password'     => $password
             ];
         }
 
