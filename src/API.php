@@ -21,6 +21,7 @@ use RIPS\Connector\Requests\TeamRequests;
 use RIPS\Connector\Requests\UserRequests;
 use RIPS\Connector\Requests\ActivityRequests;
 use RIPS\Connector\Requests\MaintenanceRequests;
+use RIPS\Connector\Requests\SystemRequests;
 
 class API
 {
@@ -105,6 +106,11 @@ class API
     public $languages;
 
     /**
+     * @var SystemRequests
+     */
+    public $systems;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
@@ -169,6 +175,7 @@ class API
         $this->activities = new ActivityRequests($client);
         $this->maintenance = new MaintenanceRequests($client);
         $this->languages = new LanguageRequests($client);
+        $this->systems = new SystemRequests($client);
     }
 
     /**

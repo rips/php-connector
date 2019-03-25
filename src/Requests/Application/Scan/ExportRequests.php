@@ -57,4 +57,59 @@ class ExportRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
+    /**
+     * Create a new pdf export on the queue
+     *
+     * @param int $appId
+     * @param int $scanId
+     * @param array $queryParams
+     * @return Response
+     */
+    public function queuePdf($appId, $scanId, array $queryParams = [])
+    {
+        $response = $this->client->post($this->uri($appId, $scanId, 'pdfs') . '/queues', [
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Get information about pdf export on queue
+     *
+     * @param $appId
+     * @param $scanId
+     * @param $queueId
+     * @param array $queryParams
+     * @return Response
+     */
+    public function getQueuedPdf($appId, $scanId, $queueId, array $queryParams = [])
+    {
+        $response = $this->client->get($this->uri($appId, $scanId, 'pdfs') . '/queues/' . $queueId, [
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Download pdf export from queue
+     *
+     * @param $appId
+     * @param $scanId
+     * @param $queueId
+     * @param $outFile
+     * @param array $queryParams
+     * @return Response
+     */
+    public function downloadQueuedPdf($appId, $scanId, $queueId, $outFile, array $queryParams = [])
+    {
+        $response = $this->client->get($this->uri($appId, $scanId, 'pdfs') . '/queues/' . $queueId . '/downloads', [
+            'sink'  => $outFile,
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
 }
