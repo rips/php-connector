@@ -31,7 +31,7 @@ OR add the following to composer.json and run `composer update`
 
 	try {
 		// Get all users
-		$users = $api->users->getAll();
+		$users = $api->users->getAll()->getDecodedData();
 
 		// Create new organization
 		$org = $api->orgs->create([
@@ -44,7 +44,8 @@ OR add the following to composer.json and run `composer update`
 		// 500 error
 	}
 
-Most methods will return either a `stdClass` object or an array of `stdClass` objects.
+Most methods will return a `Response` object. To get the actual data call the method `getDecodedData()`.
+This returns either a `stdClass` object or an array of `stdClass` objects.
 
 # Config/Options
 
