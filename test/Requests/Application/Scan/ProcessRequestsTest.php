@@ -53,6 +53,21 @@ class ProcessRequestsTest extends TestCase
     /**
      * @test
      */
+    public function deleteAll()
+    {
+        $response = $this->processRequests->deleteAll(1, 2);
+
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/processes', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+    }
+
+    /**
+     * @test
+     */
     public function getById()
     {
         $response = $this->processRequests->getById(1, 2, 3);
