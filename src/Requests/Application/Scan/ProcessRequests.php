@@ -43,8 +43,8 @@ class ProcessRequests extends BaseRequest
     /**
      * Kill all processes from a scan
      *
-     * @param $appId
-     * @param $scanId
+     * @param int $appId
+     * @param int $scanId
      * @return Response
      */
     public function deleteAll($appId, $scanId)
