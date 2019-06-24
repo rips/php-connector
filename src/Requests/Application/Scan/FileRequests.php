@@ -22,6 +22,11 @@ class FileRequests extends BaseRequest
             : "/applications/{$appId}/scans/{$scanId}/files/{$fileId}";
     }
 
+    protected function browserUri($appId, $scanId, $path): string
+    {
+        return "/applications/{$appId}/scans/{$scanId}/filebrowser?" . urlencode('path=' . $path);
+    }
+
     /**
      * Get all files for a scan
      *
@@ -35,6 +40,13 @@ class FileRequests extends BaseRequest
         $response = $this->client->get($this->uri($appId, $scanId), [
             'query' => $queryParams,
         ]);
+
+        return $this->handleResponse($response);
+    }
+
+    public function getBrowser($appId, $scanId, string $path = '/'): Response
+    {
+        $response = $this->client->get($this->browserUri($appId, $scanId, $path));
 
         return $this->handleResponse($response);
     }
