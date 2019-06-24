@@ -44,7 +44,15 @@ class FileRequests extends BaseRequest
         return $this->handleResponse($response);
     }
 
-    public function getBrowser($appId, $scanId, string $path = '/'): Response
+    /**
+     * Get files using the file browser by path
+     *
+     * @param $appId
+     * @param $scanId
+     * @param $path
+     * @return Response
+     */
+    public function getBrowser($appId, $scanId, $path = '/')
     {
         $response = $this->client->get($this->browserUri($appId, $scanId, $path));
 
