@@ -53,6 +53,22 @@ class FileRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getBrowser()
+    {
+        $response = $this->fileRequests->getBrowser(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/filebrowser', $request->getUri()->getPath());
+        $this->assertEquals(urlencode('path=/'), $request->getUri()->getQuery());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+    }
+
+    /**
+     * @test
+     */
     public function getById()
     {
         $response = $this->fileRequests->getById(1, 2, 3);
