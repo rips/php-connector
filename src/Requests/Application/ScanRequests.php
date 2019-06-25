@@ -84,11 +84,15 @@ class ScanRequests extends BaseRequest
     /**
      * Build the uri for the request
      *
-     * @param int $appId
+     * @param int|null $appId
      * @return string
      */
     protected function uri($appId)
     {
+        if (is_null($appId)) {
+            return '/applications/scans';
+        }
+
         return "/applications/{$appId}/scans";
     }
 
@@ -127,17 +131,14 @@ class ScanRequests extends BaseRequest
     }
 
     /**
-     * Get scan statistics for a single scan
+     * Get scan statistics
      *
-     * @param int $appId
-     * @param int $scanId
+     * @param int|null $appId
      * @param array $queryParams
      * @return Response
      */
-    public function getStats($appId, $scanId, array $queryParams = [])
+    public function getStats($appId, array $queryParams = [])
     {
-        $queryParams['equal[id]'] = $scanId;
-
         $response = $this->client->get("{$this->uri($appId)}/stats", [
             'query' => $queryParams,
         ]);
