@@ -11,6 +11,7 @@ use RIPS\Connector\Requests\Application\Scan\FileRequests;
 use RIPS\Connector\Requests\Application\Scan\LibraryRequests;
 use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
+use RIPS\Connector\Requests\Application\Scan\PitfallRequests;
 use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
 use RIPS\Connector\Requests\Application\Scan\SinkRequests;
 use RIPS\Connector\Requests\Application\Scan\SourceRequests;
@@ -298,6 +299,16 @@ class ScanRequestsTest extends TestCase
         $entrypointRequests = $this->scanRequests->entrypoints();
 
         $this->assertInstanceOf(EntrypointRequests::class, $entrypointRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function pitfalls()
+    {
+        $pitfallRequests = $this->scanRequests->pitfalls();
+
+        $this->assertInstanceOf(PitfallRequests::class, $pitfallRequests);
     }
 
     /**

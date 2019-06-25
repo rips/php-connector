@@ -12,6 +12,7 @@ use RIPS\Connector\Requests\Application\Scan\ExportRequests;
 use RIPS\Connector\Requests\Application\Scan\FileRequests;
 use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
+use RIPS\Connector\Requests\Application\Scan\PitfallRequests;
 use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
 use RIPS\Connector\Requests\Application\Scan\SinkRequests;
 use RIPS\Connector\Requests\Application\Scan\SourceRequests;
@@ -75,6 +76,11 @@ class ScanRequests extends BaseRequest
      * @var EntrypointRequests
      */
     protected $entrypointRequests;
+
+    /**
+     * @var PitfallRequests
+     */
+    protected $pitfallRequests;
 
     /**
      * @var LibraryRequests
@@ -420,6 +426,20 @@ class ScanRequests extends BaseRequest
         }
 
         return $this->entrypointRequests;
+    }
+
+    /**
+     * Pitfall requests accessor
+     *
+     * @return PitfallRequests
+     */
+    public function pitfalls()
+    {
+        if (is_null($this->pitfallRequests)) {
+            $this->pitfallRequests = new PitfallRequests($this->client);
+        }
+
+        return $this->pitfallRequests;
     }
 
     /**
