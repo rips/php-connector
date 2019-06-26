@@ -28,7 +28,7 @@ class API
     /**
      * @var string
      */
-    protected $version = '3.1.1';
+    protected $version = '3.2.0';
 
     /**
      * @var CallbackRequests
