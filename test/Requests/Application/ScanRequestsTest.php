@@ -11,6 +11,7 @@ use RIPS\Connector\Requests\Application\Scan\FileRequests;
 use RIPS\Connector\Requests\Application\Scan\LibraryRequests;
 use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
+use RIPS\Connector\Requests\Application\Scan\PitfallRequests;
 use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
 use RIPS\Connector\Requests\Application\Scan\SinkRequests;
 use RIPS\Connector\Requests\Application\Scan\SourceRequests;
@@ -96,14 +97,13 @@ class ScanRequestsTest extends TestCase
      */
     public function getStats()
     {
-        $response = $this->scanRequests->getStats(1, 2);
+        $response = $this->scanRequests->getStats(1);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1/scans/stats', $request->getUri()->getPath());
-        $this->assertEquals('equal[id]=2', $queryString);
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -299,6 +299,16 @@ class ScanRequestsTest extends TestCase
         $entrypointRequests = $this->scanRequests->entrypoints();
 
         $this->assertInstanceOf(EntrypointRequests::class, $entrypointRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function pitfalls()
+    {
+        $pitfallRequests = $this->scanRequests->pitfalls();
+
+        $this->assertInstanceOf(PitfallRequests::class, $pitfallRequests);
     }
 
     /**

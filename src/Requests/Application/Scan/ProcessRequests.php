@@ -41,6 +41,20 @@ class ProcessRequests extends BaseRequest
     }
 
     /**
+     * Kill all processes from a scan
+     *
+     * @param int $appId
+     * @param int $scanId
+     * @return Response
+     */
+    public function deleteAll($appId, $scanId)
+    {
+        $response = $this->client->delete($this->uri($appId, $scanId));
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Get process for scan by id
      *
      * @param int $appId

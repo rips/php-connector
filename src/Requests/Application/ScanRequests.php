@@ -12,6 +12,7 @@ use RIPS\Connector\Requests\Application\Scan\ExportRequests;
 use RIPS\Connector\Requests\Application\Scan\FileRequests;
 use RIPS\Connector\Requests\Application\Scan\FunctionRequests;
 use RIPS\Connector\Requests\Application\Scan\IssueRequests;
+use RIPS\Connector\Requests\Application\Scan\PitfallRequests;
 use RIPS\Connector\Requests\Application\Scan\ProcessRequests;
 use RIPS\Connector\Requests\Application\Scan\SinkRequests;
 use RIPS\Connector\Requests\Application\Scan\SourceRequests;
@@ -77,6 +78,11 @@ class ScanRequests extends BaseRequest
     protected $entrypointRequests;
 
     /**
+     * @var PitfallRequests
+     */
+    protected $pitfallRequests;
+
+    /**
      * @var LibraryRequests
      */
     protected $libraryRequests;
@@ -84,11 +90,15 @@ class ScanRequests extends BaseRequest
     /**
      * Build the uri for the request
      *
-     * @param int $appId
+     * @param int|null $appId
      * @return string
      */
     protected function uri($appId)
     {
+        if (is_null($appId)) {
+            return '/applications/scans';
+        }
+
         return "/applications/{$appId}/scans";
     }
 
@@ -127,17 +137,14 @@ class ScanRequests extends BaseRequest
     }
 
     /**
-     * Get scan statistics for a single scan
+     * Get scan statistics
      *
-     * @param int $appId
-     * @param int $scanId
+     * @param int|null $appId
      * @param array $queryParams
      * @return Response
      */
-    public function getStats($appId, $scanId, array $queryParams = [])
+    public function getStats($appId, array $queryParams = [])
     {
-        $queryParams['equal[id]'] = $scanId;
-
         $response = $this->client->get("{$this->uri($appId)}/stats", [
             'query' => $queryParams,
         ]);
@@ -419,6 +426,20 @@ class ScanRequests extends BaseRequest
         }
 
         return $this->entrypointRequests;
+    }
+
+    /**
+     * Pitfall requests accessor
+     *
+     * @return PitfallRequests
+     */
+    public function pitfalls()
+    {
+        if (is_null($this->pitfallRequests)) {
+            $this->pitfallRequests = new PitfallRequests($this->client);
+        }
+
+        return $this->pitfallRequests;
     }
 
     /**
