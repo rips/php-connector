@@ -262,7 +262,7 @@ class ScanRequests extends BaseRequest
             $scanResponse = $this->getById($appId, $scanId, $queryParams);
             $scan = $scanResponse->getDecodedData();
 
-            if ((int) $scan->phase === 0 && (int) $scan->percent === 100) {
+            if ((int) $scan->percent >= 100) {
                 return $scanResponse;
             } else if ($waitTime > 0 && $iteration > ($waitTime / $sleepTime)) {
                 throw new \Exception('Scan did not finish before the defined wait time.');
