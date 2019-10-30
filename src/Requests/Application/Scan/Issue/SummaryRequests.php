@@ -12,12 +12,16 @@ class SummaryRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $issueId
-     * @param int $summaryId
+     * @param int|null $issueId
+     * @param int|null $summaryId
      * @return string
      */
-    protected function uri($appId, $scanId, $issueId, $summaryId = null)
+    protected function uri($appId, $scanId, $issueId = null, $summaryId = null)
     {
+        if (is_null($issueId)) {
+            return "/applications/{$appId}/scans/{$scanId}/issues/summaries";
+        }
+
         return is_null($summaryId)
             ? "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/summaries"
             : "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/summaries/{$summaryId}";
@@ -28,11 +32,11 @@ class SummaryRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $issueId
+     * @param int|null $issueId
      * @param array $queryParams
      * @return Response
      */
-    public function getAll($appId, $scanId, $issueId, array $queryParams = [])
+    public function getAll($appId, $scanId, $issueId = null, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, $issueId), [
             'query' => $queryParams,

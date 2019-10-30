@@ -53,6 +53,29 @@ class PatchRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getAllWithoutIssue()
+    {
+        $response = $this->patchRequests->getAll(1, 2, null, [
+            'notEqual' => [
+                'type' => 1,
+            ],
+            'greaterThan' => [
+                'type' => 2,
+            ]
+        ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+        $this->assertEquals('/applications/1/scans/2/issues/patches', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[type]=1&greaterThan[type]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
     public function getById()
     {
         $response = $this->patchRequests->getById(1, 2, 3, 4);

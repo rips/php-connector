@@ -19,12 +19,16 @@ class PatchRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $issueId
-     * @param int $patchId
+     * @param int|null $issueId
+     * @param int|null $patchId
      * @return string
      */
-    protected function uri($appId, $scanId, $issueId, $patchId = null)
+    protected function uri($appId, $scanId, $issueId = null, $patchId = null)
     {
+        if (is_null($issueId)) {
+            return "/applications/{$appId}/scans/{$scanId}/issues/patches";
+        }
+
         return is_null($patchId)
             ? "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/patches"
             : "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/patches/{$patchId}";

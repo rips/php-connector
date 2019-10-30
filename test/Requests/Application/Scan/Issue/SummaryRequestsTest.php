@@ -53,6 +53,29 @@ class SummaryRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getAllWithoutIssue()
+    {
+        $response = $this->summaryRequests->getAll(1, 2, null, [
+            'notEqual' => [
+                'phase' => 1,
+            ],
+            'greaterThan' => [
+                'phase' => 2,
+            ]
+        ]);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+        $this->assertEquals('/applications/1/scans/2/issues/summaries', $request->getUri()->getPath());
+        $this->assertEquals('notEqual[phase]=1&greaterThan[phase]=2', $queryString);
+    }
+
+    /**
+     * @test
+     */
     public function getById()
     {
         $response = $this->summaryRequests->getById(1, 2, 3, 4);
