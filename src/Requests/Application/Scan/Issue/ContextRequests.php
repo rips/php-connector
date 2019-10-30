@@ -12,12 +12,16 @@ class ContextRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $issueId
-     * @param int $contextId
+     * @param int|null $issueId
+     * @param int|null $contextId
      * @return string
      */
-    protected function uri($appId, $scanId, $issueId, $contextId = null)
+    protected function uri($appId, $scanId, $issueId = null, $contextId = null)
     {
+        if (is_null($issueId)) {
+            return "/applications/{$appId}/scans/{$scanId}/issues/contexts";
+        }
+
         return is_null($contextId)
             ? "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/contexts"
             : "/applications/{$appId}/scans/{$scanId}/issues/{$issueId}/contexts/{$contextId}";
@@ -28,11 +32,11 @@ class ContextRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $issueId
+     * @param int|null $issueId
      * @param array $queryParams
      * @return Response
      */
-    public function getAll($appId, $scanId, $issueId, array $queryParams = [])
+    public function getAll($appId, $scanId, $issueId = null, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, $issueId), [
             'query' => $queryParams,

@@ -39,11 +39,11 @@ class PatchRequests extends BaseRequest
      *
      * @param int $appId
      * @param int $scanId
-     * @param int $issueId
+     * @param int|null $issueId
      * @param array $queryParams
      * @return Response
      */
-    public function getAll($appId, $scanId, $issueId, array $queryParams = [])
+    public function getAll($appId, $scanId, $issueId = null, array $queryParams = [])
     {
         $response = $this->client->get($this->uri($appId, $scanId, $issueId), [
             'query' => $queryParams,
