@@ -71,6 +71,22 @@ class ApplicationRequestsTest extends TestCase
     /**
      * @test
      */
+    public function create()
+    {
+        $response = $this->applicationRequests->create(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/applications', $request->getUri()->getPath());
+        $this->assertEquals('{"application":{"test":"input"}}', $body);
+        $this->assertEquals('value', $response->getDecodedData()->key);
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->applicationRequests->update(1, ['test' => 'input']);
