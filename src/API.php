@@ -14,6 +14,7 @@ use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
 use RIPS\Connector\Requests\OAuth2Requests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
+use RIPS\Connector\Requests\ServerRequests;
 use RIPS\Connector\Requests\SettingRequests;
 use RIPS\Connector\Requests\SourceRequests;
 use RIPS\Connector\Requests\StatusRequests;
@@ -111,6 +112,11 @@ class API
     public $systems;
 
     /**
+     * @var ServerRequests
+     */
+    public $servers;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $clientConfig = [
@@ -176,6 +182,7 @@ class API
         $this->maintenance = new MaintenanceRequests($client);
         $this->languages = new LanguageRequests($client);
         $this->systems = new SystemRequests($client);
+        $this->servers = new ServerRequests($client);
     }
 
     /**
