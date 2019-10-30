@@ -3,6 +3,7 @@
 namespace RIPS\Test\Requests;
 
 use RIPS\Connector\Requests\Application\AclRequests;
+use RIPS\Connector\Requests\Application\ArtifactRequests;
 use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
@@ -173,5 +174,15 @@ class ApplicationRequestsTest extends TestCase
         $uploadRequests = $this->applicationRequests->uploads();
 
         $this->assertInstanceOf(UploadRequests::class, $uploadRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function artifacts()
+    {
+        $artifactRequests = $this->applicationRequests->artifacts();
+
+        $this->assertInstanceOf(ArtifactRequests::class, $artifactRequests);
     }
 }
