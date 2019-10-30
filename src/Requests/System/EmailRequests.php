@@ -6,7 +6,7 @@ use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Requests\BaseRequest;
 
-class LdapRequests extends BaseRequest
+class EmailRequests extends BaseRequest
 {
     /**
      * Build the uri for the request
@@ -15,11 +15,11 @@ class LdapRequests extends BaseRequest
      */
     protected function uri()
     {
-        return "/systems/ldap";
+        return "/systems/emails";
     }
 
     /**
-     * Get LDAP settings
+     * Get e-mail settings
      *
      * @param array $queryParams
      * @return Response
@@ -34,7 +34,7 @@ class LdapRequests extends BaseRequest
     }
 
     /**
-     * Update LDAP settings
+     * Update e-mail settings
      *
      * @param array $input
      * @param array $queryParams
@@ -43,22 +43,7 @@ class LdapRequests extends BaseRequest
     public function update(array $input, array $queryParams = [])
     {
         $response = $this->client->put("{$this->uri()}", [
-            RequestOptions::JSON => ['ldap' => $input],
-            'query' => $queryParams,
-        ]);
-
-        return $this->handleResponse($response);
-    }
-
-    /**
-     * Force LDAP synchronization
-     *
-     * @param array $queryParams
-     * @return Response
-     */
-    public function sync(array $queryParams = [])
-    {
-        $response = $this->client->post("{$this->uri()}/sync", [
+            RequestOptions::JSON => ['email' => $input],
             'query' => $queryParams,
         ]);
 

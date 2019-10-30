@@ -2,11 +2,6 @@
 
 namespace RIPS\Test\Requests;
 
-use RIPS\Connector\Requests\Application\AclRequests;
-use RIPS\Connector\Requests\Application\ProfileRequests;
-use RIPS\Connector\Requests\Application\ScanRequests;
-use RIPS\Connector\Requests\Application\UploadRequests;
-use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\ServerRequests;
 use RIPS\Test\TestCase;
 use GuzzleHttp\Handler\MockHandler;

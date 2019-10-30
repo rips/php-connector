@@ -2,6 +2,8 @@
 
 namespace RIPS\Connector\Requests;
 
+use RIPS\Connector\Requests\System\EmailRequests;
+
 class SystemRequests extends BaseRequest
 {
     /**
@@ -13,6 +15,11 @@ class SystemRequests extends BaseRequest
      * @var System\HealthRequests
      */
     protected $healthRequests;
+
+    /**
+     * @var EmailRequests
+     */
+    protected $emailRequests;
 
     /**
      * LDAP requests accessor
@@ -40,5 +47,19 @@ class SystemRequests extends BaseRequest
         }
 
         return $this->healthRequests;
+    }
+
+    /**
+     * Email requests accessor
+     *
+     * @return System\EmailRequests
+     */
+    public function email()
+    {
+        if (is_null($this->emailRequests)) {
+            $this->emailRequests = new System\EmailRequests($this->client);
+        }
+
+        return $this->emailRequests;
     }
 }

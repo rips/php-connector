@@ -2,6 +2,7 @@
 
 namespace RIPS\Test\Requests;
 
+use RIPS\Connector\Requests\System\EmailRequests;
 use RIPS\Connector\Requests\System\HealthRequests;
 use RIPS\Connector\Requests\System\LdapRequests;
 use RIPS\Connector\Requests\SystemRequests;
@@ -37,5 +38,15 @@ class SystemRequestsTest extends TestCase
         $healthRequests = $this->systemRequests->health();
 
         $this->assertInstanceOf(HealthRequests::class, $healthRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function email()
+    {
+        $emailRequests = $this->systemRequests->email();
+
+        $this->assertInstanceOf(EmailRequests::class, $emailRequests);
     }
 }
