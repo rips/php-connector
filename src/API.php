@@ -336,6 +336,8 @@ class API
             return [];
         }
 
-        return [$clientConfig['mfa']['token']];
+        return [
+            'X-API-MFA' => $clientConfig['mfa']['token']
+        ];
     }
 }
