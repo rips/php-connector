@@ -125,7 +125,7 @@ class API
     /**
      * @var array - Config values for GuzzleClient
      */
-    protected $clientConfig = [
+    protected $guzzleConfig = [
         'base_uri' => 'http://localhost:8080',
         'timeout' => 100,
         'connect_timeout' => 10,
@@ -138,12 +138,13 @@ class API
      *
      * @param string $email
      * @param string $password
+     * @param array $guzzleConfig
      * @param array $clientConfig
      * @throws Exception
      */
-    public function __construct($email = null, $password = null, array $clientConfig = [])
+    public function __construct($email = null, $password = null, array $guzzleConfig = [], array $clientConfig = [])
     {
-        $this->initialize($email, $password, $clientConfig);
+        $this->initialize($email, $password, $guzzleConfig, $clientConfig);
     }
 
     /**
@@ -153,21 +154,25 @@ class API
      *
      * @param string $email
      * @param string $password
+     * @param array $guzzleConfig
      * @param array $clientConfig
      * @throws Exception
      */
-    public function initialize($email, $password, array $clientConfig = [])
+    public function initialize($email, $password, array $guzzleConfig = [], array $clientConfig = [])
     {
         $mergedConfig = array_merge(
-            $this->clientConfig,
-            $clientConfig,
+            $this->guzzleConfig,
+            $guzzleConfig,
             [
                 'headers' => [
                     'User-Agent' => "RIPS-API-Connector/{$this->version}",
                 ],
             ],
             [
-                'headers' => $this->getAuthHeaders($email, $password, $clientConfig)
+                'headers' => $this->getAuthHeaders($email, $password, $guzzleConfig, $clientConfig)
+            ],
+            [
+                'headers' => $this->getMfaHeaders($clientConfig)
             ]
         );
 
@@ -207,11 +212,12 @@ class API
      *
      * @param string $email
      * @param string $password
+     * @param array $guzzleConfig
      * @param array $clientConfig
      * @return array
      * @throws Exception
      */
-    private function getAuthHeaders($email, $password, $clientConfig)
+    private function getAuthHeaders($email, $password, $guzzleConfig, $clientConfig)
     {
         if (!$email || !$password) {
             return [];
@@ -229,7 +235,7 @@ class API
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = array_key_exists('access_token', $oauth2Config) ? $oauth2Config["access_token"] : "";
         if (empty($accessToken)) {
-            $accessToken = $this->getAccessToken($email, $password, $clientConfig);
+            $accessToken = $this->getAccessToken($email, $password, $guzzleConfig, $clientConfig);
         }
 
         if (!$accessToken) {
@@ -246,11 +252,12 @@ class API
      *
      * @param $email
      * @param $password
+     * @param $guzzleConfig
      * @param $clientConfig
      * @return string|null
      * @throws Exception
      */
-    private function getAccessToken($email, $password, $clientConfig)
+    private function getAccessToken($email, $password, $guzzleConfig, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = null;
@@ -273,7 +280,7 @@ class API
         } catch (\Exception $e) {
         }
 
-        return $this->createAccessToken($email, $password, $clientConfig);
+        return $this->createAccessToken($email, $password, $guzzleConfig, $clientConfig);
     }
 
     /**
@@ -282,17 +289,18 @@ class API
      * @param $email
      * @param $password
      * @param $clientConfig
+     * @param $guzzleConfig
      * @return string
      * @throws Exception
      */
-    private function createAccessToken($email, $password, $clientConfig)
+    private function createAccessToken($email, $password, $guzzleConfig, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         if (!array_key_exists('client_id', $oauth2Config)) {
             throw new Exception('Cannot create new oauth token without client id');
         }
 
-        $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
+        $mergedConfig = array_merge($this->guzzleConfig, $guzzleConfig, [
             'headers' => [
                 'User-Agent' => "RIPS-API-Connector/{$this->version}",
             ],
@@ -316,5 +324,18 @@ class API
         }
 
         return $tokens->access_token;
+    }
+
+    /**
+     * @param array $clientConfig
+     * @return array
+     */
+    private function getMfaHeaders($clientConfig)
+    {
+        if (empty($clientConfig['mfa']['token'])) {
+            return [];
+        }
+
+        return [$clientConfig['mfa']['token']];
     }
 }
