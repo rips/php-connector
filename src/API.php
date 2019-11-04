@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\CallbackRequests;
+use RIPS\Connector\Requests\History\ScanRequests;
 use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
@@ -123,6 +124,11 @@ class API
     public $mfas;
 
     /**
+     * @var ScanRequests
+     */
+    public $historyScans;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $guzzleConfig = [
@@ -195,6 +201,7 @@ class API
         $this->systems = new SystemRequests($client);
         $this->servers = new ServerRequests($client);
         $this->mfas = new MfaRequests($client);
+        $this->historyScans = new ScanRequests($client);
     }
 
     /**
