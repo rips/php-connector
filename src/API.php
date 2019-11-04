@@ -5,12 +5,15 @@ namespace RIPS\Connector;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Requests\ActivityRequests;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\CallbackRequests;
 use RIPS\Connector\Requests\History\ScanRequests;
+use RIPS\Connector\Requests\HistoryRequests;
 use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
+use RIPS\Connector\Requests\MaintenanceRequests;
 use RIPS\Connector\Requests\MfaRequests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
 use RIPS\Connector\Requests\OAuth2Requests;
@@ -20,11 +23,9 @@ use RIPS\Connector\Requests\ServerRequests;
 use RIPS\Connector\Requests\SettingRequests;
 use RIPS\Connector\Requests\SourceRequests;
 use RIPS\Connector\Requests\StatusRequests;
+use RIPS\Connector\Requests\SystemRequests;
 use RIPS\Connector\Requests\TeamRequests;
 use RIPS\Connector\Requests\UserRequests;
-use RIPS\Connector\Requests\ActivityRequests;
-use RIPS\Connector\Requests\MaintenanceRequests;
-use RIPS\Connector\Requests\SystemRequests;
 
 class API
 {
@@ -124,9 +125,9 @@ class API
     public $mfas;
 
     /**
-     * @var ScanRequests
+     * @var HistoryRequests
      */
-    public $historyScans;
+    public $history;
 
     /**
      * @var array - Config values for GuzzleClient
@@ -201,7 +202,7 @@ class API
         $this->systems = new SystemRequests($client);
         $this->servers = new ServerRequests($client);
         $this->mfas = new MfaRequests($client);
-        $this->historyScans = new ScanRequests($client);
+        $this->history = new HistoryRequests($client);
     }
 
     /**
