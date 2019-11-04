@@ -204,4 +204,35 @@ class UserRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
+    /**
+     * Get user statistics
+     *
+     * @param int $userId
+     * @param array $queryParams
+     * @return Response
+     */
+    public function getUserStatistics($userId, array $queryParams = [])
+    {
+        $response = $this->client->get("{$this->uri($userId)}/statistics", [
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Get all user statistics
+     *
+     * @param array $queryParams
+     * @return Response
+     */
+    public function getAllUsersStatistics(array $queryParams = [])
+    {
+        $response = $this->client->get("{$this->uri()}/statistics", [
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
 }
