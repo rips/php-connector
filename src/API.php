@@ -11,6 +11,7 @@ use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
 use RIPS\Connector\Requests\MfaRequests;
+use RIPS\Connector\Requests\NotificationRequests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
 use RIPS\Connector\Requests\OAuth2Requests;
 use RIPS\Connector\Requests\OrgRequests;
@@ -123,6 +124,11 @@ class API
     public $mfas;
 
     /**
+     * @var NotificationRequests
+     */
+    public $notifications;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
     protected $guzzleConfig = [
@@ -195,6 +201,7 @@ class API
         $this->systems = new SystemRequests($client);
         $this->servers = new ServerRequests($client);
         $this->mfas = new MfaRequests($client);
+        $this->notifications = new NotificationRequests($client);
     }
 
     /**
