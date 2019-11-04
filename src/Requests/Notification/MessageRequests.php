@@ -36,13 +36,13 @@ class MessageRequests extends BaseRequest
     /**
      * Update a notification message by ID (mark as read).
      *
-     * @param int $subscriptionId
+     * @param int $messageId
      * @param array $queryParams
      * @return Response
      */
-    public function markAsRead($subscriptionId, array $queryParams = [])
+    public function markAsRead($messageId, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($subscriptionId), [
+        $response = $this->client->patch($this->uri($messageId), [
             'query' => $queryParams,
         ]);
 
