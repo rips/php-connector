@@ -202,7 +202,7 @@ class UserRequestsTest extends TestCase
      */
     public function getAllStatistics()
     {
-        $response = $this->userRequests->getAllUsersStatistics();
+        $response = $this->userRequests->getAllStatistics();
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
         $queryString = urldecode($request->getUri()->getQuery());
@@ -218,7 +218,7 @@ class UserRequestsTest extends TestCase
      */
     public function getStatisticsById()
     {
-        $response = $this->userRequests->getUserStatistics(1);
+        $response = $this->userRequests->getStatistics(1);
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $this->container[0]['request'];
 

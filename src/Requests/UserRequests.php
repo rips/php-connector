@@ -212,7 +212,7 @@ class UserRequests extends BaseRequest
      * @param array $queryParams
      * @return Response
      */
-    public function getUserStatistics($userId, array $queryParams = [])
+    public function getStatistics($userId, array $queryParams = [])
     {
         $response = $this->client->get("{$this->uri($userId)}/statistics", [
             'query' => $queryParams,
@@ -227,7 +227,7 @@ class UserRequests extends BaseRequest
      * @param array $queryParams
      * @return Response
      */
-    public function getAllUsersStatistics(array $queryParams = [])
+    public function getAllStatistics(array $queryParams = [])
     {
         $response = $this->client->get("{$this->uri()}/statistics", [
             'query' => $queryParams,
