@@ -8,7 +8,6 @@ use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Requests\ActivityRequests;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\CallbackRequests;
-use RIPS\Connector\Requests\History\ScanRequests;
 use RIPS\Connector\Requests\HistoryRequests;
 use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
@@ -27,9 +26,6 @@ use RIPS\Connector\Requests\StatusRequests;
 use RIPS\Connector\Requests\SystemRequests;
 use RIPS\Connector\Requests\TeamRequests;
 use RIPS\Connector\Requests\UserRequests;
-use RIPS\Connector\Requests\ActivityRequests;
-use RIPS\Connector\Requests\MaintenanceRequests;
-use RIPS\Connector\Requests\SystemRequests;
 
 class API
 {
