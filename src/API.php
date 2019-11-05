@@ -174,18 +174,18 @@ class API
     {
         $mergedConfig = array_merge(
             $this->guzzleConfig,
-            $guzzleConfig,
-            [
-                'headers' => [
-                    'User-Agent' => "RIPS-API-Connector/{$this->version}",
-                ],
-            ],
-            [
-                'headers' => $this->getAuthHeaders($email, $password, $guzzleConfig, $clientConfig)
-            ],
-            [
-                'headers' => $this->getMfaHeaders($clientConfig)
-            ]
+            $guzzleConfig
+        );
+
+        if (!array_key_exists('headers', $mergedConfig)) {
+            $mergedConfig['headers'] = [];
+        }
+
+        $mergedConfig['headers'] = array_merge(
+            $mergedConfig['headers'],
+            ['User-Agent' => "RIPS-API-Connector/{$this->version}"],
+            $this->getAuthHeaders($email, $password, $guzzleConfig, $clientConfig),
+            $this->getMfaHeaders($clientConfig)
         );
 
         $client = new Client($mergedConfig);
