@@ -5,30 +5,34 @@ namespace RIPS\Connector;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use RIPS\Connector\Requests\ActivityRequests;
 use RIPS\Connector\Requests\ApplicationRequests;
 use RIPS\Connector\Requests\CallbackRequests;
+use RIPS\Connector\Requests\HistoryRequests;
 use RIPS\Connector\Requests\LanguageRequests;
 use RIPS\Connector\Requests\LicenseRequests;
 use RIPS\Connector\Requests\LogRequests;
+use RIPS\Connector\Requests\MaintenanceRequests;
+use RIPS\Connector\Requests\MfaRequests;
+use RIPS\Connector\Requests\NotificationRequests;
 use RIPS\Connector\Requests\OAuth2\AccessTokenRequest;
 use RIPS\Connector\Requests\OAuth2Requests;
 use RIPS\Connector\Requests\OrgRequests;
 use RIPS\Connector\Requests\QuotaRequests;
+use RIPS\Connector\Requests\ServerRequests;
 use RIPS\Connector\Requests\SettingRequests;
 use RIPS\Connector\Requests\SourceRequests;
 use RIPS\Connector\Requests\StatusRequests;
+use RIPS\Connector\Requests\SystemRequests;
 use RIPS\Connector\Requests\TeamRequests;
 use RIPS\Connector\Requests\UserRequests;
-use RIPS\Connector\Requests\ActivityRequests;
-use RIPS\Connector\Requests\MaintenanceRequests;
-use RIPS\Connector\Requests\SystemRequests;
 
 class API
 {
     /**
      * @var string
      */
-    protected $version = '3.2.1';
+    protected $version = '3.3.0';
 
     /**
      * @var CallbackRequests
@@ -111,9 +115,29 @@ class API
     public $systems;
 
     /**
+     * @var ServerRequests
+     */
+    public $servers;
+
+    /**
+     * @var MfaRequests
+     */
+    public $mfas;
+
+    /**
+     * @var HistoryRequests
+     */
+    public $history;
+
+    /**
+     * @var NotificationRequests
+     */
+    public $notifications;
+
+    /**
      * @var array - Config values for GuzzleClient
      */
-    protected $clientConfig = [
+    protected $guzzleConfig = [
         'base_uri' => 'http://localhost:8080',
         'timeout' => 100,
         'connect_timeout' => 10,
@@ -126,12 +150,13 @@ class API
      *
      * @param string $email
      * @param string $password
+     * @param array $guzzleConfig
      * @param array $clientConfig
      * @throws Exception
      */
-    public function __construct($email = null, $password = null, array $clientConfig = [])
+    public function __construct($email = null, $password = null, array $guzzleConfig = [], array $clientConfig = [])
     {
-        $this->initialize($email, $password, $clientConfig);
+        $this->initialize($email, $password, $guzzleConfig, $clientConfig);
     }
 
     /**
@@ -141,22 +166,26 @@ class API
      *
      * @param string $email
      * @param string $password
+     * @param array $guzzleConfig
      * @param array $clientConfig
      * @throws Exception
      */
-    public function initialize($email, $password, array $clientConfig = [])
+    public function initialize($email, $password, array $guzzleConfig = [], array $clientConfig = [])
     {
         $mergedConfig = array_merge(
-            $this->clientConfig,
-            $clientConfig,
-            [
-                'headers' => [
-                    'User-Agent' => "RIPS-API-Connector/{$this->version}",
-                ],
-            ],
-            [
-                'headers' => $this->getAuthHeaders($email, $password, $clientConfig)
-            ]
+            $this->guzzleConfig,
+            $guzzleConfig
+        );
+
+        if (!array_key_exists('headers', $mergedConfig)) {
+            $mergedConfig['headers'] = [];
+        }
+
+        $mergedConfig['headers'] = array_merge(
+            $mergedConfig['headers'],
+            ['User-Agent' => "RIPS-API-Connector/{$this->version}"],
+            $this->getAuthHeaders($email, $password, $guzzleConfig, $clientConfig),
+            $this->getMfaHeaders($clientConfig)
         );
 
         $client = new Client($mergedConfig);
@@ -176,6 +205,10 @@ class API
         $this->maintenance = new MaintenanceRequests($client);
         $this->languages = new LanguageRequests($client);
         $this->systems = new SystemRequests($client);
+        $this->servers = new ServerRequests($client);
+        $this->mfas = new MfaRequests($client);
+        $this->history = new HistoryRequests($client);
+        $this->notifications = new NotificationRequests($client);
     }
 
     /**
@@ -193,11 +226,12 @@ class API
      *
      * @param string $email
      * @param string $password
+     * @param array $guzzleConfig
      * @param array $clientConfig
      * @return array
      * @throws Exception
      */
-    private function getAuthHeaders($email, $password, $clientConfig)
+    private function getAuthHeaders($email, $password, $guzzleConfig, $clientConfig)
     {
         if (!$email || !$password) {
             return [];
@@ -215,7 +249,7 @@ class API
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = array_key_exists('access_token', $oauth2Config) ? $oauth2Config["access_token"] : "";
         if (empty($accessToken)) {
-            $accessToken = $this->getAccessToken($email, $password, $clientConfig);
+            $accessToken = $this->getAccessToken($email, $password, $guzzleConfig, $clientConfig);
         }
 
         if (!$accessToken) {
@@ -232,11 +266,12 @@ class API
      *
      * @param $email
      * @param $password
+     * @param $guzzleConfig
      * @param $clientConfig
      * @return string|null
      * @throws Exception
      */
-    private function getAccessToken($email, $password, $clientConfig)
+    private function getAccessToken($email, $password, $guzzleConfig, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         $accessToken = null;
@@ -259,7 +294,7 @@ class API
         } catch (\Exception $e) {
         }
 
-        return $this->createAccessToken($email, $password, $clientConfig);
+        return $this->createAccessToken($email, $password, $guzzleConfig, $clientConfig);
     }
 
     /**
@@ -268,17 +303,18 @@ class API
      * @param $email
      * @param $password
      * @param $clientConfig
+     * @param $guzzleConfig
      * @return string
      * @throws Exception
      */
-    private function createAccessToken($email, $password, $clientConfig)
+    private function createAccessToken($email, $password, $guzzleConfig, $clientConfig)
     {
         $oauth2Config = $clientConfig['oauth2'];
         if (!array_key_exists('client_id', $oauth2Config)) {
             throw new Exception('Cannot create new oauth token without client id');
         }
 
-        $mergedConfig = array_merge($this->clientConfig, $clientConfig, [
+        $mergedConfig = array_merge($this->guzzleConfig, $guzzleConfig, [
             'headers' => [
                 'User-Agent' => "RIPS-API-Connector/{$this->version}",
             ],
@@ -302,5 +338,20 @@ class API
         }
 
         return $tokens->access_token;
+    }
+
+    /**
+     * @param array $clientConfig
+     * @return array
+     */
+    private function getMfaHeaders($clientConfig)
+    {
+        if (empty($clientConfig['mfa']['token'])) {
+            return [];
+        }
+
+        return [
+            'X-API-MFA' => $clientConfig['mfa']['token']
+        ];
     }
 }

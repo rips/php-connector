@@ -196,4 +196,34 @@ class UserRequestsTest extends TestCase
         $this->assertEquals('POST', $request->getMethod());
         $this->assertEquals('/users/1/reset/token', $request->getUri()->getPath());
     }
+
+    /**
+     * @test
+     */
+    public function getAllStatistics()
+    {
+        $response = $this->userRequests->getAllStatistics();
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $queryString = urldecode($request->getUri()->getQuery());
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/users/statistics', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+        $this->assertEquals('', $queryString);
+    }
+
+    /**
+     * @test
+     */
+    public function getStatisticsById()
+    {
+        $response = $this->userRequests->getStatistics(1);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/users/1/statistics', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+    }
 }

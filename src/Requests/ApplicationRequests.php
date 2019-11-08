@@ -6,6 +6,7 @@ use GuzzleHttp\RequestOptions;
 use RIPS\Connector\Entities\Response;
 use RIPS\Connector\Exceptions\LibException;
 use RIPS\Connector\Requests\Application\AclRequests;
+use RIPS\Connector\Requests\Application\ArtifactRequests;
 use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
@@ -31,6 +32,11 @@ class ApplicationRequests extends BaseRequest
      * @var UploadRequests
      */
     protected $uploadRequests;
+
+    /**
+     * @var ArtifactRequests
+     */
+    protected $artifactRequests;
 
     /**
      * Build a uri for the request
@@ -198,5 +204,19 @@ class ApplicationRequests extends BaseRequest
         }
 
         return $this->uploadRequests;
+    }
+
+    /**
+     * Artifact requests accessor
+     *
+     * @return ArtifactRequests
+     */
+    public function artifacts()
+    {
+        if (is_null($this->artifactRequests)) {
+            $this->artifactRequests = new ArtifactRequests($this->client);
+        }
+
+        return $this->artifactRequests;
     }
 }

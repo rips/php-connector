@@ -3,6 +3,7 @@
 namespace RIPS\Test\Requests;
 
 use RIPS\Connector\Requests\Application\AclRequests;
+use RIPS\Connector\Requests\Application\ArtifactRequests;
 use RIPS\Connector\Requests\Application\ProfileRequests;
 use RIPS\Connector\Requests\Application\ScanRequests;
 use RIPS\Connector\Requests\Application\UploadRequests;
@@ -65,6 +66,22 @@ class ApplicationRequestsTest extends TestCase
 
         $this->assertEquals('GET', $request->getMethod());
         $this->assertEquals('/applications/1', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+    }
+
+    /**
+     * @test
+     */
+    public function create()
+    {
+        $response = $this->applicationRequests->create(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/applications', $request->getUri()->getPath());
+        $this->assertEquals('{"application":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
 
@@ -157,5 +174,15 @@ class ApplicationRequestsTest extends TestCase
         $uploadRequests = $this->applicationRequests->uploads();
 
         $this->assertInstanceOf(UploadRequests::class, $uploadRequests);
+    }
+
+    /**
+     * @test
+     */
+    public function artifacts()
+    {
+        $artifactRequests = $this->applicationRequests->artifacts();
+
+        $this->assertInstanceOf(ArtifactRequests::class, $artifactRequests);
     }
 }
