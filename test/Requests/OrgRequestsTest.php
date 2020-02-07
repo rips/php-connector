@@ -83,6 +83,20 @@ class OrgRequestsTest extends TestCase
     /**
      * @test
      */
+    public function invite()
+    {
+        $response = $this->orgRequests->invite(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/organizations/invite/ui', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->orgRequests->update(1, ['test' => 'input']);
