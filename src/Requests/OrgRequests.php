@@ -69,6 +69,23 @@ class OrgRequests extends BaseRequest
     }
 
     /**
+     * Invite a new organization for trial
+     *
+     * @param array $input
+     * @param array $queryParams
+     * @return Response
+     */
+    public function invite(array $input, array $queryParams = [])
+    {
+        $response = $this->client->post("{$this->uri()}/invite/ui", [
+            RequestOptions::JSON => ['invitation' => $input],
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Update an existing organization
      *
      * @param int $orgId
