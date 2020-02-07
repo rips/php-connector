@@ -92,6 +92,33 @@ class ExportRequestsTest extends TestCase
     /**
      * @test
      */
+    public function getAllQueuedPdf()
+    {
+        $response = $this->exportRequests->getAllQueuedPdf(1, 2);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('GET', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/exports/pdfs/queues', $request->getUri()->getPath());
+        $this->assertEquals('value', $response->getDecodedData()->key);
+    }
+
+    /**
+     * @test
+     */
+    public function deleteQueuedPdf()
+    {
+        $response = $this->exportRequests->deleteQueuedPdf(1, 2, 3);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+
+        $this->assertEquals('DELETE', $request->getMethod());
+        $this->assertEquals('/applications/1/scans/2/exports/pdfs/queues/3', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function downloadQueuedPdf()
     {
         $file = __DIR__ . '\file';
