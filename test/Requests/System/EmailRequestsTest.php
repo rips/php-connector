@@ -55,4 +55,18 @@ class EmailRequestsTest extends TestCase
         $this->assertEquals('{"email":{"test":"input"}}', $body);
         $this->assertEquals('value', $response->getDecodedData()->key);
     }
+
+    /**
+     * @test
+     */
+    public function testTest()
+    {
+        $response = $this->emailRequests->test(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/systems/emails/tests', $request->getUri()->getPath());
+    }
 }
