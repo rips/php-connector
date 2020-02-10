@@ -8,6 +8,10 @@ use RIPS\Connector\Exceptions\LibException;
 
 class OrgRequests extends BaseRequest
 {
+    /**
+     * @var \RIPS\Connector\Requests\Organization\SettingRequests
+     */
+    protected $settingRequests;
 
     /**
      * Build a URI for the request
@@ -119,5 +123,19 @@ class OrgRequests extends BaseRequest
         ]);
 
         return $this->handleResponse($response);
+    }
+
+    /**
+     * Setting requests accessor.
+     *
+     * @return Organization\SettingRequests
+     */
+    public function settings()
+    {
+        if (is_null($this->settingRequests)) {
+            $this->settingRequests = new \RIPS\Connector\Requests\Organization\SettingRequests($this->client);
+        }
+
+        return $this->settingRequests;
     }
 }
