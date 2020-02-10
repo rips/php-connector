@@ -88,14 +88,21 @@ class ServerRequests extends BaseRequest
      * Ping a server
      *
      * @param int $serverId
+     * @param array $input
      * @param array $queryParams
      * @return Response
      */
-    public function ping($serverId, array $queryParams = [])
+    public function ping($serverId, array $input, array $queryParams = [])
     {
-        $response = $this->client->patch($this->uri($serverId) . '/ping', [
+        $options = [
             'query' => $queryParams,
-        ]);
+        ];
+
+        if (!empty($input)) {
+            $options[RequestOptions::JSON] = ['system' => $input];
+        }
+
+        $response = $this->client->patch($this->uri($serverId) . '/ping', $options);
 
         return $this->handleResponse($response);
     }
