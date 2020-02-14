@@ -49,4 +49,21 @@ class EmailRequests extends BaseRequest
 
         return $this->handleResponse($response);
     }
+
+    /**
+     * Send a test email
+     *
+     * @param array $input
+     * @param array $queryParams
+     * @return Response
+     */
+    public function test(array $input, array $queryParams = [])
+    {
+        $response = $this->client->post("{$this->uri()}/tests", [
+            RequestOptions::JSON => ['test' => $input],
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
 }

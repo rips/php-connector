@@ -8,6 +8,10 @@ use RIPS\Connector\Exceptions\LibException;
 
 class OrgRequests extends BaseRequest
 {
+    /**
+     * @var \RIPS\Connector\Requests\Organization\SettingRequests
+     */
+    protected $settingRequests;
 
     /**
      * Build a URI for the request
@@ -69,6 +73,23 @@ class OrgRequests extends BaseRequest
     }
 
     /**
+     * Invite a new organization for trial
+     *
+     * @param array $input
+     * @param array $queryParams
+     * @return Response
+     */
+    public function invite(array $input, array $queryParams = [])
+    {
+        $response = $this->client->post("{$this->uri()}/invite/ui", [
+            RequestOptions::JSON => ['invitation' => $input],
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Update an existing organization
      *
      * @param int $orgId
@@ -119,5 +140,19 @@ class OrgRequests extends BaseRequest
         ]);
 
         return $this->handleResponse($response);
+    }
+
+    /**
+     * Setting requests accessor.
+     *
+     * @return Organization\SettingRequests
+     */
+    public function settings()
+    {
+        if (is_null($this->settingRequests)) {
+            $this->settingRequests = new \RIPS\Connector\Requests\Organization\SettingRequests($this->client);
+        }
+
+        return $this->settingRequests;
     }
 }

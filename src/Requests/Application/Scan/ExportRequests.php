@@ -94,6 +94,24 @@ class ExportRequests extends BaseRequest
     }
 
     /**
+     * Remove a pdf export from the queue
+     *
+     * @param $appId
+     * @param $scanId
+     * @param $queueId
+     * @param array $queryParams
+     * @return Response
+     */
+    public function deleteQueuedPdf($appId, $scanId, $queueId, array $queryParams = [])
+    {
+        $response = $this->client->delete($this->uri($appId, $scanId, 'pdfs') . '/queues/' . $queueId, [
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Download pdf export from queue
      *
      * @param $appId
@@ -107,6 +125,23 @@ class ExportRequests extends BaseRequest
     {
         $response = $this->client->get($this->uri($appId, $scanId, 'pdfs') . '/queues/' . $queueId . '/downloads', [
             'sink'  => $outFile,
+            'query' => $queryParams,
+        ]);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * Get information about all pdf exports on queue
+     *
+     * @param $appId
+     * @param $scanId
+     * @param array $queryParams
+     * @return Response
+     */
+    public function getAllQueuedPdf($appId, $scanId, array $queryParams = [])
+    {
+        $response = $this->client->get($this->uri($appId, $scanId, 'pdfs') . '/queues', [
             'query' => $queryParams,
         ]);
 

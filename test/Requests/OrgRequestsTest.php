@@ -2,6 +2,7 @@
 
 namespace RIPS\Test\Requests;
 
+use RIPS\Connector\Requests\Organization\SettingRequests;
 use RIPS\Test\TestCase;
 use RIPS\Connector\Requests\OrgRequests;
 use GuzzleHttp\Handler\MockHandler;
@@ -83,6 +84,20 @@ class OrgRequestsTest extends TestCase
     /**
      * @test
      */
+    public function invite()
+    {
+        $response = $this->orgRequests->invite(['test' => 'input']);
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $this->container[0]['request'];
+        $body = urldecode($request->getBody()->getContents());
+
+        $this->assertEquals('POST', $request->getMethod());
+        $this->assertEquals('/organizations/invite/ui', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $response = $this->orgRequests->update(1, ['test' => 'input']);
@@ -129,5 +144,15 @@ class OrgRequestsTest extends TestCase
 
         $this->assertEquals('DELETE', $request->getMethod());
         $this->assertEquals('/organizations/1', $request->getUri()->getPath());
+    }
+
+    /**
+     * @test
+     */
+    public function uploads()
+    {
+        $settingRequests = $this->orgRequests->settings();
+
+        $this->assertInstanceOf(SettingRequests::class, $settingRequests);
     }
 }
